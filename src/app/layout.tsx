@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { Provider } from "react-redux";
+import store from "@/stores/store";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
@@ -24,7 +26,9 @@ export default function RootLayout({
       <head>
         <link rel="shortcut icon" href="logo.png" type="image/png" />
       </head>
-      <body className={`antialiased ${inter.className}`}>{children}</body>
+      <body className={`antialiased ${inter.className}`}>
+        <Provider store={store}>{children}</Provider>
+      </body>
     </html>
   );
 }

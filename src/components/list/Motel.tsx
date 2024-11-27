@@ -1,25 +1,24 @@
-import { IMotel } from "@/utils/interfaces";
 import { Badge } from "../ui/badge";
-import { useNavigate } from "react-router-dom";
 import H3 from "../common/H3";
 import ImageSlider from "../common/ImageSlider";
+import { IMotel } from "@/lib/types";
+import { redirect } from "next/navigation";
 
 const Motel = ({ motel, onClick }: { motel: IMotel; onClick?: () => void }) => {
-  const navigate = useNavigate();
   return (
     <div className="overflow-hidden border rounded-lg shadow-sm bg-background cursor-pointer">
       <ImageSlider
         images={motel.images}
         height={160}
         onClick={() => {
-          onClick && onClick();
+          if (onClick) onClick();
         }}
       ></ImageSlider>
       <div className="p-3 text-sm">
         <div className="flex gap-2 items-center">
           <p
             className="text-left font-medium flex-1 overflow-ellipsis line-clamp-1 text-slate-600"
-            onClick={() => navigate(`/motels/${motel.id}`)}
+            onClick={() => redirect(`/motels/${motel.id}`)}
           >
             {motel?.name}
           </p>

@@ -20,9 +20,9 @@ import DatePicker from "./DatePicker";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/stores/hooks";
 import { nextStep, prevStep, setId } from "@/stores/slices/createMotelSlice";
-import { motelTypes } from "@/utils/predefinedData";
-import { RegularCreate } from "@/utils/interfaces";
 import { useCreateRegularMotelMutation } from "@/stores/api/motelUtilApi";
+import { RegularCreate } from "@/lib/types";
+import { motelTypes } from "@/lib/predefined-data";
 
 const MotelRegularForm = () => {
   const dispatch = useAppDispatch();

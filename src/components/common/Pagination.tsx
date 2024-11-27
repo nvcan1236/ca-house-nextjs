@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   PaginationContent,
   PaginationEllipsis,
@@ -10,12 +10,15 @@ import {
 } from "../ui/pagination";
 
 const Pagination = ({ current, max }: { current: number; max: number }) => {
-  const [, setPageParam] = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
   const handleUpdateParam = (page: number) => {
-    setPageParam((param) => {
-      param.set("page", page.toString());
-      return param;
-    });
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

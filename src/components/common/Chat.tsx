@@ -1,3 +1,4 @@
+"use client"
 import { ImageIcon, MessageCircleIcon, SendHorizonalIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Label } from "../ui/label";
@@ -8,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { useEffect, useState } from "react";
 import { getMessagesInRoom, getRoomByUser } from "@/services/chartService";
-import { ChatMessage, ChatRoom } from "@/utils/interfaces";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { openAuthModal } from "@/stores/slices/authSlice";
 import { useSendMessageMutation } from "@/stores/api/userApi";
@@ -19,6 +19,7 @@ import {
   setCurrentRoom,
   toggleChat,
 } from "@/stores/slices/chatSlice";
+import { ChatMessage, ChatRoom } from "@/lib/types";
 
 const Chat = () => {
   const user = useAppSelector((state) => state.auth.user);

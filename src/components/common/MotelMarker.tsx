@@ -1,7 +1,7 @@
 import { HouseIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Motel from "../list/Motel";
-import { IMotel } from "@/utils/interfaces";
+import { IMotel } from "@/lib/types";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const MotelMarker = ({ motel }: { motel: IMotel }) => {
   const motelDefault: IMotel = {
@@ -22,15 +22,17 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
         id: "3",
         url: "https://images.unsplash.com/photo-1686162868146-82d2a40e5579?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
+      
     ],
     name: "Trọ của Cảnh",
     price: 2000000,
-    status: "Còn trống",
+    status: "AVAILABLE",
     type: "Phòng đơn",
     city: "Ho Chi Minh",
     district: "Nha Be",
     latitude: 0,
     longitude: 0,
+    approved: true
   };
   return (
     <div>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { steps } from "@/utils/predefinedData";
-import { Location, Price } from "@/utils/types";
+import { steps } from "@/lib/predefined-data";
+import { Price } from "@/lib/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: {

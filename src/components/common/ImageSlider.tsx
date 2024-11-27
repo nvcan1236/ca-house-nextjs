@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Skeleton } from "../ui/skeleton";
-import { Image } from "@/utils/types";
+import { Image } from "@/lib/types";
 
 const ImageSlider = ({
   height,

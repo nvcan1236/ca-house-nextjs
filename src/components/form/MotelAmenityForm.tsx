@@ -1,3 +1,4 @@
+"use client"
 import H3 from "../common/H3";
 
 import { Button } from "../ui/button";
@@ -5,9 +6,9 @@ import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
-import { facilities, furnitures, services } from "@/utils/predefinedData";
-import { Amenity } from "@/utils/types";
 import { useCreateAmenityMotelMutation } from "@/stores/api/motelUtilApi";
+import { Amenity } from "@/lib/types";
+import { facilities, furnitures, services } from "@/lib/predefined-data";
 
 const MotelAmenityForm = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +51,7 @@ const MotelAmenityForm = () => {
   const handleFetchAmenity = () => {
     const amenities = getStringData();
     console.log(getStringData());
-    id &&
+    if (id)
       createAmenity({ motelId: id, data: amenities })
         .then((data) => {
           console.log(data.data);
