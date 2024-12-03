@@ -1,9 +1,14 @@
 import { getToken } from "@/services/localStorageService";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { Filter } from "../slices/filterSlice";
-import { IMotel, IMotelDetail } from "@/utils/interfaces";
-import { ApiResponse, MotelStat, PageResult } from "@/utils/types";
 import baseQueryWithReauth from "./baseQueryReauth";
+import {
+  ApiResponse,
+  IMotel,
+  IMotelDetail,
+  MotelStat,
+  PageResult,
+} from "@/lib/types";
 
 export const motelApi = createApi({
   reducerPath: "motelApi",
@@ -18,16 +23,16 @@ export const motelApi = createApi({
         const params = new URLSearchParams();
         const filterParam = new URLSearchParams();
 
-        page && params.append("page", page.toString());
-        size && params.append("size", size.toString());
+        if (page) params.append("page", page.toString());
+        if (size) params.append("size", size.toString());
 
         if (filter.applied) {
-          filter.minPrice &&
+          if (filter.minPrice)
             filterParam.append("minPrice", filter.minPrice.toString());
-          filter.maxPrice &&
+          if (filter.maxPrice)
             filterParam.append("maxPrice", filter.maxPrice.toString());
-          filter.roomType && filterParam.append("roomType", filter.roomType);
-          filter.amenities.length &&
+          if (filter.roomType) filterParam.append("roomType", filter.roomType);
+          if (filter.amenities.length)
             filterParam.append("amenities", filter.amenities.join(","));
         }
 
