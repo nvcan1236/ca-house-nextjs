@@ -8,13 +8,13 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDLiHDNuhrAnNS8xmtUyYMA0hyts4Wbzk4",
-  authDomain: "toca-motel.firebaseapp.com",
-  projectId: "toca-motel",
-  storageBucket: "toca-motel.appspot.com",
-  messagingSenderId: "406903117972",
-  appId: "1:406903117972:web:6f56f9e18f9f81b2a2bc81",
-  measurementId: "G-YR3NYBMJ22"
+  apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_GOOGLE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_GOOGLE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_GOOGLE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_GOOGLE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_GOOGLE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

@@ -2,11 +2,11 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+    <footer className=" bg-main-blue-s5 text-white py-10 ">
+      <div className="flex container">
         Footer
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 

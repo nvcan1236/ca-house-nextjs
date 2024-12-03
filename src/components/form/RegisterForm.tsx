@@ -13,16 +13,15 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { useState } from "react";
-import { closeAuthModal, switchFormType } from "@/stores/slices/authSlice";
-import { useAppDispatch } from "@/stores/hooks";
 import axios from "@/services/axios";
 import { caHouseEndpoint } from "@/configs/api-config";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useAuthStore } from "@/providers/auth-store-provider";
 
 const RegisterForm = () => {
-  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { closeModal, switchAuthType } = useAuthStore((state) => state);
   const loginValidationSchema = z
     .object({
       username: z.string().min(4),
@@ -36,7 +35,6 @@ const RegisterForm = () => {
       message: "Mật khẩu không trùng khớp",
       path: ["rePassword"],
     });
-  const [step, setStep] = useState<number>(1);
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -51,13 +49,12 @@ const RegisterForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof loginValidationSchema>) {
-    const data = { ...values };
-    data.roles = ["USER"];
+    const data = { ...values, roles: ["USER"] };
     axios
       .post(caHouseEndpoint.register, JSON.stringify(data))
       .then((data) => {
         form.reset();
-        dispatch(closeAuthModal());
+        closeModal();
         console.log(data.data.result);
       })
       .catch((error) => toast.error(error.response.data.message));
@@ -70,7 +67,7 @@ const RegisterForm = () => {
         </h3>
         <Separator className="mt-3 mb-5 bg-main-yellow" />
         <form onSubmit={form.handleSubmit(onSubmit)} className={``}>
-          <div className={`gap-4 flex flex-col ${step === 1 ? "" : "hidden"}`}>
+          <div className={`gap-4 flex flex-col`}>
             <div className="flex gap-4">
               <FormField
                 control={form.control}
@@ -101,6 +98,19 @@ const RegisterForm = () => {
             </div>
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your username" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -111,29 +121,6 @@ const RegisterForm = () => {
                       placeholder="Enter your email"
                       {...field}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="button"
-              className="mt-6 w-full"
-              onClick={() => setStep(2)}
-            >
-              Tiếp tục
-            </Button>
-          </div>
-
-          <div className={`gap-4 flex flex-col ${step === 2 ? "" : "hidden"}`}>
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -207,14 +194,7 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <div className="mt-6 flex gap-3">
-              <Button
-                type="button"
-                variant={"outline"}
-                onClick={() => setStep(1)}
-              >
-                Quay lại
-              </Button>
+            <div className="mt-2 flex gap-3">
               <Button type="submit" className="flex-1">
                 Tạo
               </Button>
@@ -227,7 +207,7 @@ const RegisterForm = () => {
               className="text-main-blue"
               variant={"link"}
               type="button"
-              onClick={() => dispatch(switchFormType())}
+              onClick={switchAuthType}
             >
               Đăng nhập
             </Button>

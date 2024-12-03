@@ -1,3 +1,4 @@
+"use client"
 import H3 from "@/components/common/H3";
 import MapInCreate from "@/components/common/MapInCreate";
 import { Button } from "@/components/ui/button";

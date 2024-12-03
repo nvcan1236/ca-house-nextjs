@@ -1,5 +1,5 @@
 import { HouseIcon } from "lucide-react";
-import Motel from "../list/Motel";
+import Motel from "../motel/motel-card";
 import { IMotel } from "@/lib/types";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
@@ -22,7 +22,6 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
         id: "3",
         url: "https://images.unsplash.com/photo-1686162868146-82d2a40e5579?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
-      
     ],
     name: "Trọ của Cảnh",
     price: 2000000,
@@ -32,7 +31,7 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
     district: "Nha Be",
     latitude: 0,
     longitude: 0,
-    approved: true
+    approved: true,
   };
   return (
     <div>
@@ -41,7 +40,8 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
           <div className="px-3 py-[6px] bg-main-yellow border shadow-md border-foreground rounded-lg flex items-center gap-[6px]">
             <HouseIcon size={18} className="mr-1" />
             <div className=" flex gap-1 items-baseline text-base">
-              {motel.price/1000000} tr<span className="text-slate-800 text-sm">/1th</span>
+              {motel.price / 1000000} tr
+              <span className="text-slate-800 text-sm">/1th</span>
             </div>
           </div>
         </PopoverTrigger>

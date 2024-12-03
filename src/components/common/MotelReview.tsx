@@ -2,10 +2,10 @@ import { SendIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { formatDate } from "@/utils/helper";
 import Pagination from "./Pagination";
 import { useState } from "react";
 import { useCreateReviewMutation, useGetReviewQuery } from "@/stores/api/motelUtilApi";
+import { formatDate } from "@/lib/utils";
 
 const MotelReview = ({ motelId }: { motelId: string }) => {
   const { data: reviewData } = useGetReviewQuery(motelId || "");

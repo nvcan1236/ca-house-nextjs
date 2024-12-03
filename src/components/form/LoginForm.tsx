@@ -14,23 +14,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
-import { useAppDispatch } from "@/stores/hooks";
-import {
-  closeAuthModal,
-  setUserInfor,
-  switchFormType,
-} from "@/stores/slices/authSlice";
 import { getToken, setToken } from "@/services/localStorageService";
 import { caHouseEndpoint } from "@/configs/api-config";
 import googleConfig from "@/configs/google-login-config";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useLoginMutation } from "@/stores/api/userApi";
 import { toast } from "sonner";
 import axios from "axios";
+import { useAuthStore } from "@/providers/auth-store-provider";
+import Image from "next/image";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const { switchAuthType } = useAuthStore((state) => state);
   const loginValidationSchema = z.object({
     username: z.string().min(4),
     password: z.string().min(4),
@@ -78,31 +73,30 @@ const LoginForm = () => {
               },
             })
             .then((data) => {
-              dispatch(setUserInfor(data.data.result));
+              // dispatch(setUserInfor(data.data.result));
             });
         });
     }
   }, []);
 
-  const [login] = useLoginMutation();
+  // const [login] = useLoginMutation();
   async function onSubmit(values: z.infer<typeof loginValidationSchema>) {
-    try {
-      const data = await login(values).unwrap();
-
-      if (data?.result?.token) {
-        setToken(data.result.token);
-        form.reset();
-        dispatch(closeAuthModal());
-      }
-    } catch (error) {
-      if (error?.data?.code === 2001) {
-        toast.error("Thông tin đăng nhập không chính xác!!! Vui lòng thử lại.");
-      } else if (error?.data?.code === 1004) {
-        toast.error("Username không chính xác!!! Vui lòng thử lại.");
-      } else {
-        toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.");
-      }
-    }
+    // try {
+    //   const data = await login(values).unwrap();
+    //   if (data?.result?.token) {
+    //     setToken(data.result.token);
+    //     form.reset();
+    //     closeModal();
+    //   }
+    // } catch (error) {
+    //   if (error?.data?.code === 2001) {
+    //     toast.error("Thông tin đăng nhập không chính xác!!! Vui lòng thử lại.");
+    //   } else if (error?.data?.code === 1004) {
+    //     toast.error("Username không chính xác!!! Vui lòng thử lại.");
+    //   } else {
+    //     toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.");
+    //   }
+    // }
   }
 
   return (
@@ -178,10 +172,12 @@ const LoginForm = () => {
             variant={"outline"}
             onClick={loginWithGoogle}
           >
-            <img
+            <Image
               src="/google-icon.png"
               alt="Google Icon"
-              className="size-5 mr-4"
+              className="mr-4"
+              width={20}
+              height={20}
             />{" "}
             Đăng nhập bằng Google
           </Button>
@@ -191,7 +187,7 @@ const LoginForm = () => {
               className="text-main-blue"
               variant={"link"}
               type="button"
-              onClick={() => dispatch(switchFormType())}
+              onClick={switchAuthType}
             >
               Đăng ký
             </Button>

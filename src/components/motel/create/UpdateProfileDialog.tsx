@@ -1,3 +1,4 @@
+"use client"
 import SelectBox from "@/components/common/SelectBox";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Profile } from "@/lib/types";
 import { useUpdateProfileMutation } from "@/stores/api/userApi";
-import { Profile } from "@/utils/types";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { FC, ReactNode, useState } from "react";
 

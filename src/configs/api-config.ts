@@ -1,4 +1,4 @@
-export const caHouseBaseUrl = "http://localhost:8888/api";
+export const caHouseBaseUrl = process.env.NEXT_PUBLIC_BE_URL;
 
 type MotelInfor = "amenity" | "location" | "price" | "requirement" | "images";
 
@@ -9,7 +9,7 @@ export const caHouseEndpoint = {
   logout: `${caHouseBaseUrl}/identity/auth/logout`,
   outbound: `${caHouseBaseUrl}/identity/auth/outbound/authentication`,
   createPassword: `${caHouseBaseUrl}/identity/auth/create-password`,
-  uploadAvatar:  `${caHouseBaseUrl}/identity/users/upload-avatar`,
+  uploadAvatar: `${caHouseBaseUrl}/identity/users/upload-avatar`,
   getUserById: (userId: string) => `${caHouseBaseUrl}/identity/users/${userId}`,
   register: `${caHouseBaseUrl}/identity/users`,
   // Motel
@@ -21,9 +21,6 @@ export const caHouseEndpoint = {
     `${caHouseBaseUrl}/motel/${motelId}/${type}`,
   updateOrDeleteMotelInfo: (type: MotelInfor, inforId: string) =>
     `${caHouseBaseUrl}/motel/${type}/${inforId}`,
-
 };
 
-
-
-export const provinceVNEndpoint = `https://provinces.open-api.vn/api/`
+export const provinceVNEndpoint = `https://provinces.open-api.vn/api/`;

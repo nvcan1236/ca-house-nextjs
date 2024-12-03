@@ -1,3 +1,4 @@
+"use client"
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +17,11 @@ import {
 } from "@/components/ui/select";
 import { geoMapEndpoint } from "@/configs/mapbox-config";
 import { getDistricts, getProvinces, getWards } from "@/configs/provinces-data";
+import { District, Location, Ward } from "@/lib/types";
 import axios from "@/services/axios";
 import { useCreateLocationMotelMutation } from "@/stores/api/motelUtilApi";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
-import { District, Ward } from "@/utils/interfaces";
-import { Location } from "@/utils/types";
 import { MapPinIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactMapGL, {
@@ -62,7 +62,7 @@ const LocationInfo = () => {
       )
       .then((data) => {
         console.log(data);
-        
+
         setLocationList(data.data.map((loc) => loc));
       });
   };
@@ -81,7 +81,7 @@ const LocationInfo = () => {
   }, []);
 
   const handleCreateLocation = () => {
-    id &&
+    if (id)
       createLocation({ motelId: id, data: location })
         .then((data) => {
           console.log(data.data);
@@ -101,7 +101,7 @@ const LocationInfo = () => {
     latitude: current.latitude,
     zoom: 15,
   });
-  const handleClickLocation = (loc) => {
+  const handleClickLocation = (loc: { lon: number; lat: number }) => {
     setLocation({
       ...location,
       longitude: loc.lon,
@@ -219,7 +219,7 @@ const LocationInfo = () => {
                 </PopoverTrigger>
                 <PopoverContent align="end" className="lg:w-[600px]">
                   <ul>
-                    {locationList.map((loc) => (
+                    {locationList.map((loc: { display_name: string }) => (
                       <li
                         className="px-4 py-2 hover:bg-main-yellow-t9 transition-all"
                         onClick={() => handleClickLocation(loc)}

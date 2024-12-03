@@ -1,7 +1,5 @@
 import useClickOutSide from "../../hooks/useClickOutSide";
-import { ReactNode, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { closeAuthModal } from "@/stores/slices/authSlice";
+import { ReactNode, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import useScrollLock from "@/hooks/useScrollLock";
@@ -9,23 +7,24 @@ import useScrollLock from "@/hooks/useScrollLock";
 interface ModalProps {
   children: ReactNode;
   onClose?: () => void;
+  open: boolean;
 }
 
-const Modal = ({ children, onClose }: ModalProps) => {
-  const show = useAppSelector((state) => state.auth.showAuthModal);
-  const dispatch = useAppDispatch();
+const Modal = ({ children, onClose, open = false }: ModalProps) => {
+  // const [show, setShow] = useState<boolean>(open);
   const handleCloseModel = () => {
-    dispatch(closeAuthModal());
-    onClose && onClose();
+    if (onClose) onClose();
+    // setShow(false);
   };
+  console.log(open)
   const modalRef = useClickOutSide<HTMLDivElement>(handleCloseModel);
   const nodeRef = useRef(null);
-  useScrollLock(!show);
+  useScrollLock(!open);
 
   return createPortal(
     <CSSTransition
       nodeRef={nodeRef}
-      in={show}
+      in={open}
       timeout={300}
       classNames={"modal"}
       // unmountOnExit

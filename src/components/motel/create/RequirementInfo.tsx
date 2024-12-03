@@ -1,15 +1,15 @@
+"use client"
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { definedJobs } from "@/lib/predefined-data";
+import { Requirement } from "@/lib/types";
 import { useCreateRequirementMotelMutation } from "@/stores/api/motelUtilApi";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
-import { definedJobs } from "@/utils/predefinedData";
-import { Requirement } from "@/utils/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -28,8 +28,6 @@ const RequirementInfo = () => {
     type: keyof Requirement,
     value: number | string | boolean
   ) => {
-    console.log(type, value);
-
     if (type == "jobs") {
       const nextJobs = requirement?.jobs.includes(value)
         ? [...requirement.jobs.filter((job) => job !== value)]
@@ -48,7 +46,7 @@ const RequirementInfo = () => {
   };
   const [createRequirement] = useCreateRequirementMotelMutation();
   const handleCreateRequirement = () => {
-    id &&
+    if(id)
       createRequirement({ motelId: id, data: requirement })
         .then((data) => {
           console.log(data.data);

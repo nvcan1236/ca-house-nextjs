@@ -9,17 +9,17 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { useState } from "react";
-import { postType, reactions } from "@/utils/predefinedData";
-import { IPost } from "@/utils/interfaces";
-import CommentDialog from "./CommentDialog";
+import CommentDialog from "./comment-dialog";
 import { useReactMutation } from "@/stores/api/postApi";
-import { Link } from "react-router-dom";
-import { formatDate } from "@/utils/helper";
 import { useAppSelector } from "@/stores/hooks";
 import { toast } from "sonner";
 import { useFollowMutation } from "@/stores/api/userApi";
+import { IPost } from "@/lib/types";
+import { postType, reactions } from "@/lib/predefined-data";
+import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
-const Post = ({ data }: { data: IPost }) => {
+const PostCard = ({ data }: { data: IPost }) => {
   const [currentReact, setCurrentReact] = useState<
     keyof typeof reactions | null
   >(data.liked);
@@ -142,7 +142,7 @@ const Post = ({ data }: { data: IPost }) => {
             </CommentDialog>
           </div>
           <Button variant={"outline"} size={"sm"} className="">
-            <Link to={`/motels/123`} className="flex justify-center gap-3">
+            <Link href={`/motels/123`} className="flex justify-center gap-3">
               <span className="hidden sm:inline">Xem phòng</span>
               <HouseIcon size={20}></HouseIcon>
             </Link>
@@ -153,4 +153,4 @@ const Post = ({ data }: { data: IPost }) => {
   );
 };
 
-export default Post;
+export default PostCard;

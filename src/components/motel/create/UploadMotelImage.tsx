@@ -1,3 +1,4 @@
+"use client"
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

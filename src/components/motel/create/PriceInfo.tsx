@@ -1,3 +1,4 @@
+"use client"
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import H3 from "@/components/common/H3";
 import { Button } from "@/components/ui/button";
@@ -10,15 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useCreatePriceMotelMutation } from "@/stores/api/motelUtilApi";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
-import { prices as predefinedPrices } from "@/utils/predefinedData";
-import { PredefinePrice, Price } from "@/utils/types";
+import { prices as predefinedPrices } from "@/lib/predefined-data";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { PredefinePrice, Price } from "@/lib/types";
+import Image from "next/image";
 
 const PriceInfo = () => {
   const dispatch = useAppDispatch();
@@ -60,7 +61,7 @@ const PriceInfo = () => {
       unit: price.unit,
       value: price.value,
     }));
-    id &&
+    if (id)
       createPrices({ motelId: id, data: postPrices })
         .then((data) => {
           console.log(data.data);
@@ -76,7 +77,11 @@ const PriceInfo = () => {
       <div className="flex gap-10 items-stretch">
         <div className="w-1/2 h-[500px] md:block hidden">
           {/* <Skeleton className="size-full"></Skeleton> */}
-          <img src="/house-banner-1.jpg" alt="" className="size-full object-cover" />
+          <Image
+            src="/house-banner-1.jpg"
+            alt=""
+            className="size-full object-cover"
+          />
         </div>
         <div className=" w-1/2 flex flex-col flex-1">
           <DecorativeHeading className="!text-2xl mb-5 text-main-blue-s3 mt-10">
@@ -93,7 +98,7 @@ const PriceInfo = () => {
                   type="number"
                   placeholder="(VND)"
                   className="flex-1"
-                  value={price?.value}
+                  value={price?.value || ""}
                   onChange={(e) =>
                     updatePriceData(price.type, Number(e.target.value))
                   }
@@ -150,7 +155,7 @@ const PriceInfo = () => {
                 type="number"
                 placeholder="Giá (VND)"
                 className="flex-1"
-                value={otherPrice?.value}
+                value={otherPrice?.value || 0}
                 onChange={(e) =>
                   setOtherPrice({
                     ...otherPrice,

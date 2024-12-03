@@ -1,34 +1,24 @@
-import Modal from "../modal/Modal";
-import { Button } from "../ui/button";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { closeAuthModal } from "@/stores/slices/authSlice";
+"use client";
+import { useAuthStore } from "@/providers/auth-store-provider";
+import { Dialog, DialogContent } from "../ui/dialog";
 import LoginForm from "../form/LoginForm";
 import RegisterForm from "../form/RegisterForm";
-import { XIcon } from "lucide-react";
 
 const AuthModal = () => {
-  const dispatch = useAppDispatch();
-  const formType = useAppSelector((state) => state.auth.formType);
-
+  const { authType, modalOpen, closeModal } = useAuthStore((state) => state);
   return (
-    <Modal>
-      <div className="w-[400px] lg:w-[500px] mx-auto bg-background rounded-xl relative">
-        <div className="p-10">
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            className="absolute right-4 top-4 "
-            onClick={() => dispatch(closeAuthModal())}
-          >
-            <XIcon></XIcon>
-          </Button>
-          <div onClick={(e) => e.stopPropagation()}>
-            {formType === "login" && <LoginForm></LoginForm>}
-            {formType === "register" && <RegisterForm></RegisterForm>}
+    <Dialog open={modalOpen} onOpenChange={closeModal}>
+      <DialogContent>
+        <div className="mx-auto bg-background rounded-xl relative">
+          <div className="px-4 pt-6 pb-4">
+            <div onClick={(e) => e.stopPropagation()}>
+              {authType === "login" && <LoginForm></LoginForm>}
+              {authType === "signup" && <RegisterForm></RegisterForm>}
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
 
