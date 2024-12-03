@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { Provider } from "react-redux";
-import store from "@/stores/store";
+import AuthModal from "@/components/modal/AuthModal";
+import StoreProvider from "@/providers/store-provider";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
@@ -24,10 +24,13 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <head>
-        <link rel="shortcut icon" href="logo.png" type="image/png" />
+        <link rel="shortcut icon" href="logo-no-text.png" type="image/png" />
       </head>
-      <body className={`antialiased ${inter.className}`}>
-        <Provider store={store}>{children}</Provider>
+      <body className={`${inter.className}`}>
+        <StoreProvider>
+          {children}
+          <AuthModal></AuthModal>
+        </StoreProvider>
       </body>
     </html>
   );
