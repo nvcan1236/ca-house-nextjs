@@ -31,10 +31,10 @@ const SuggestPostContent = ({
   useEffect(() => {
     handleInputChange("post_type", postType);
   }, [postType]);
-  const [getSuggestContent] = useGetSuggestPostContentMutation();
+  // const [getSuggestContent] = useGetSuggestPostContentMutation();
   const handleClickCreate = async () => {
-    const { data } = await getSuggestContent(suggestQuery);
-    onSubmit(data?.result || "");
+    // const { data } = await getSuggestContent(suggestQuery);
+    // onSubmit(data?.result || "");
     setOpen(false);
   };
   const [open, setOpen] = useState(false);
@@ -45,13 +45,13 @@ const SuggestPostContent = ({
         <Button
           size={"sm"}
           variant={"ghost"}
-          className="absolute bottom-1 right-1 text-xs text-main-yellow"
+          className="absolute bg-background bottom-1 right-1 text-xs text-main-yellow"
         >
-          Tạo nội dung với AI
-          <PenToolIcon size={16} className="ml-1"></PenToolIcon>
+          <PenToolIcon size={16} className="mr-1"></PenToolIcon>
+          Tạo với AI
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end">
+      <PopoverContent align="end" side="left">
         <div className="grid gap-2">
           <div className="grid grid-cols-3 items-center gap-4">
             <Label htmlFor="area">Diện tích</Label>
@@ -64,7 +64,7 @@ const SuggestPostContent = ({
           </div>
 
           <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="budget">Ngăn sách</Label>
+            <Label htmlFor="budget">Giá thuê</Label>
             <Input
               id="budget"
               className="col-span-2 h-8"

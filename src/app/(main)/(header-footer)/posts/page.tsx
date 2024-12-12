@@ -9,7 +9,7 @@ const PostListPage = () => {
   return (
     <div className="container flex mt-3 items-start justify-center gap-3">
       <div className="lg:w-1/4 lg-w-1/4 sticky top-[140px]   hidden md:block">
-        {/* <PostFilter /> */}
+        <PostFilter />
       </div>
 
       <div className="flex-1">
@@ -17,7 +17,7 @@ const PostListPage = () => {
       </div>
 
       <div className="lg:w-1/4 sticky top-[140px]  hidden lg:block">
-        {/* <PostCreate /> */}
+        <PostCreate />
       </div>
     </div>
   );

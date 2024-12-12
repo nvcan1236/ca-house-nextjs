@@ -9,7 +9,7 @@ const NavButtons = () => {
   const role = pathname.includes("motels") ? "motel" : "post";
   return (
     <div
-      className={`flex gap-2 p-1 border border-gray-300 rounded-xl  bg-gray-50 `}
+      className={`flex gap-2 p-1.5 border border-gray-300 rounded-xl  bg-gray-50 `}
     >
       <Link href={"/motels"}>
         <Button

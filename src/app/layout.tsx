@@ -25,6 +25,7 @@ export default function RootLayout({
     <html lang="vi">
       <head>
         <link rel="shortcut icon" href="logo-no-text.png" type="image/png" />
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css' rel='stylesheet' />
       </head>
       <body className={`${inter.className}`}>
         <StoreProvider>

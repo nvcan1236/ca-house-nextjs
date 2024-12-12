@@ -1,12 +1,20 @@
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import MotelRegularForm from "@/components/form/MotelRegularForm";
+import Image from "next/image";
 
 const RegularInfo = () => {
   return (
     <div className="">
-      <div className="flex gap-10 items-start">
-        <div className="w-1/2 md:block hidden">
-          <img src="/house-banner-1.jpg" alt="" className="size-full object-cover" />
+      <div className="flex gap-10">
+        <div className=" w-1/2 md:block hidden">
+          <div className="h-[500px] relative">
+            <Image
+              src="/house-banner-1.jpg"
+              alt=""
+              fill
+              className="size-full object-cover"
+            />
+          </div>
         </div>
         <div className=" w-1/2 flex flex-col flex-1">
           <DecorativeHeading className="text-xl mb-5 text-main-blue-s3 mt-10">

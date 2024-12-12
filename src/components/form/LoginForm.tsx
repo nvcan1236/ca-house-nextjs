@@ -40,7 +40,7 @@ const LoginForm = () => {
   });
 
   const loginWithGoogle = () => {
-    const callbackUri = googleConfig.redirect_uris;
+    const callbackUri = googleConfig.redirect_uris || "";
     const client_id = googleConfig.client_id;
     const authUrli = googleConfig.auth_uri;
 

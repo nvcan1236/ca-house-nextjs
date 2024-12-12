@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import DecorativeHeading from "@/components/common/DecorativeHeading";
+import BaseMap from "@/components/map/base-map";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +19,7 @@ import {
 import { geoMapEndpoint } from "@/configs/mapbox-config";
 import { getDistricts, getProvinces, getWards } from "@/configs/provinces-data";
 import { District, Location, Ward } from "@/lib/types";
+import { useCreateMotelStore } from "@/providers/create-motel-provider";
 import axios from "@/services/axios";
 import { useCreateLocationMotelMutation } from "@/stores/api/motelUtilApi";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
@@ -39,8 +41,8 @@ const LocationInfo = () => {
   const [districtList, setDistrictList] = useState<District[]>([]);
   const [wardList, setWardList] = useState<Ward[]>([]);
   const [locationList, setLocationList] = useState([]);
-  const [createLocation] = useCreateLocationMotelMutation();
-  const id: string | null = useAppSelector((state) => state.createMotel.id);
+  // const [createLocation] = useCreateLocationMotelMutation();
+  const { id } = useCreateMotelStore((state) => state);
   const [location, setLocation] = useState<Location>({
     city: "",
     district: "",
@@ -50,8 +52,6 @@ const LocationInfo = () => {
     longitude: null,
     latitude: null,
   });
-  const MAP_TOKEN =
-    "pk.eyJ1IjoibnZjYW4xMjM2IiwiYSI6ImNtMDVlNXc0cjBrNzUycXF4cHNlb3BoMjEifQ.KYmYtAQpsmkeZClpeujuNA";
 
   const getCoordinate = async () => {
     axios
@@ -81,15 +81,15 @@ const LocationInfo = () => {
   }, []);
 
   const handleCreateLocation = () => {
-    if (id)
-      createLocation({ motelId: id, data: location })
-        .then((data) => {
-          console.log(data.data);
-          dispatch(nextStep());
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+    // if (id)
+    //   createLocation({ motelId: id, data: location })
+    //     .then((data) => {
+    //       console.log(data.data);
+    //       dispatch(nextStep());
+    //     })
+    //     .catch((error) => {
+    //       toast.error(error.response.data.message);
+    //     });
   };
 
   const [current, setCurrent] = useState({
@@ -109,6 +109,7 @@ const LocationInfo = () => {
     });
     setViewState({
       ...viewState,
+      zoom: 18,
       longitude: loc.lon,
       latitude: loc.lat,
     });
@@ -117,7 +118,7 @@ const LocationInfo = () => {
   return (
     <div className="">
       <div className="flex flex-col gap-10">
-        <div className="w-full max-w-[800px] mx-auto">
+        <div className="w-full max-w-[800px] mx-auto mb-20">
           <DecorativeHeading className="!text-2xl mb-5 text-main-blue-s3 mt-10">
             Thêm vị trí
           </DecorativeHeading>
@@ -233,17 +234,7 @@ const LocationInfo = () => {
               </Popover>
             </div>
             <div className="h-[400px] rounded-xl">
-              <ReactMapGL
-                mapStyle={"mapbox://styles/nvcan1236/cm05einzd00hf01qs8oa59aji"}
-                mapboxAccessToken={MAP_TOKEN}
-                onMove={(evt) => setViewState(evt.viewState)}
-                {...viewState}
-              >
-                <GeolocateControl position="top-left" />
-                <FullscreenControl position="top-left" />
-                <NavigationControl position="top-left" />
-                <ScaleControl />
-
+              <BaseMap >
                 {location.longitude && location.latitude && (
                   <Marker
                     draggable
@@ -266,7 +257,7 @@ const LocationInfo = () => {
                 >
                   <MapPinIcon size={32} fill="#ea4e2c" strokeWidth={1} />
                 </Marker>
-              </ReactMapGL>
+              </BaseMap>
             </div>
           </div>
         </div>
@@ -275,7 +266,7 @@ const LocationInfo = () => {
           <Button
             size={"lg"}
             variant={"secondary"}
-            onClick={() => dispatch(prevStep())}
+            onClick={prevStep}
           >
             Quay lại
           </Button>

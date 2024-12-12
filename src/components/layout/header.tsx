@@ -8,6 +8,9 @@ import SearchInput from "../search/search-input";
 import NavButtons from "./nav-button";
 // import UserMenuPopover from "../common/UserMenuPopover";
 import LoginButton from "../common/LoginButton";
+import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useAuthStore } from "@/providers/auth-store-provider";
 
 const Header = () => {
   // const role = useAppSelector((state) => state.common.role);
@@ -16,7 +19,7 @@ const Header = () => {
   // const changeLanguage = (value: language) => {
   //   i18n.changeLanguage(value);
   // };
-
+  const router = useRouter()
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -31,13 +34,15 @@ const Header = () => {
     };
   }, []);
 
-  // const handleCreateMotel = () => {
-  //   if (!user || !user.id) {
-  //     toast.warning("Vui lòng đăng nhập trước!!");
-  //     return;
-  //   }
-  //   navigate("/register-motel");
-  // };
+  const user = useAuthStore((state) => state.user);
+
+  const handleCreateMotel = () => {
+    // if (!user || !user.id) {
+    //   toast.warning("Vui lòng đăng nhập trước!!");
+    //   return;
+    // }
+    router.push("/motels/register");
+  };
 
   return (
     <header
@@ -46,23 +51,23 @@ const Header = () => {
       }`}
     >
       <div
-        className={`md:px-10 flex lg:gap-10 items-center py-4 md:gap-x-4 transition-all ${
-          scrollY > 0
+        className={`md:px-10 grid grid-cols-10 lg:gap-10 items-center py-4 md:gap-x-4 transition-all ${
+          scrollY > 20
             ? "bg-background border shadow-lg rounded-t-none rounded-b-xl py-2"
             : ""
         }`}
       >
-        <Link className=" cursor-pointer hidden md:block" href="/">
+        <Link className="hidden md:block col-span-2" href="/">
           <Image
             src="/logo.png"
             alt="logo"
-            className="object-cover"
+            className="object-cover mx-auto"
             width={80}
             height={80}
           />
         </Link>
 
-        <div className="grow md:px-4 px-2 ">
+        <div className="grow md:px-4 px-2 gc8 col-span-6">
           <div
             className={`flex gap-3 justify-between w-full md:justify-center items-center transition-all ${
               scrollY > 0 ? "scale-0 -translate-y-[100%] h-0" : "mb-2"
@@ -79,9 +84,10 @@ const Header = () => {
           <SearchInput />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 col-span-2">
           <Button
             variant={"secondary"}
+            onClick={handleCreateMotel}
             className="hidden lg:flex border-main-yellow text-main-yellow bg-main-yellow-t9 hover:bg-main-yellow-t6 transition-all hover:border-main-yellow hover:border-2 border-2"
           >
             <HousePlusIcon size={20} className="mr-3"></HousePlusIcon> Đăng trọ

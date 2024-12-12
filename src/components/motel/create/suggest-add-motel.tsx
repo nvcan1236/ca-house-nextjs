@@ -1,5 +1,5 @@
 import { HousePlusIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 const SuggestAddMotel = () => {
   return (

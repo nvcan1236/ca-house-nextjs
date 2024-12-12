@@ -1,6 +1,5 @@
 import { AlertCircle, HousePlusIcon, MenuIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { User } from "@/utils/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Dialog,
@@ -13,19 +12,20 @@ import {
 import { Alert, AlertDescription } from "../ui/alert";
 import CreatePasswordForm from "../form/CreatePasswordForm";
 import { Separator } from "../ui/separator";
-import { Link, useNavigate } from "react-router-dom";
-import { LogoutDialog } from "./LogoutDialog";
+import { LogoutDialog } from "./logout-dialog";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
+import { User } from "@/lib/types";
+import Link from "next/link";
 
 const UserMenuPopover = ({ user }: { user: User }) => {
-  const navigate = useNavigate();
   const handleCreateMotel = () => {
     if (!user || !user.id) {
       toast.warning("Vui lòng đăng nhập trước!!");
       return;
     }
-    navigate("/register-motel");
+    redirect("/register-motel");
   };
   return (
     <div className="flex gap-2 items-center">
@@ -87,28 +87,25 @@ const UserMenuPopover = ({ user }: { user: User }) => {
                 trọ
               </Button>
             </li>
-            <li
-              className="py-1 px-2 hover:bg-slate-100 transition-all"
-              onClick={() => navigate(`./profile/${user.id}`)}
-            >
-              Profile
+            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
+              <Link href={`./profile/${user.id}`}>Profile</Link>
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link to={"/saved-motel"}>Danh sách yêu thích</Link>
+              <Link href={"/saved-motel"}>Danh sách yêu thích</Link>
             </li>
             {user.roles.includes("OWNER") && (
               <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link to={"/my-motel"}>Quản lý trọ</Link>
+                <Link href={"/my-motel"}>Quản lý trọ</Link>
               </li>
             )}
             <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link to={"/my-post"}>Quản lý bài viết</Link>
+              <Link href={"/my-post"}>Quản lý bài viết</Link>
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link to={"/my-appointments"}>Danh sách đặt phòng</Link>
+              <Link href={"/my-appointments"}>Danh sách đặt phòng</Link>
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link to={"/my-reservations"}>Danh sách cọc phòng</Link>
+              <Link href={"/my-reservations"}>Danh sách cọc phòng</Link>
             </li>
             <li className="py-1">
               <Separator />

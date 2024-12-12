@@ -40,7 +40,7 @@ const UpdateProfileDialog: FC<{
       value: "OTHER",
     },
   ];
-  const [updateProfileFetch] = useUpdateProfileMutation();
+  // const [updateProfileFetch] = useUpdateProfileMutation();
   const [open, setOpen] = useState(false)
 
   const [profile, setProfile] = useState<Profile>({
@@ -64,7 +64,7 @@ const UpdateProfileDialog: FC<{
           <DialogHeader>
             <DialogTitle>Cập nhật Profile</DialogTitle>
             <DialogDescription>
-              Để có thể đăng được trọ bạn cần cập nhật hồ sơ người dùng
+              Để có thể đăng ký trọ bạn cần cập nhật hồ sơ người dùng
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -119,7 +119,7 @@ const UpdateProfileDialog: FC<{
               <Button
                 onClick={() => {
                   
-                  updateProfileFetch(profile);
+                  // updateProfileFetch(profile);
                 }}
               >
                 Cập nhật

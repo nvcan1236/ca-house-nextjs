@@ -9,8 +9,8 @@ const AuthModal = () => {
   return (
     <Dialog open={modalOpen} onOpenChange={closeModal}>
       <DialogContent>
-        <div className="mx-auto bg-background rounded-xl relative">
-          <div className="px-4 pt-6 pb-4">
+        <div className="bg-background rounded-xl relative">
+          <div className="px-2 pt-4">
             <div onClick={(e) => e.stopPropagation()}>
               {authType === "login" && <LoginForm></LoginForm>}
               {authType === "signup" && <RegisterForm></RegisterForm>}

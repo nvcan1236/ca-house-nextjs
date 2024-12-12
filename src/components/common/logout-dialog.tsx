@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,13 +9,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useAppDispatch } from "@/stores/hooks";
-import { logout } from "@/stores/slices/authSlice";
-import { ReactNode } from "react";
+} from "../ui/alert-dialog";
 
 export function LogoutDialog({ children }: { children: ReactNode }) {
-  const dispatch = useAppDispatch();
+  // const {} = useAuthStore(state => state)
 
   return (
     <AlertDialog>
@@ -29,9 +27,7 @@ export function LogoutDialog({ children }: { children: ReactNode }) {
 
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction onClick={() => dispatch(logout())}>
-            Đăng xuất
-          </AlertDialogAction>
+          <AlertDialogAction>Đăng xuất</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

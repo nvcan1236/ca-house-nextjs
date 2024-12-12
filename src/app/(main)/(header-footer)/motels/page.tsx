@@ -1,5 +1,5 @@
-"use client"
-import Map from "@/components/common/Map";
+"use client";
+import Map from "@/components/map/map";
 import Pagination from "@/components/common/Pagination";
 import MotelsList from "@/components/motel/motel-list";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ const MotelsPage = () => {
   // });
 
   // const motelList: IMotel[] = data?.result.data || [];
-  
+
   return (
     <div className="">
       {showMap ? (

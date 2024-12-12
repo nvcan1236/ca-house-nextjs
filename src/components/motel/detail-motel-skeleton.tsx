@@ -2,18 +2,14 @@ import { Skeleton } from "../ui/skeleton";
 
 const DetailMotelSkeleton = () => {
   return (
-    <div className="container w-[1200px] mt-10">
+    <div className="container w-[1200px] mt-10 bg-background px-6 py-8 rounded-lg">
       <Skeleton className="h-[300px]"></Skeleton>
       <div className="flex mt-12 gap-8 items-start ">
         <div className="w-2/3 flex flex-col gap-6">
-          <div>
-            <div>
-              <Skeleton className="h-[20px]"></Skeleton>
-              <Skeleton className="h-[80px]"></Skeleton>
-
-              <Skeleton className="h-[40px]"></Skeleton>
-            </div>
-            <Skeleton className="h-[120px]"></Skeleton>
+          <div className="space-y-4">
+            <Skeleton className="h-[30px]"></Skeleton>
+            <Skeleton className="h-[30px]"></Skeleton>
+            <Skeleton className="h-[30px]"></Skeleton>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

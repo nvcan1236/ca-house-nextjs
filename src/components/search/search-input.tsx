@@ -6,7 +6,7 @@ import { DrawerDialogFilter } from "./drawer-dialog-filter";
 
 const SearchInput = () => {
   return (
-    <div className="md:h-[54px] h-[46px] flex w-full items-center gap-1 pl-4 pr-2 border-2 rounded-full bg-background  border-main-blue-s3">
+    <div className="md:h-[52px] h-[40px] flex w-full items-center gap-1 pl-4 pr-2 border-2 rounded-full bg-background  border-main-blue-s3">
       <DrawerDialogFilter />
 
       <Input
