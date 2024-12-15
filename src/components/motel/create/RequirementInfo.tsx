@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7,16 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { definedJobs } from "@/lib/predefined-data";
 import { Requirement } from "@/lib/types";
-import { useCreateRequirementMotelMutation } from "@/stores/api/motelUtilApi";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
+import { useCreateMotelStore } from "@/providers/create-motel-provider";
+import Image from "next/image";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const RequirementInfo = () => {
-  const dispatch = useAppDispatch();
-  const id: string | null = useAppSelector((state) => state.createMotel.id);
+  // const dispatch = useAppDispatch();
+  // const id: string | null = useAppSelector((state) => state.createMotel.id);
 
+  const { prevStep } = useCreateMotelStore((state) => state);
   const [requirement, setRequirement] = useState<Requirement>({
     deposit: 0,
     contractAmount: 0,
@@ -32,7 +31,6 @@ const RequirementInfo = () => {
       const nextJobs = requirement?.jobs.includes(value)
         ? [...requirement.jobs.filter((job) => job !== value)]
         : [...requirement.jobs, value];
-
       setRequirement({
         ...requirement,
         jobs: nextJobs,
@@ -44,24 +42,29 @@ const RequirementInfo = () => {
       });
     }
   };
-  const [createRequirement] = useCreateRequirementMotelMutation();
+  // const [createRequirement] = useCreateRequirementMotelMutation();
   const handleCreateRequirement = () => {
-    if(id)
-      createRequirement({ motelId: id, data: requirement })
-        .then((data) => {
-          console.log(data.data);
-          dispatch(nextStep());
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+    // if (id)
+    //   createRequirement({ motelId: id, data: requirement })
+    //     .then(() => {
+    //       nextStep();
+    //     })
+    //     .catch((error) => {
+    //       toast.error(error.response.data.message);
+    //     });
   };
   return (
     <div className="">
-      <div className="flex gap-10 items-stretch">
+      <div className="flex gap-10 items-stretch mb-20">
         <div className="w-1/2 h-[500px] md:block hidden">
           {/* <Skeleton className="size-full"></Skeleton> */}
-          <img src="/house-banner-1.jpg" alt="" className="size-full object-cover" />
+          <Image
+            src="/house-banner-1.jpg"
+            alt=""
+            height={500}
+            width={500}
+            className="size-full object-cover"
+          />
         </div>
         <div className=" w-1/2 flex flex-col flex-1">
           <DecorativeHeading className="!text-2xl mb-5 text-main-blue-s3 mt-10">
@@ -85,13 +88,13 @@ const RequirementInfo = () => {
               ></Input>
             </div>
             <div className="flex items-center gap-4">
-              <Label>Cho nuôi thú cưng</Label>
               <Checkbox
                 className="size-6"
-                id="terms"
+                id="pet-allow"
                 checked={requirement?.allowPet}
                 onCheckedChange={(e) => handleChange("allowPet", e)}
               />
+              <Label htmlFor="pet-allow">Cho nuôi thú cưng</Label>
             </div>
             <div>
               <Label>Đối tượng cho thuê</Label>
@@ -100,11 +103,11 @@ const RequirementInfo = () => {
                   <div className="flex items-center mt-3 gap-3" key={job.type}>
                     <Checkbox
                       className="size-6"
-                      id="terms"
+                      id={job.type}
                       checked={requirement?.jobs.includes(job.type)}
                       onCheckedChange={() => handleChange("jobs", job.type)}
                     />
-                    <Label>{job.label}</Label>
+                    <Label htmlFor={job.type}>{job.label}</Label>
                   </div>
                 ))}
               </div>
@@ -121,11 +124,7 @@ const RequirementInfo = () => {
       </div>
 
       <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-        <Button
-          size={"lg"}
-          variant={"secondary"}
-          onClick={() => dispatch(prevStep())}
-        >
+        <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
           Quay lại
         </Button>
         <Button size={"lg"} onClick={handleCreateRequirement}>

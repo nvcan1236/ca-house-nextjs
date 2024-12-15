@@ -1,20 +1,18 @@
-"use client"
+"use client";
 import H3 from "../common/H3";
 
 import { Button } from "../ui/button";
-import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { useState } from "react";
-import { toast } from "sonner";
-import { useCreateAmenityMotelMutation } from "@/stores/api/motelUtilApi";
-import { Amenity } from "@/lib/types";
 import { facilities, furnitures, services } from "@/lib/predefined-data";
+import { useCreateMotelStore } from "@/providers/create-motel-provider";
+import AmenityItem from "../motel/create/amenity-item";
 
 const MotelAmenityForm = () => {
-  const dispatch = useAppDispatch();
-  const [createAmenity] = useCreateAmenityMotelMutation();
-  const id: string | null = useAppSelector((state) => state.createMotel.id);
-  console.log(id);
+  // const dispatch = useAppDispatch();
+  // const [createAmenity] = useCreateAmenityMotelMutation();
+  // const id: string | null = useAppSelector((state) => state.createMotel.id);
+
+  const { nextStep, prevStep } = useCreateMotelStore((state) => state);
 
   type Data = {
     services: string[];
@@ -38,47 +36,43 @@ const MotelAmenityForm = () => {
 
     setData(newData);
   };
-  const getStringData = (): Amenity[] => {
-    const arrData: Amenity[] = [];
-    data.services.forEach((s) => arrData.push({ name: s, type: "SERVICE" }));
-    data.furnitures.forEach((f) =>
-      arrData.push({ name: f, type: "FURNITURE" })
-    );
-    data.facilities.forEach((f) => arrData.push({ name: f, type: "FACILITY" }));
-    return arrData;
-  };
+
+  // const getStringData = (): Amenity[] => {
+  //   const arrData: Amenity[] = [];
+  //   data.services.forEach((s) => arrData.push({ name: s, type: "SERVICE" }));
+  //   data.furnitures.forEach((f) =>
+  //     arrData.push({ name: f, type: "FURNITURE" })
+  //   );
+  //   data.facilities.forEach((f) => arrData.push({ name: f, type: "FACILITY" }));
+  //   return arrData;
+  // };
 
   const handleFetchAmenity = () => {
-    const amenities = getStringData();
-    console.log(getStringData());
-    if (id)
-      createAmenity({ motelId: id, data: amenities })
-        .then((data) => {
-          console.log(data.data);
-          dispatch(nextStep());
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+    // const amenities = getStringData();
+    // if (id)
+    //   createAmenity({ motelId: id, data: amenities })
+    //     .then((data) => {
+    //       console.log(data.data);
+    nextStep();
+    //     })
+    //     .catch((error) => {
+    //       toast.error(error.response.data.message);
+    //     });
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 mb-20">
       <div>
         <H3 className="text-foreground">Các dịch vụ bao gồm</H3>
         <div className="grid grid-cols-4 gap-3 mt-4">
           {services?.map((service) => (
-            <div
+            <AmenityItem
               key={service.value}
-              className={`rounded-lg border px-6 py-4 text-center bg-background ${
-                data["services"].includes(service.value) &&
-                "border-main-blue-s3 border-2"
-              }`}
+              label={service.label}
+              isActive={data["services"].includes(service.value)}
+              icon={service.icon}
               onClick={() => updateData("services", service.value)}
-            >
-              <div className="w-fit mx-auto my-2">{service.icon}</div>
-              <span>{service.label}</span>
-            </div>
+            />
           ))}
         </div>
       </div>
@@ -87,17 +81,13 @@ const MotelAmenityForm = () => {
         <H3 className="text-foreground">Nội thất trong phòng</H3>
         <div className="grid grid-cols-4 gap-3 mt-4">
           {furnitures?.map((furniture) => (
-            <div
+            <AmenityItem
               key={furniture.value}
-              className={`rounded-lg border px-6 py-4 text-center bg-background ${
-                data["furnitures"].includes(furniture.value) &&
-                "border-main-blue-s3 border-2"
-              }`}
+              label={furniture.label}
+              isActive={data["furnitures"].includes(furniture.value)}
+              icon={furniture.icon}
               onClick={() => updateData("furnitures", furniture.value)}
-            >
-              <div className="w-fit mx-auto my-2">{furniture.icon}</div>
-              <span>{furniture.label}</span>
-            </div>
+            />
           ))}
         </div>
       </div>
@@ -106,27 +96,19 @@ const MotelAmenityForm = () => {
         <H3 className="text-foreground">Các tiện ích xung quanh</H3>
         <div className="grid grid-cols-4 gap-3 mt-4">
           {facilities?.map((facility) => (
-            <div
+            <AmenityItem
               key={facility.value}
-              className={`rounded-lg border px-6 py-4 text-center bg-background ${
-                data["facilities"].includes(facility.value) &&
-                "border-main-blue-s3 border-2"
-              }`}
+              label={facility.label}
+              isActive={data["facilities"].includes(facility.value)}
+              icon={facility.icon}
               onClick={() => updateData("facilities", facility.value)}
-            >
-              <div className="w-fit mx-auto my-2">{facility.icon}</div>
-              <span>{facility.label}</span>
-            </div>
+            />
           ))}
         </div>
       </div>
 
-      <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-        <Button
-          size={"lg"}
-          variant={"secondary"}
-          onClick={() => dispatch(prevStep())}
-        >
+      <div className="flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
+        <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
           Quay lại
         </Button>
         <Button size={"lg"} onClick={handleFetchAmenity}>

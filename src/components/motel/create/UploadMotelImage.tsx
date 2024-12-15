@@ -1,33 +1,31 @@
-"use client"
+"use client";
 import DecorativeHeading from "@/components/common/DecorativeHeading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUploadImageyMotelMutation } from "@/stores/api/motelUtilApi";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
+import { useCreateMotelStore } from "@/providers/create-motel-provider";
 import { UploadIcon } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const UploadMotelImage = () => {
-  const dispatch = useAppDispatch();
-  const id: string | null = useAppSelector((state) => state.createMotel.id);
+  const { prevStep } = useCreateMotelStore((state) => state);
+  // const dispatch = useAppDispatch();
+  // const id: string | null = useAppSelector((state) => state.createMotel.id);
+  // const [uploadImage] = useUploadImageyMotelMutation();
   const [files, setFiles] = useState<FileList | null>();
-  const [uploadImage] = useUploadImageyMotelMutation();
   const handleUploadImage = async () => {
-    if (!files || files.length < 5) {
-      toast.error("Vui long upload ít nhất 5 ảnh");
-      return;
-    }
-
-    if (id) {
-      try {
-        const data = await uploadImage({ motelId: id, images: files }).unwrap();
-        data.code == 1000 && dispatch(nextStep());
-      } catch (error) {
-        toast.error(error.data.message);
-      }
-    }
+    // if (!files || files.length < 5) {
+    //   toast.error("Vui long upload ít nhất 5 ảnh");
+    //   return;
+    // }
+    // if (id) {
+    //   try {
+    //     const data = await uploadImage({ motelId: id, images: files }).unwrap();
+    //     data.code == 1000 && dispatch(nextStep());
+    //   } catch (error) {
+    //     toast.error(error.data.message);
+    //   }
+    // }
   };
 
   return (
@@ -45,7 +43,15 @@ const UploadMotelImage = () => {
             <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-2">
               {files &&
                 Array.from(files).map((file) => (
-                  <img src={URL.createObjectURL(file)} className="size-full object-cover" />
+                  <div key={file.name} className="">
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt="selected motel images"
+                      width={300}
+                      height={200}
+                      
+                    />
+                  </div>
                 ))}
             </div>
           </label>
@@ -64,11 +70,7 @@ const UploadMotelImage = () => {
               <UploadIcon></UploadIcon> Chọn ảnh
             </label>
           </Button>
-          <Button
-            size={"lg"}
-            variant={"secondary"}
-            onClick={() => dispatch(prevStep())}
-          >
+          <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
             Quay lại
           </Button>
           <Button size={"lg"} onClick={handleUploadImage}>

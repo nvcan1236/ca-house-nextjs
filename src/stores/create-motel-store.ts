@@ -24,7 +24,7 @@ export type CreateMotelStore = CreateMotelState & CreateMotelActions;
 export const initCreateMotelStore = (): CreateMotelState => {
   return {
     id: null,
-    currentStep: 2,
+    currentStep: 6,
     regular: {},
     location: {},
     images: {},
