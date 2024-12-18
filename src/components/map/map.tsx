@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { Marker, ViewState } from "react-map-gl";
-import MotelMarker from "../common/MotelMarker";
+import MotelMarker from "../common/motel-marker";
 import { useGetNearestMotelsQuery } from "@/stores/api/motelApi";
 import BaseMap from "./base-map";
 const Map = ({ children }: { children?: ReactNode }) => {

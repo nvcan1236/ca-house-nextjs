@@ -1,4 +1,4 @@
-import LazyLoadContainer from "@/components/common/LazyLoadContainer";
+import LazyLoadContainer from "@/components/common/lazyload-container";
 import AdminSideBar from "@/components/layout/admin-side-bar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -21,8 +21,10 @@ const AdminLayout = ({
         </div> */}
         <AdminSideBar></AdminSideBar>
         <div className="flex-1 p-2 bg-main-blue-t9 min-h-screen">
-          <div className="border rounded-lg bg-background h-full p-6">
-            <SidebarTrigger />
+          <div className="border rounded-lg bg-background h-full p-6 relative">
+            <div className="absolute">
+              <SidebarTrigger />
+            </div>
             {children}
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
-import DecorativeHeading from "@/components/common/DecorativeHeading";
-import H3 from "@/components/common/H3";
+import DecorativeHeading from "@/components/common/decorative-heading";
+import H3 from "@/components/common/h3";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

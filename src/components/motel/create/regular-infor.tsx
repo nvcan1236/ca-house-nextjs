@@ -1,5 +1,5 @@
-import DecorativeHeading from "@/components/common/DecorativeHeading";
-import MotelRegularForm from "@/components/form/MotelRegularForm";
+import DecorativeHeading from "@/components/common/decorative-heading";
+import MotelRegularForm from "@/components/motel/create/motel-requirement-form";
 import Image from "next/image";
 
 const RegularInfo = () => {

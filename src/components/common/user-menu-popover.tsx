@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Alert, AlertDescription } from "../ui/alert";
-import CreatePasswordForm from "../form/CreatePasswordForm";
+import CreatePasswordForm from "../auth/create-password-form";
 import { Separator } from "../ui/separator";
 import { LogoutDialog } from "./logout-dialog";
 import { Button } from "../ui/button";

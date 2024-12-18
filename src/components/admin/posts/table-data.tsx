@@ -29,7 +29,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditPostDialog from "./EditPostDialog";
+import EditPostDialog from "./edit-post-dialog";
 import { IPost } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {

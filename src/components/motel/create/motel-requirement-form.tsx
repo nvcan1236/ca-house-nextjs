@@ -6,18 +6,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import { toast } from "sonner";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "../../ui/textarea";
 import { RadioGroup } from "@radix-ui/react-radio-group";
-import { RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/label";
-import DatePicker from "./DatePicker";
-import { Button } from "../ui/button";
+import { RadioGroupItem } from "../../ui/radio-group";
+import { Label } from "../../ui/label";
+import DatePicker from "../../common/date-picker";
+import { Button } from "../../ui/button";
 import { RegularCreate } from "@/lib/types";
 import { motelTypes } from "@/lib/predefined-data";
 import { useCreateMotelStore } from "@/providers/create-motel-provider";
@@ -76,7 +76,7 @@ const MotelRegularForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="gap-4 flex flex-col"
         >
-         <div className="pb-12">
+          <div className="pb-12">
             <FormField
               control={form.control}
               name="name"
@@ -93,7 +93,7 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-  
+
             <FormField
               control={form.control}
               name="description"
@@ -110,13 +110,15 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-  
+
             <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Bạn sẽ cho thuê với giá bao nhiêu 1 tháng</FormLabel>
+                  <FormLabel>
+                    Bạn sẽ cho thuê với giá bao nhiêu 1 tháng
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} type="number" />
                   </FormControl>
@@ -124,7 +126,7 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-  
+
             <FormField
               control={form.control}
               name="type"
@@ -168,7 +170,7 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-  
+
             <FormField
               control={form.control}
               name="area"
@@ -182,7 +184,7 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-  
+
             <FormField
               control={form.control}
               name="availableDate"
@@ -196,7 +198,7 @@ const MotelRegularForm = () => {
                 </FormItem>
               )}
             />
-         </div>
+          </div>
 
           <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
             <Button size={"lg"} variant={"secondary"} onClick={prevStep}>

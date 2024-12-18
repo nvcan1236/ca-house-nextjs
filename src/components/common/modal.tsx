@@ -1,8 +1,8 @@
-import useClickOutSide from "../../hooks/useClickOutSide";
+import useClickOutSide from "../../hooks/use-click-outside";
 import { ReactNode, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
-import useScrollLock from "@/hooks/useScrollLock";
+import useScrollLock from "@/hooks/use-scroll-lock";
 
 interface ModalProps {
   children: ReactNode;

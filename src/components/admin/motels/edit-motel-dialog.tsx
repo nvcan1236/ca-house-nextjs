@@ -1,4 +1,4 @@
-import ImageSlider from "@/components/common/ImageSlider";
+import ImageSlider from "@/components/common/image-slider";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {

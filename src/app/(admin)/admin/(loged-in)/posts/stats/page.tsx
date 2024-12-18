@@ -1,18 +1,18 @@
-"use client"
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import H3 from "@/components/common/H3";
-import SelectBox from "@/components/common/SelectBox";
+import H3 from "@/components/common/h3";
+import SelectBox from "@/components/common/select-box";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import StatPeriodChart from "@/components/admin/motels/StatPeriodChart";
-import StatTypeChart from "@/components/admin/motels/StatTypeChart";
-import StatPostTable from "@/components/admin/posts/StatPostTable";
+import StatPeriodChart from "@/components/admin/motels/stat-period-chart";
+import StatTypeChart from "@/components/admin/motels/stat-type-chart";
+import StatPostTable from "@/components/admin/posts/stat-post-table";
 
 const StatPost = () => {
   // const { data } = useGetPostStatQuery();
-  const data = []
+  const data = [];
   const [filter, setFilter] = useState({
     startDate: "2024-01-01",
     endDate: "2024-12-31",
@@ -22,7 +22,7 @@ const StatPost = () => {
     <div>
       <Tabs defaultValue="chart">
         <div className="flex justify-between">
-          <H3>Báo cáo thống kê bài đăng</H3>
+          <H3 className="pl-10">Báo cáo thống kê bài đăng</H3>
           <TabsList className="grid grid-cols-2 w-[240px]">
             <TabsTrigger value="chart">Biểu đồ</TabsTrigger>
             <TabsTrigger value="table">Bảng</TabsTrigger>

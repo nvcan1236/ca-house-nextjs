@@ -6,13 +6,13 @@ import {
 import { useAppSelector } from "@/stores/hooks";
 import React, { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
-import H3 from "../common/H3";
+import H3 from "../common/h3";
 import { Label } from "../ui/label";
-import SelectBox from "../common/SelectBox";
+import SelectBox from "../common/select-box";
 import { Textarea } from "../ui/textarea";
 import SuggestPostContent from "./suggest-post-content";
 import { Input } from "../ui/input";
-import ImageSlider from "../common/ImageSlider";
+import ImageSlider from "../common/image-slider";
 import { Button } from "../ui/button";
 import { HouseIcon, ImageIcon } from "lucide-react";
 

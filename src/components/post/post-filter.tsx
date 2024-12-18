@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import H3 from "../common/H3";
+import H3 from "../common/h3";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
@@ -22,9 +22,7 @@ const PostFilter = () => {
     setFilterPost(nextFilter);
   };
   return (
-    <div
-      className={`rounded-xl border bg-background py-4 px-6 `}
-    >
+    <div className={`rounded-xl border bg-background py-4 px-6 `}>
       <H3 className="mb-4">Lọc bài viết</H3>
       <div>
         <Label>Loại bài đăng</Label>

@@ -28,12 +28,12 @@ import {
   HeartIcon,
 } from "lucide-react";
 import { Job, MotelStatus, MotelType, Price, Step } from "./types";
-import RegularInfo from "@/components/motel/create/RegularInfo";
-import LocationInfo from "@/components/motel/create/LocationInfo";
-import AmenityInfo from "@/components/motel/create/AmenityInfo";
-import UploadMotelImage from "@/components/motel/create/UploadMotelImage";
-import PriceInfo from "@/components/motel/create/PriceInfo";
-import RequirementInfo from "@/components/motel/create/RequirementInfo";
+import RegularInfo from "@/components/motel/create/regular-infor";
+import LocationInfo from "@/components/motel/create/location-infor";
+import AmenityInfo from "@/components/motel/create/amenity-infor";
+import UploadMotelImage from "@/components/motel/create/update-motel-image";
+import PriceInfo from "@/components/motel/create/price-infor";
+import RequirementInfo from "@/components/motel/create/requirement-infor";
 export const motelTypes: MotelType[] = [
   {
     label: "Phòng đơn",

@@ -1,6 +1,6 @@
 import { HouseIcon, MessageSquareTextIcon } from "lucide-react";
-import H3 from "../common/H3";
-import ImageSlider from "../common/ImageSlider";
+import H3 from "../common/h3";
+import ImageSlider from "../common/image-slider";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {

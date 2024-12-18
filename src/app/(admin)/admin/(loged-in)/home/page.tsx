@@ -1,5 +1,10 @@
-import H3 from "@/components/common/H3";
-import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import H3 from "@/components/common/h3";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
 import React from "react";
 
 const AdminPage = () => {

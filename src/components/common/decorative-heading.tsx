@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import H3 from "./H3";
+import H3 from "./h3";
 
 const DecorativeHeading = ({
   children,

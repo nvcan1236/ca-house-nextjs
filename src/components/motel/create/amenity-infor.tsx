@@ -1,5 +1,5 @@
-import DecorativeHeading from "@/components/common/DecorativeHeading";
-import MotelAmenityForm from "@/components/form/MotelAmenityForm";
+import DecorativeHeading from "@/components/common/decorative-heading";
+import MotelAmenityForm from "@/components/motel/create/motel-amenity-form";
 
 const AmenityInfo = () => {
   return (

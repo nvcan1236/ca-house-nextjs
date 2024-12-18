@@ -1,16 +1,14 @@
-import { columns } from "@/components/admin/posts/PostColumns";
-import { DataTable } from "@/components/admin/posts/TableData";
-import H3 from "@/components/common/H3";
+import { columns } from "@/components/admin/posts/post-column";
+import { DataTable } from "@/components/admin/posts/table-data";
+import H3 from "@/components/common/h3";
 import { IPost } from "@/lib/types";
 
 const ManagePosts = () => {
-  
-
   // const { data } = useGetPostsQuery(0);
 
   return (
-    <div className="py-8">
-      <H3>Quản lý bài đăng</H3>
+    <div className="">
+      <H3 className="pl-10">Quản lý bài đăng</H3>
       <div className="mt-6">
         {/* <DataTable columns={columns} data={data?.result || []} /> */}
       </div>

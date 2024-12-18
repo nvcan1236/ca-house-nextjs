@@ -1,5 +1,5 @@
 "use client";
-import DecorativeHeading from "@/components/common/DecorativeHeading";
+import DecorativeHeading from "@/components/common/decorative-heading";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";

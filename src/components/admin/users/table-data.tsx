@@ -28,7 +28,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserDialog from "./UserDialog";
+import UserDialog from "./user-dialog";
 import { User } from "@/utils/types";
 
 interface DataTableProps<TData, TValue> {

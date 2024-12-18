@@ -1,7 +1,7 @@
 import { ChatMessage } from "@/utils/interfaces";
 import { FC } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import ImageSlider from "./ImageSlider";
+import ImageSlider from "./image-slider";
 import { formatCreatedAt } from "@/services/chartService";
 
 const Message: FC<{

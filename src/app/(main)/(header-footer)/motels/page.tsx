@@ -1,6 +1,6 @@
 "use client";
 import Map from "@/components/map/map";
-import Pagination from "@/components/common/Pagination";
+import Pagination from "@/components/common/pagination";
 import MotelsList from "@/components/motel/motel-list";
 import { Button } from "@/components/ui/button";
 import { LayoutGridIcon, MapIcon } from "lucide-react";

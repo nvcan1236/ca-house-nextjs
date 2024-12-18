@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import AuthModal from "@/components/modal/AuthModal";
+import AuthModal from "@/components/auth/auth-modal";
 import StoreProvider from "@/providers/store-provider";
 
 const inter = Inter({
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <head>
-        <link rel="shortcut icon" href="logo-no-text.png" type="image/png" />
+        <link rel="shortcut icon" href="/logo-no-text.png" type="image/png" />
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css' rel='stylesheet' />
       </head>
       <body className={`${inter.className}`}>

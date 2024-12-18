@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Checkbox } from "../ui/checkbox";
-import H3 from "../common/H3";
+import H3 from "../common/h3";
 import { Label } from "../ui/label";
 
 const DialogFilter = () => {

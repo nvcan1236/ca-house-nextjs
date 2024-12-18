@@ -1,5 +1,5 @@
 "use client";
-import H3 from "@/components/common/H3";
+import H3 from "@/components/common/h3";
 
 const ApprovePage = () => {
   // const filter = useAppSelector((state) => state.filter);
@@ -14,7 +14,7 @@ const ApprovePage = () => {
   // );
   return (
     <div className="w-full">
-      <H3>Danh sách trọ chờ duyệt</H3>
+      <H3 className="pl-10">Danh sách trọ chờ duyệt</H3>
       {/* <DataTable columns={columns} data={motelNotApproved || []} /> */}
     </div>
   );

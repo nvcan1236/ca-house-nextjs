@@ -1,12 +1,12 @@
-import H3 from "@/components/common/H3";
+import H3 from "@/components/common/h3";
 
 const ManageMotel = () => {
   // const filter = useAppSelector((state) => state.filter);
   // const { data } = useGetMotelsQuery({ page: 1, size: 100, filter });
 
   return (
-    <div className="py-8">
-      <H3>Quản lý nhà trọ</H3>
+    <div>
+      <H3 className="pl-10">Quản lý nhà trọ</H3>
       <div className="mt-6">
         {/* <DataTable columns={columns} data={data?.result.data || []} /> */}
       </div>

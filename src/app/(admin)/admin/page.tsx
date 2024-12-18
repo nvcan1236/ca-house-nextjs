@@ -1,5 +1,5 @@
 "use client";
-import LoginButton from "@/components/common/LoginButton";
+import LoginButton from "@/components/common/login-button";
 import Link from "next/link";
 
 const AdminPage = () => {
@@ -16,7 +16,10 @@ const AdminPage = () => {
           <p>
             Để sử dụng các chức năng của quản trị viên vui lòng đăng nhập tài
             khoản Admin. Nếu bạn không phải admin vui lòng thoát ra hoặc quay
-            lại <Link className="underline" href={"/"}>trang chủ</Link>
+            lại{" "}
+            <Link className="underline" href={"/"}>
+              trang chủ
+            </Link>
           </p>
           <LoginButton className="mt-6 px-10" />
         </div>

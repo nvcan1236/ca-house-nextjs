@@ -1,6 +1,6 @@
 import { Badge } from "../ui/badge";
-import H3 from "../common/H3";
-import ImageSlider from "../common/ImageSlider";
+import H3 from "../common/h3";
+import ImageSlider from "../common/image-slider";
 import { IMotel } from "@/lib/types";
 import { redirect } from "next/navigation";
 

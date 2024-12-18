@@ -4,9 +4,9 @@ import { steps } from "@/lib/predefined-data";
 import { useAuthStore } from "@/providers/auth-store-provider";
 import MapInCreate from "@/components/map/map-in-create";
 import { Button } from "@/components/ui/button";
-import H3 from "@/components/common/H3";
+import H3 from "@/components/common/h3";
 import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import UpdateProfileDialog from "@/components/motel/create/UpdateProfileDialog";
+import UpdateProfileDialog from "@/components/motel/create/update-profile-dialog";
 
 const RegisterMotelPage = () => {
   const { user } = useAuthStore((state) => state);

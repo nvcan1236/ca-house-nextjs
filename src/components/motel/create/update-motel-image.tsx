@@ -1,5 +1,5 @@
 "use client";
-import DecorativeHeading from "@/components/common/DecorativeHeading";
+import DecorativeHeading from "@/components/common/decorative-heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCreateMotelStore } from "@/providers/create-motel-provider";
@@ -49,7 +49,6 @@ const UploadMotelImage = () => {
                       alt="selected motel images"
                       width={300}
                       height={200}
-                      
                     />
                   </div>
                 ))}

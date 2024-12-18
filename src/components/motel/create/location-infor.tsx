@@ -1,5 +1,5 @@
 "use client";
-import DecorativeHeading from "@/components/common/DecorativeHeading";
+import DecorativeHeading from "@/components/common/decorative-heading";
 import BaseMap from "@/components/map/base-map";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -234,7 +234,7 @@ const LocationInfo = () => {
               </Popover>
             </div>
             <div className="h-[400px] rounded-xl">
-              <BaseMap >
+              <BaseMap>
                 {location.longitude && location.latitude && (
                   <Marker
                     draggable
@@ -263,11 +263,7 @@ const LocationInfo = () => {
         </div>
 
         <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t z-20">
-          <Button
-            size={"lg"}
-            variant={"secondary"}
-            onClick={prevStep}
-          >
+          <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
             Quay lại
           </Button>
           <Button

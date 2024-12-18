@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import SearchInput from "../search/search-input";
 import NavButtons from "./nav-button";
 // import UserMenuPopover from "../common/UserMenuPopover";
-import LoginButton from "../common/LoginButton";
+import LoginButton from "../common/login-button";
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthStore } from "@/providers/auth-store-provider";
@@ -19,7 +19,7 @@ const Header = () => {
   // const changeLanguage = (value: language) => {
   //   i18n.changeLanguage(value);
   // };
-  const router = useRouter()
+  const router = useRouter();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {

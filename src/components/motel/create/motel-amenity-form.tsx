@@ -1,11 +1,11 @@
 "use client";
-import H3 from "../common/H3";
+import H3 from "../../common/h3";
 
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useState } from "react";
 import { facilities, furnitures, services } from "@/lib/predefined-data";
 import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import AmenityItem from "../motel/create/amenity-item";
+import AmenityItem from "./amenity-item";
 
 const MotelAmenityForm = () => {
   // const dispatch = useAppDispatch();

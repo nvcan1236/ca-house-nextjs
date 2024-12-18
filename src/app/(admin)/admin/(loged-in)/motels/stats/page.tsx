@@ -1,16 +1,16 @@
-"use client"
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import H3 from "@/components/common/H3";
+import H3 from "@/components/common/h3";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import SelectBox from "@/components/common/SelectBox";
-import StatPeriodChart from "@/components/admin/motels/StatPeriodChart";
-import StatTypeChart from "@/components/admin/motels/StatTypeChart";
-import StatPriceChart from "@/components/admin/motels/StatPriceChart";
-import StatMotelTable from "@/components/admin/motels/StatMotelTable";
-import StatAreaChart from "@/components/admin/motels/StatAreaChart";
+import SelectBox from "@/components/common/select-box";
+import StatPeriodChart from "@/components/admin/motels/stat-period-chart";
+import StatTypeChart from "@/components/admin/motels/stat-type-chart";
+import StatPriceChart from "@/components/admin/motels/stat-price-chart";
+import StatMotelTable from "@/components/admin/motels/stat-motel-table";
+import StatAreaChart from "@/components/admin/motels/stat-area-chart";
 
 const StatMotel = () => {
   const [filter, setFilter] = useState({
@@ -28,7 +28,7 @@ const StatMotel = () => {
     <div>
       <Tabs defaultValue="chart">
         <div className="flex justify-between">
-          <H3>Báo cáo thống kê nhà trọ</H3>
+          <H3 className="pl-10">Báo cáo thống kê nhà trọ</H3>
           <TabsList className="grid grid-cols-2 w-[240px]">
             <TabsTrigger value="chart">Biểu đồ</TabsTrigger>
             <TabsTrigger value="table">Bảng</TabsTrigger>

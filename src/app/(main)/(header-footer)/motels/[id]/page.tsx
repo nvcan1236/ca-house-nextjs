@@ -1,8 +1,8 @@
 "use client";
-import DecorativeHeading from "@/components/common/DecorativeHeading";
-import ImageSlider from "@/components/common/ImageSlider";
-import Item from "@/components/common/Item";
-import MotelReview from "@/components/common/MotelReview";
+import DecorativeHeading from "@/components/common/decorative-heading";
+import ImageSlider from "@/components/common/image-slider";
+import Item from "@/components/common/item";
+import MotelReview from "@/components/common/motel-review";
 import DetailMotelSkeleton from "@/components/motel/detail-motel-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

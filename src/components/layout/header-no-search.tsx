@@ -2,9 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import LoginButton from "../common/LoginButton";
+import LoginButton from "../common/login-button";
 import { useAuthStore } from "@/providers/auth-store-provider";
-import UserMenuPopover from "../common/UserMenuPopover";
+import UserMenuPopover from "../common/user-menu-popover";
 
 const HeaderNoSearch = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -24,11 +24,7 @@ const HeaderNoSearch = () => {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <header
-      className={`container ${
-        scrollY > 0 ? "" : ""
-      }`}
-    >
+    <header className={`container ${scrollY > 0 ? "" : ""}`}>
       <div
         className={`md:px-10 grid grid-cols-10 lg:gap-10 items-center py-4 md:gap-x-4 transition-all`}
       >

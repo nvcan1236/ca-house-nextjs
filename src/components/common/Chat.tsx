@@ -12,8 +12,8 @@ import { getMessagesInRoom, getRoomByUser } from "@/services/chartService";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { openAuthModal } from "@/stores/slices/authSlice";
 import { useSendMessageMutation } from "@/stores/api/userApi";
-import Message from "./Message";
-import Rooms from "./Rooms";
+import Message from "./message";
+import Rooms from "./room";
 import {
   closeChat,
   setCurrentRoom,

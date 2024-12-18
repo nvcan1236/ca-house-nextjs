@@ -1,5 +1,5 @@
-"use client"
-import SelectBox from "@/components/common/SelectBox";
+"use client";
+import SelectBox from "@/components/common/select-box";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -41,7 +41,7 @@ const UpdateProfileDialog: FC<{
     },
   ];
   // const [updateProfileFetch] = useUpdateProfileMutation();
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const [profile, setProfile] = useState<Profile>({
     dob: "",
@@ -118,7 +118,6 @@ const UpdateProfileDialog: FC<{
             <div className="text-right">
               <Button
                 onClick={() => {
-                  
                   // updateProfileFetch(profile);
                 }}
               >

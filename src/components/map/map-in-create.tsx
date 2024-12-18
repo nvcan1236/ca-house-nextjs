@@ -1,4 +1,4 @@
-import MotelMarker from "../common/MotelMarker";
+import MotelMarker from "../common/motel-marker";
 import BaseMap from "./base-map";
 const MapInCreate = () => {
   return (

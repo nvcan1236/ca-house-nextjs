@@ -1,8 +1,8 @@
 "use client";
 import { useAuthStore } from "@/providers/auth-store-provider";
 import { Dialog, DialogContent } from "../ui/dialog";
-import LoginForm from "../form/LoginForm";
-import RegisterForm from "../form/RegisterForm";
+import LoginForm from "./login-form";
+import RegisterForm from "./register-form";
 
 const AuthModal = () => {
   const { authType, modalOpen, closeModal } = useAuthStore((state) => state);
