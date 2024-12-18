@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { geoMapEndpoint } from "@/configs/mapbox-config";
-import { getDistricts, getProvinces, getWards } from "@/configs/provinces-data";
+import { getDistricts, getProvinces, getWards } from "@/lib/provinces-data";
 import { District, Location, Ward } from "@/lib/types";
 import { useCreateMotelStore } from "@/providers/create-motel-provider";
 import axios from "@/services/axios";

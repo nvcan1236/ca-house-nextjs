@@ -1,4 +1,4 @@
-import { District, Province, Ward } from "@/lib/types";
+import { District, Province, Ward } from "@/types/common";
 
 export const provincesData: Province[] = [
   {

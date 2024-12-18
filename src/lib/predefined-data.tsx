@@ -27,13 +27,23 @@ import {
   AngryIcon,
   HeartIcon,
 } from "lucide-react";
-import { Job, MotelStatus, MotelType, Price, Step } from "./types";
 import RegularInfo from "@/components/motel/create/regular-infor";
 import LocationInfo from "@/components/motel/create/location-infor";
 import AmenityInfo from "@/components/motel/create/amenity-infor";
 import UploadMotelImage from "@/components/motel/create/update-motel-image";
 import PriceInfo from "@/components/motel/create/price-infor";
 import RequirementInfo from "@/components/motel/create/requirement-infor";
+import {
+  AppointmentStatus,
+  Job,
+  MotelStatus,
+  MotelType,
+  Price,
+  Step,
+} from "@/types/motel";
+import { PostType, ReactionType } from "@/types/post";
+import { ReactNode } from "react";
+
 export const motelTypes: MotelType[] = [
   {
     label: "Phòng đơn",
@@ -213,6 +223,7 @@ export const prices: Price[] = [
     type: "SERVICE",
   },
 ];
+
 export const definedJobs: { type: Job; label: string }[] = [
   {
     type: "STUDENT",
@@ -236,7 +247,12 @@ export const definedJobs: { type: Job; label: string }[] = [
   },
 ];
 
-export const reactions = {
+export const reactions: {
+  [key in ReactionType]: {
+    icon: ReactNode;
+    label: string;
+  };
+} = {
   LIKE: {
     icon: <ThumbsUpIcon />,
     label: "Like",
@@ -259,7 +275,9 @@ export const reactions = {
   },
 };
 
-export const postType = {
+export const postType: {
+  [key in PostType]: string;
+} = {
   REVIEW: "Review",
   PASS_ROOM: "Pass phòng",
   FIND_ROOM: "Tìm phòng",
@@ -305,7 +323,9 @@ export const steps: Step[] = [
   },
 ];
 
-export const appointmentStatus = {
+export const appointmentStatus: {
+  [key in AppointmentStatus]: string;
+} = {
   PENDING: "Đang chờ",
   ACCEPT: "Chấp nhận",
   DENY: "Từ chối",
