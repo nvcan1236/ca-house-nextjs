@@ -5,9 +5,10 @@ import {
   CircleXIcon,
   InfoIcon,
   TriangleAlertIcon,
+  XIcon,
 } from "lucide-react"
-import { Toaster } from "sonner"
 
+import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
 
@@ -23,7 +24,15 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         position="top-right"
         richColors
         closeButton
+        toastOptions={{
+          classNames: {
+            default: "border-2 border-main-blue",
+            closeButton: "border border-inherit",
+            
+          },
+        }}
         icons={{
+          close: <XIcon size={20} />,
           success: <CircleCheckIcon size={20} />,
           info: <InfoIcon size={20} />,
           warning: <TriangleAlertIcon size={20} />,

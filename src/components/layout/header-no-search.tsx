@@ -1,27 +1,29 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import LoginButton from "../common/login-button";
-import { useAuthStore } from "@/providers/auth-store-provider";
-import UserMenuPopover from "../common/user-menu-popover";
+"use client"
+
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { useAuthStore } from "@/providers/auth-store-provider"
+
+import LoginButton from "../common/login-button"
+import UserMenuPopover from "../common/user-menu-popover"
 
 const HeaderNoSearch = () => {
-  const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+      setScrollY(window.scrollY)
+    }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.user)
 
   return (
     <header className={`container ${scrollY > 0 ? "" : ""}`}>
@@ -53,7 +55,7 @@ const HeaderNoSearch = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default HeaderNoSearch;
+export default HeaderNoSearch

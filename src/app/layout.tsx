@@ -25,6 +25,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  
   const queryClient = new QueryClient()
 
   return (
@@ -38,10 +39,10 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className}`}>
         <StoreProvider>
-          <QueryClientProvider client={queryClient}>
+          {/* <QueryClientProvider client={queryClient}> */}
             {children}
-            <AuthModal />
-          </QueryClientProvider>
+          <AuthModal />
+          {/* </QueryClientProvider> */}
         </StoreProvider>
       </body>
     </html>

@@ -1,3 +1,4 @@
+import envConfig from "@/configs/env-config";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import ReactMapGL, {
   FullscreenControl,
@@ -12,7 +13,7 @@ const BaseMap = ({
   children,
   onMoveEnd,
 }: PropsWithChildren & { onMoveEnd?: (e: ViewStateChangeEvent) => void }) => {
-  const MAP_TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;
+  const MAP_TOKEN = envConfig.NEXT_PUBLIC_MAP_TOKEN;
   const [current, setCurrent] = useState({
     latitude: 0,
     longitude: 0,

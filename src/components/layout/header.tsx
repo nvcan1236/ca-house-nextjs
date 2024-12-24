@@ -1,16 +1,17 @@
-"use client";
-import { HousePlusIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import SearchInput from "../search/search-input";
-import NavButtons from "./nav-button";
-// import UserMenuPopover from "../common/UserMenuPopover";
-import LoginButton from "../common/login-button";
-import { redirect, useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { useAuthStore } from "@/providers/auth-store-provider";
+"use client"
+
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { useAuthStore } from "@/providers/auth-store-provider"
+import { HousePlusIcon } from "lucide-react"
+import { toast } from "sonner"
+
+import { Button } from "@/components/ui/button"
+import LoginButton from "@/components/common/login-button"
+import NavButtons from "@/components/layout/nav-button"
+import SearchInput from "@/components/search/search-input"
 
 const Header = () => {
   // const role = useAppSelector((state) => state.common.role);
@@ -19,30 +20,35 @@ const Header = () => {
   // const changeLanguage = (value: language) => {
   //   i18n.changeLanguage(value);
   // };
-  const router = useRouter();
-  const [scrollY, setScrollY] = useState(0);
+  const router = useRouter()
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+      setScrollY(window.scrollY)
+    }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.user)
 
+  const pathname = usePathname()
   const handleCreateMotel = () => {
     // if (!user || !user.id) {
     //   toast.warning("Vui lòng đăng nhập trước!!");
     //   return;
     // }
-    router.push("/motels/register");
-  };
+    toast(pathname)
+    // router.push("/motels/register")
+  }
+  const hasSearch = ["/motels"].includes(pathname)
+
+  const hasNav = ["/motels", "/posts"].includes(pathname)
 
   return (
     <header
@@ -57,33 +63,36 @@ const Header = () => {
             : ""
         }`}
       >
-        <Link className="hidden md:block col-span-2" href="/">
+        {/* LOGO */}
+        <Link className="hidden md:block col-span-2 " href="/">
           <Image
             src="/logo.png"
             alt="logo"
             className="object-cover mx-auto"
-            width={80}
-            height={80}
+            height={68}
+            width={68}
           />
         </Link>
 
         <div className="grow md:px-4 px-2 gc8 col-span-6">
           <div
             className={`flex gap-3 justify-between w-full md:justify-center items-center transition-all ${
-              scrollY > 0 ? "scale-0 -translate-y-[100%] h-0" : "mb-2"
+              scrollY > 0 && hasSearch
+                ? "scale-0 -translate-y-[100%] h-0"
+                : "mb-2"
             }`}
           >
-            <NavButtons />
-
+            {hasNav && <NavButtons />}
             <div className="md:hidden">
               {/* {false ? <UserMenuPopover user={null} /> : <LoginButton />} */}
               <LoginButton />
             </div>
           </div>
 
-          <SearchInput />
+          {hasSearch && <SearchInput />}
         </div>
 
+        {/* LOGIN BUTTON AND ACTION */}
         <div className="flex gap-2 col-span-2">
           <Button
             variant={"secondary"}
@@ -121,7 +130,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

@@ -1,4 +1,6 @@
-export const caHouseBaseUrl = process.env.NEXT_PUBLIC_BE_URL;
+import envConfig from "./env-config";
+
+export const caHouseBaseUrl = envConfig.NEXT_PUBLIC_BE_URL;
 
 type MotelInfor = "amenity" | "location" | "price" | "requirement" | "images";
 
