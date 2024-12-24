@@ -1,3 +1,7 @@
+import { FC } from "react"
+import { ByArea } from "@/utils/types"
+import { Pie, PieChart } from "recharts"
+
 import {
   ChartConfig,
   ChartContainer,
@@ -5,12 +9,9 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { ByPrice } from "@/utils/types";
-import { FC } from "react";
-import { Pie, PieChart } from "recharts";
+} from "@/components/ui/chart"
 
-const StatPriceChart: FC<{ data: ByPrice[] }> = ({ data }) => {
+const StatAreaChart: FC<{ data: ByArea[] }> = ({ data }) => {
   const colors = [
     "#1e3a8a",
     "#075985",
@@ -23,35 +24,28 @@ const StatPriceChart: FC<{ data: ByPrice[] }> = ({ data }) => {
     "#60a5fa",
     "#93c5fd",
     "#bfdbfe",
-  ];
+  ]
 
   const chartData = data.map((d, i) => ({
     ...d,
     fill: colors[i],
-  }));
+  }))
 
-  let chartConfig = {
-    count: {
-      label: "Tổng",
-    },
-  } satisfies ChartConfig;
+  let chartConfig = {} satisfies ChartConfig
 
   data.map((d) => {
     chartConfig = {
       ...chartConfig,
       [d.range]: {
-        label: `${d.range * 2}tr - ${(d.range + 1) * 2}tr`,
+        label: `${d.range * 5}m2 - ${(d.range + 1) * 5}m2`,
       },
-    };
-  });
+    }
+  })
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] h-full">
       <PieChart>
-        <ChartLegend
-          layout="vertical"
-          content={<ChartLegendContent  />}
-        />
+        <ChartLegend layout="vertical" content={<ChartLegendContent />} />
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
@@ -59,7 +53,7 @@ const StatPriceChart: FC<{ data: ByPrice[] }> = ({ data }) => {
         <Pie data={chartData} dataKey="count" nameKey="range" />
       </PieChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default StatPriceChart;
+export default StatAreaChart

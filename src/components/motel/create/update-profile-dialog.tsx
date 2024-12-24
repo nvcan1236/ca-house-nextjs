@@ -1,22 +1,24 @@
-"use client";
-import SelectBox from "@/components/common/select-box";
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { FC, ReactNode, useState } from "react"
+import { useUpdateProfileMutation } from "@/stores/api/userApi"
+import { DialogDescription } from "@radix-ui/react-dialog"
+
+import { Profile } from "@/lib/types"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Profile } from "@/lib/types";
-import { useUpdateProfileMutation } from "@/stores/api/userApi";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { FC, ReactNode, useState } from "react";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import SelectBox from "@/components/common/select-box"
 
 const UpdateProfileDialog: FC<{
-  children?: ReactNode;
+  children?: ReactNode
 }> = ({ children }) => {
   const jobOptions = [
     {
@@ -39,23 +41,23 @@ const UpdateProfileDialog: FC<{
       label: "Khác",
       value: "OTHER",
     },
-  ];
+  ]
   // const [updateProfileFetch] = useUpdateProfileMutation();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const [profile, setProfile] = useState<Profile>({
     dob: "",
     messenger: "",
     occupation: "OTHER",
     phone: "",
-  });
+  })
   const updateProfile = (type: keyof Profile, value: unknown) => {
     const nextProfile = {
       ...profile,
       [type]: value,
-    };
-    setProfile(nextProfile);
-  };
+    }
+    setProfile(nextProfile)
+  }
   return (
     <div>
       <Dialog modal open={open} onOpenChange={setOpen}>
@@ -128,7 +130,7 @@ const UpdateProfileDialog: FC<{
         </DialogContent>
       </Dialog>
     </div>
-  );
-};
+  )
+}
 
-export default UpdateProfileDialog;
+export default UpdateProfileDialog

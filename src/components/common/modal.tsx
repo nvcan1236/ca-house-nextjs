@@ -1,25 +1,27 @@
-import useClickOutSide from "../../hooks/use-click-outside";
-import { ReactNode, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { CSSTransition } from "react-transition-group";
-import useScrollLock from "@/hooks/use-scroll-lock";
+import { ReactNode, useRef, useState } from "react"
+import { createPortal } from "react-dom"
+import { CSSTransition } from "react-transition-group"
+
+import useScrollLock from "@/hooks/use-scroll-lock"
+
+import useClickOutSide from "../../hooks/use-click-outside"
 
 interface ModalProps {
-  children: ReactNode;
-  onClose?: () => void;
-  open: boolean;
+  children: ReactNode
+  onClose?: () => void
+  open: boolean
 }
 
 const Modal = ({ children, onClose, open = false }: ModalProps) => {
   // const [show, setShow] = useState<boolean>(open);
   const handleCloseModel = () => {
-    if (onClose) onClose();
+    if (onClose) onClose()
     // setShow(false);
-  };
+  }
   console.log(open)
-  const modalRef = useClickOutSide<HTMLDivElement>(handleCloseModel);
-  const nodeRef = useRef(null);
-  useScrollLock(!open);
+  const modalRef = useClickOutSide<HTMLDivElement>(handleCloseModel)
+  const nodeRef = useRef(null)
+  useScrollLock(!open)
 
   return createPortal(
     <CSSTransition
@@ -46,7 +48,7 @@ const Modal = ({ children, onClose, open = false }: ModalProps) => {
       }
     </CSSTransition>,
     document.body
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

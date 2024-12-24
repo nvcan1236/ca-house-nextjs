@@ -1,28 +1,30 @@
-"use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import H3 from "@/components/common/h3";
-import { Input } from "@/components/ui/input";
-import SelectBox from "@/components/common/select-box";
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import StatUserPeriodChart from "@/components/admin/users/stat-period-chart";
-import StatUserRoleChart from "@/components/admin/users/stat-role-chart";
-import StatUserTable from "@/components/admin/users/stat-user-table";
+"use client"
+
+import { useState } from "react"
+
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import H3 from "@/components/common/h3"
+import SelectBox from "@/components/common/select-box"
+import StatUserPeriodChart from "@/app/(admin)/admin/(loged-in)/users/stats/stat-period-chart"
+import StatUserRoleChart from "@/app/(admin)/admin/(loged-in)/users/stats/stat-role-chart"
+import StatUserTable from "@/app/(admin)/admin/(loged-in)/users/stats/stat-user-table"
 
 const StatUser = () => {
   const [filter, setFilter] = useState({
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     period: "MONTH",
-  });
+  })
   // const { data } = useGetUserStatQuery({
   //   startDate: filter.startDate,
   //   endDate: filter.endDate,
   //   period: filter.period,
   // });
 
-  const data = [];
+  const data = []
 
   return (
     <div>
@@ -64,7 +66,7 @@ const StatUser = () => {
                 { label: "Quý", value: "QUARTER" },
               ]}
               onSelectChange={(value) => {
-                setFilter({ ...filter, period: value });
+                setFilter({ ...filter, period: value })
               }}
             ></SelectBox>
           </div>
@@ -99,7 +101,7 @@ const StatUser = () => {
         </TabsContent>
       </Tabs>
     </div>
-  );
-};
+  )
+}
 
-export default StatUser;
+export default StatUser

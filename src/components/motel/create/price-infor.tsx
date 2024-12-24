@@ -1,53 +1,55 @@
-"use client";
-import DecorativeHeading from "@/components/common/decorative-heading";
-import H3 from "@/components/common/h3";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import { PlusIcon, XIcon } from "lucide-react"
+
+import { prices as predefinedPrices } from "@/lib/predefined-data"
+import { PredefinePrice, Price } from "@/lib/types"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { prices as predefinedPrices } from "@/lib/predefined-data";
-import { PlusIcon, XIcon } from "lucide-react";
-import { useState } from "react";
-import { PredefinePrice, Price } from "@/lib/types";
-import Image from "next/image";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
+} from "@/components/ui/select"
+import DecorativeHeading from "@/components/common/decorative-heading"
+import H3 from "@/components/common/h3"
 
 const PriceInfo = () => {
-  const [prices, setPrices] = useState<Price[] | []>(predefinedPrices);
+  const [prices, setPrices] = useState<Price[] | []>(predefinedPrices)
   const [otherPrice, setOtherPrice] = useState<Price>({
     name: "",
     value: 0,
     unit: "month",
     units: ["month"],
     type: "ORTHER",
-  });
+  })
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
-  const { prevStep } = useCreateMotelStore((state) => state);
+  const { prevStep } = useCreateMotelStore((state) => state)
   const updatePriceData = (type: PredefinePrice, value: number) => {
-    const nextPrice = [...prices];
-    const index = nextPrice.findIndex((price) => price.type === type);
+    const nextPrice = [...prices]
+    const index = nextPrice.findIndex((price) => price.type === type)
 
     if (index !== -1) {
-      nextPrice[index] = { ...nextPrice[index], value: value };
-      setPrices(nextPrice);
+      nextPrice[index] = { ...nextPrice[index], value: value }
+      setPrices(nextPrice)
     }
-  };
+  }
 
   const updateUnit = (type: PredefinePrice, value: string) => {
-    const nextPrice = [...prices];
-    const index = nextPrice.findIndex((price) => price.type === type);
+    const nextPrice = [...prices]
+    const index = nextPrice.findIndex((price) => price.type === type)
 
     if (index !== -1) {
-      nextPrice[index] = { ...nextPrice[index], unit: value };
-      setPrices(nextPrice);
+      nextPrice[index] = { ...nextPrice[index], unit: value }
+      setPrices(nextPrice)
     }
-  };
+  }
 
   // const [createPrices] = useCreatePriceMotelMutation();
   const handleCreatePrices = () => {
@@ -66,7 +68,7 @@ const PriceInfo = () => {
     //     .catch((error) => {
     //       toast.error(error.response.data.message);
     //     });
-  };
+  }
 
   return (
     <div className="">
@@ -124,11 +126,9 @@ const PriceInfo = () => {
                     className="border-destructive text-destructive hover:text-destructive"
                     type="button"
                     onClick={() => {
-                      let nextPrice = [...prices];
-                      nextPrice = nextPrice.filter(
-                        (p) => p.name !== price.name
-                      );
-                      setPrices(nextPrice);
+                      let nextPrice = [...prices]
+                      nextPrice = nextPrice.filter((p) => p.name !== price.name)
+                      setPrices(nextPrice)
                     }}
                   >
                     <XIcon size={20}></XIcon>
@@ -176,7 +176,7 @@ const PriceInfo = () => {
                 className="border-green-600 text-green-600"
                 type="button"
                 onClick={() => {
-                  setPrices([...prices, otherPrice]);
+                  setPrices([...prices, otherPrice])
                 }}
                 disabled={Object.values(otherPrice).some((v) => !v)}
               >
@@ -199,7 +199,7 @@ const PriceInfo = () => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PriceInfo;
+export default PriceInfo

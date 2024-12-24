@@ -1,47 +1,48 @@
-import ImageSlider from "@/components/common/image-slider";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ReactNode, useState } from "react"
+import { useRouter } from "next/navigation"
+import {
+  useApproveMotelMutation,
+  useGetMotelQuery,
+} from "@/stores/api/motelApi"
+import { useAppDispatch, useAppSelector } from "@/stores/hooks"
+import { setCurrentStep, setId } from "@/stores/slices/createMotelSlice"
+import { PlusIcon, XIcon } from "lucide-react"
+
+import { IMotel } from "@/lib/types"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { IMotel } from "@/lib/types";
-import {
-  useApproveMotelMutation,
-  useGetMotelQuery,
-} from "@/stores/api/motelApi";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { setCurrentStep, setId } from "@/stores/slices/createMotelSlice";
-import { PlusIcon, XIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import ImageSlider from "@/components/common/image-slider"
 
 const EditMotelDialog: React.FC<{
-  children: ReactNode;
-  motel: IMotel;
-  forPage?: "user" | "admin";
+  children: ReactNode
+  motel: IMotel
+  forPage?: "user" | "admin"
 }> = ({ children, motel, forPage = "user" }) => {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
   // const dispatch = useAppDispatch();
-  const { data } = useGetMotelQuery(motel.id, { skip: !open });
-  const editedMotel = data?.result;
-  const user = useAppSelector((state) => state.auth.user);
-  const [approveMotel] = useApproveMotelMutation();
+  const { data } = useGetMotelQuery(motel.id, { skip: !open })
+  const editedMotel = data?.result
+  const user = useAppSelector((state) => state.auth.user)
+  const [approveMotel] = useApproveMotelMutation()
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     // const { name, value } = e.target;
     // setEditedMotel((prev) => ({ ...prev, [name]: value }));
-  };
+  }
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -346,17 +347,17 @@ const EditMotelDialog: React.FC<{
             <Button
               onClick={() => {
                 if (editedMotel && editedMotel.id)
-                  dispatch(setId(editedMotel.id));
+                  dispatch(setId(editedMotel.id))
 
-                let curr = 0;
-                if (!editedMotel?.requirement) curr = 6;
-                if (!editedMotel?.prices.length) curr = 5;
-                if (!editedMotel?.images) curr = 4;
-                if (!editedMotel?.amenities.length) curr = 3;
-                if (!editedMotel?.location) curr = 2;
+                let curr = 0
+                if (!editedMotel?.requirement) curr = 6
+                if (!editedMotel?.prices.length) curr = 5
+                if (!editedMotel?.images) curr = 4
+                if (!editedMotel?.amenities.length) curr = 3
+                if (!editedMotel?.location) curr = 2
 
-                curr && dispatch(setCurrentStep(curr));
-                curr && navigate("/register-motel");
+                curr && dispatch(setCurrentStep(curr))
+                curr && navigate("/register-motel")
               }}
             >
               Tiếp tục chính sửa
@@ -365,8 +366,8 @@ const EditMotelDialog: React.FC<{
           {forPage === "admin" && (
             <Button
               onClick={() => {
-                approveMotel(editedMotel?.id || "");
-                setOpen(false);
+                approveMotel(editedMotel?.id || "")
+                setOpen(false)
               }}
               className={`${
                 editedMotel?.status == "NOT_APPROVED" &&
@@ -385,7 +386,7 @@ const EditMotelDialog: React.FC<{
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditMotelDialog;
+export default EditMotelDialog

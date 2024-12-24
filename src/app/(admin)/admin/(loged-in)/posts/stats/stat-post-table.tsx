@@ -1,4 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { FC } from "react"
+import { PostStat } from "@/utils/types"
+
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -8,12 +11,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { PostStat } from "@/utils/types";
-import { FC } from "react";
+} from "@/components/ui/table"
 
-const StatPostTable:FC<{data:PostStat}> = ({data}) => {
-  
+const StatPostTable: FC<{ data: PostStat }> = ({ data }) => {
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 flex-wrap">
@@ -86,7 +86,7 @@ const StatPostTable:FC<{data:PostStat}> = ({data}) => {
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StatPostTable;
+export default StatPostTable

@@ -1,5 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { IPost } from "@/utils/interfaces"
+import { ColumnDef } from "@tanstack/react-table"
+import { MoreHorizontal } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,12 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { IMotel } from "@/utils/interfaces";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+} from "@/components/ui/dropdown-menu"
 
-export const columns: ColumnDef<IMotel>[] = [
+export const columns: ColumnDef<IPost>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -36,33 +37,33 @@ export const columns: ColumnDef<IMotel>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "city",
-    header: "City",
+    accessorKey: "content",
+    header: "Content",
   },
   {
-    accessorKey: "district",
-    header: "District",
+    accessorKey: "type",
+    header: "Type",
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "comment_count",
+    header: "Comment count",
   },
   {
-    accessorKey: "price",
-    header: "Price",
+    accessorKey: "react_count",
+    header: "React count",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "create_by",
+    header: "Create by",
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "create_at",
     header: "Create at",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const payment = row.original
 
       return (
         <DropdownMenu>
@@ -84,7 +85,7 @@ export const columns: ColumnDef<IMotel>[] = [
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      );
+      )
     },
   },
-];
+]

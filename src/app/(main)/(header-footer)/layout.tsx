@@ -1,14 +1,15 @@
 // import Chat from "@/components/common/Chat";
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
+import React, { PropsWithChildren } from "react"
 import {
   CircleCheckIcon,
   CircleXIcon,
   InfoIcon,
   TriangleAlertIcon,
-} from "lucide-react";
-import React, { PropsWithChildren } from "react";
-import { Toaster } from "sonner";
+} from "lucide-react"
+import { Toaster } from "sonner"
+
+import Footer from "@/components/layout/footer"
+import Header from "@/components/layout/header"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   // const role = useAppSelector((state) => state.common.role);
@@ -32,7 +33,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
       {/* <Chat /> */}
       <Footer></Footer>
     </div>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

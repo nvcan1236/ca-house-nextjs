@@ -1,11 +1,11 @@
-import LazyLoadContainer from "@/components/common/lazyload-container";
-import AdminSideBar from "@/components/layout/admin-side-bar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import LazyLoadContainer from "@/components/common/lazyload-container"
+import AdminSideBar from "@/app/(admin)/admin/(loged-in)/admin-side-bar"
 
 const AdminLayout = ({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) => {
   return (
     <LazyLoadContainer>
@@ -30,7 +30,7 @@ const AdminLayout = ({
         </div>
       </SidebarProvider>
     </LazyLoadContainer>
-  );
-};
+  )
+}
 
-export default AdminLayout;
+export default AdminLayout

@@ -1,3 +1,6 @@
+import { FC } from "react"
+import { UserStat } from "@/utils/types"
+
 import {
   Table,
   TableBody,
@@ -7,9 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { UserStat } from "@/utils/types";
-import { FC } from "react";
+} from "@/components/ui/table"
 
 const StatUserTable: FC<{ data?: UserStat }> = ({ data }) => {
   return (
@@ -88,7 +89,7 @@ const StatUserTable: FC<{ data?: UserStat }> = ({ data }) => {
         </TableFooter>
       </Table>
     </div>
-  );
-};
+  )
+}
 
-export default StatUserTable;
+export default StatUserTable

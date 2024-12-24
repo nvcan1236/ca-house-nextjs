@@ -1,4 +1,4 @@
-import { User } from "@/lib/types";
+import { User } from "@/types/auth";
 import { createStore } from "zustand/vanilla";
 
 export type AuthState = {

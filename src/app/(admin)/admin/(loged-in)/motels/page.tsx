@@ -1,4 +1,4 @@
-import H3 from "@/components/common/h3";
+import H3 from "@/components/common/h3"
 
 const ManageMotel = () => {
   // const filter = useAppSelector((state) => state.filter);
@@ -11,10 +11,10 @@ const ManageMotel = () => {
         {/* <DataTable columns={columns} data={data?.result.data || []} /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ManageMotel;
+export default ManageMotel
 
 // const data: IMotel[] = [
 //   {

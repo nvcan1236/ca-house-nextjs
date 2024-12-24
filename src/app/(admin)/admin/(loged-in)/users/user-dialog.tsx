@@ -1,28 +1,29 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { ReactNode, useState } from "react"
+import { useGetUserByIdQuery } from "@/stores/api/userApi"
+import { User } from "@/utils/types"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useGetUserByIdQuery } from "@/stores/api/userApi";
-import { User } from "@/utils/types";
-import { ReactNode, useState } from "react";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const UserDialog = ({
   children,
   user,
 }: {
-  children: ReactNode;
-  user: User;
+  children: ReactNode
+  user: User
 }) => {
-  const [open, setOpen] = useState(false);
-  const { data } = useGetUserByIdQuery(user.id, { skip: !open });
-  const detailUser = data?.result;
+  const [open, setOpen] = useState(false)
+  const { data } = useGetUserByIdQuery(user.id, { skip: !open })
+  const detailUser = data?.result
 
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>
@@ -67,8 +68,11 @@ const UserDialog = ({
               Ảnh đại diện
             </Label>
             <Avatar className="h-40 w-32  rounded-sm border">
-              <AvatarImage src={detailUser?.avatar} className="size-full object-cover " />
-              <AvatarFallback className="size-full rounded-sm text-center" >
+              <AvatarImage
+                src={detailUser?.avatar}
+                className="size-full object-cover "
+              />
+              <AvatarFallback className="size-full rounded-sm text-center">
                 <div>Chưa upload avatar</div>
               </AvatarFallback>
             </Avatar>
@@ -144,7 +148,7 @@ const UserDialog = ({
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default UserDialog;
+export default UserDialog

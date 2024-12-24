@@ -1,3 +1,7 @@
+import { FC } from "react"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+
+import { ByPeriod } from "@/lib/types"
 import {
   ChartConfig,
   ChartContainer,
@@ -5,19 +9,19 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { MotelByPeriod } from "@/utils/types";
-import { FC } from "react";
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
+} from "@/components/ui/chart"
 
-const StatPeriodChart:FC<{data:MotelByPeriod[]}> = ({data}) => {
-
+const StatUserPeriodChart: FC<{ data: ByPeriod[] }> = ({ data }) => {
   const chartConfig = {
-    count: {
-      label: "Số lượng",
+    userCount: {
+      label: "User",
       color: "#2563eb",
     },
-  } satisfies ChartConfig;
+    ownerCount: {
+      label: "Owner",
+      color: "#60a5fa",
+    },
+  } satisfies ChartConfig
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] size-full">
@@ -29,13 +33,13 @@ const StatPeriodChart:FC<{data:MotelByPeriod[]}> = ({data}) => {
           tickMargin={10}
           axisLine={false}
         />
-        <YAxis></YAxis>
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+        <Bar dataKey="userCount" fill="var(--color-userCount)" radius={4} />
+        <Bar dataKey="ownerCount" fill="var(--color-ownerCount)" radius={4} />
       </BarChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default StatPeriodChart;
+export default StatUserPeriodChart

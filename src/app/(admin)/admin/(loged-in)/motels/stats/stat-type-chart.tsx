@@ -1,3 +1,7 @@
+import { FC } from "react"
+import { Pie, PieChart } from "recharts"
+
+import { ByType } from "@/types/motel"
 import {
   ChartConfig,
   ChartContainer,
@@ -5,10 +9,7 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { ByType } from "@/utils/types";
-import { FC } from "react";
-import { Pie, PieChart } from "recharts";
+} from "@/components/ui/chart"
 
 const StatTypeChart: FC<{ data: ByType[] }> = ({ data }) => {
   const colors = [
@@ -23,13 +24,12 @@ const StatTypeChart: FC<{ data: ByType[] }> = ({ data }) => {
     "#60a5fa",
     "#93c5fd",
     "#bfdbfe",
-  ];
+  ]
 
   const chartData = data.map((d, i) => ({
     ...d,
     fill: colors[i],
-  }));
-
+  }))
 
   const chartConfig = {
     count: {
@@ -47,7 +47,7 @@ const StatTypeChart: FC<{ data: ByType[] }> = ({ data }) => {
     DORMITORY: {
       label: "Ký túc xá",
     },
-  } satisfies ChartConfig;
+  } satisfies ChartConfig
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] h-full">
@@ -60,7 +60,7 @@ const StatTypeChart: FC<{ data: ByType[] }> = ({ data }) => {
         <Pie data={chartData} dataKey="count" nameKey="type" />
       </PieChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default StatTypeChart;
+export default StatTypeChart

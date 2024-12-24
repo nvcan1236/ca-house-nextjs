@@ -1,28 +1,30 @@
-"use client";
-import DecorativeHeading from "@/components/common/decorative-heading";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { definedJobs } from "@/lib/predefined-data";
-import { Requirement } from "@/lib/types";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import Image from "next/image";
-import { useState } from "react";
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import { useCreateMotelStore } from "@/providers/create-motel-provider"
+
+import { definedJobs } from "@/lib/predefined-data"
+import { Requirement } from "@/lib/types"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import DecorativeHeading from "@/components/common/decorative-heading"
 
 const RequirementInfo = () => {
   // const dispatch = useAppDispatch();
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
 
-  const { prevStep } = useCreateMotelStore((state) => state);
+  const { prevStep } = useCreateMotelStore((state) => state)
   const [requirement, setRequirement] = useState<Requirement>({
     deposit: 0,
     contractAmount: 0,
     allowPet: false,
     jobs: [],
     other: null,
-  });
+  })
   const handleChange = (
     type: keyof Requirement,
     value: number | string | boolean
@@ -30,18 +32,18 @@ const RequirementInfo = () => {
     if (type == "jobs") {
       const nextJobs = requirement?.jobs.includes(value)
         ? [...requirement.jobs.filter((job) => job !== value)]
-        : [...requirement.jobs, value];
+        : [...requirement.jobs, value]
       setRequirement({
         ...requirement,
         jobs: nextJobs,
-      });
+      })
     } else {
       setRequirement({
         ...requirement,
         [type]: value,
-      });
+      })
     }
-  };
+  }
   // const [createRequirement] = useCreateRequirementMotelMutation();
   const handleCreateRequirement = () => {
     // if (id)
@@ -52,7 +54,7 @@ const RequirementInfo = () => {
     //     .catch((error) => {
     //       toast.error(error.response.data.message);
     //     });
-  };
+  }
   return (
     <div className="">
       <div className="flex gap-10 items-stretch mb-20">
@@ -132,7 +134,7 @@ const RequirementInfo = () => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RequirementInfo;
+export default RequirementInfo

@@ -1,3 +1,8 @@
+import { FC } from "react"
+import { postType } from "@/utils/predefinedData"
+import { ByPostType } from "@/utils/types"
+import { Pie, PieChart } from "recharts"
+
 import {
   ChartConfig,
   ChartContainer,
@@ -5,11 +10,7 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { postType } from "@/utils/predefinedData";
-import { ByPostType } from "@/utils/types";
-import { FC } from "react";
-import { Pie, PieChart } from "recharts";
+} from "@/components/ui/chart"
 
 const StatTypeChart: FC<{ data: ByPostType[] }> = ({ data }) => {
   const colors = [
@@ -20,12 +21,12 @@ const StatTypeChart: FC<{ data: ByPostType[] }> = ({ data }) => {
     "#60a5fa",
     "#93c5fd",
     "#bfdbfe",
-  ];
+  ]
 
   const chartData = data.map((d, i) => ({
     ...d,
     fill: colors[i],
-  }));
+  }))
 
   const chartConfig2 = {
     [postType.FIND_ROOM]: {
@@ -40,7 +41,7 @@ const StatTypeChart: FC<{ data: ByPostType[] }> = ({ data }) => {
     [postType.REVIEW]: {
       label: "Review",
     },
-  } satisfies ChartConfig;
+  } satisfies ChartConfig
 
   return (
     <ChartContainer config={chartConfig2} className="min-h-[200px] h-full">
@@ -53,7 +54,7 @@ const StatTypeChart: FC<{ data: ByPostType[] }> = ({ data }) => {
         <Pie data={chartData} dataKey="count" nameKey="type" />
       </PieChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default StatTypeChart;
+export default StatTypeChart

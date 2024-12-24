@@ -1,3 +1,7 @@
+import { FC } from "react"
+import { ByRole } from "@/utils/types"
+import { Label, Pie, PieChart } from "recharts"
+
 import {
   ChartConfig,
   ChartContainer,
@@ -5,14 +9,11 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { ByRole } from "@/utils/types";
-import { FC } from "react";
-import { Label, Pie, PieChart } from "recharts";
+} from "@/components/ui/chart"
 
 const StatUserRoleChart: FC<{ data: ByRole[] }> = ({ data }) => {
   const color = ["#2563ea", "#bedcfe", "#3a86f6"]
-  const chartData = data.map((role, index) => ({...role, fill: color[index]}))
+  const chartData = data.map((role, index) => ({ ...role, fill: color[index] }))
   const chartConfig2 = {
     count: {
       label: "Users",
@@ -29,7 +30,7 @@ const StatUserRoleChart: FC<{ data: ByRole[] }> = ({ data }) => {
       label: "Owner",
       color: "#3a86f6",
     },
-  } satisfies ChartConfig;
+  } satisfies ChartConfig
   return (
     <ChartContainer config={chartConfig2} className="min-h-[200px] h-full">
       <PieChart>
@@ -73,14 +74,14 @@ const StatUserRoleChart: FC<{ data: ByRole[] }> = ({ data }) => {
                       Users
                     </tspan>
                   </text>
-                );
+                )
               }
             }}
           />
         </Pie>
       </PieChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default StatUserRoleChart;
+export default StatUserRoleChart

@@ -1,14 +1,17 @@
-"use client";
-import Map from "@/components/map/map";
-import Pagination from "@/components/common/pagination";
-import MotelsList from "@/components/motel/motel-list";
-import { Button } from "@/components/ui/button";
-import { LayoutGridIcon, MapIcon } from "lucide-react";
-import { useState } from "react";
+"use client"
+
+import { useState } from "react"
+import { LayoutGridIcon, MapIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import Pagination from "@/components/common/pagination"
+import Map from "@/components/map/map"
+import MotelsList from "@/components/motel/motel-list"
+
 // import { useSearchParams } from "next/navigation";
 
 const MotelsPage = () => {
-  const [showMap, setShowMap] = useState<boolean>(false);
+  const [showMap, setShowMap] = useState<boolean>(false)
   // const pageParam = useSearchParams();
   // const filter = useAppSelector((state) => state.filter);
 
@@ -47,7 +50,7 @@ const MotelsPage = () => {
         )}
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default MotelsPage;
+export default MotelsPage

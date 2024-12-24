@@ -1,29 +1,31 @@
-"use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import H3 from "@/components/common/h3";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import SelectBox from "@/components/common/select-box";
-import StatPeriodChart from "@/components/admin/motels/stat-period-chart";
-import StatTypeChart from "@/components/admin/motels/stat-type-chart";
-import StatPriceChart from "@/components/admin/motels/stat-price-chart";
-import StatMotelTable from "@/components/admin/motels/stat-motel-table";
-import StatAreaChart from "@/components/admin/motels/stat-area-chart";
+"use client"
+
+import { useState } from "react"
+
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import StatPriceChart from "@/components/admin/motels/stat-price-chart"
+import StatTypeChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-type-chart"
+import H3 from "@/components@/app/(admin)/admin/(loged-in)/motels/stats/stat-price-chart
+import SelectBox from "@/components/common/select-box"
+import StatAreaChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-area-chart"
+import StatMotelTable from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-motel-table"
+import StatPeriodChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-period-chart"
 
 const StatMotel = () => {
   const [filter, setFilter] = useState({
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     period: "MONTH",
-  });
+  })
   // const { data } = useGetMotelStatQuery({
   //   startDate: filter.startDate,
   //   endDate: filter.endDate,
   // });
 
-  const data = [];
+  const data = []
   return (
     <div>
       <Tabs defaultValue="chart">
@@ -64,7 +66,7 @@ const StatMotel = () => {
                 { label: "Quý", value: "QUARTER" },
               ]}
               onSelectChange={(value) => {
-                setFilter({ ...filter, period: value });
+                setFilter({ ...filter, period: value })
               }}
             ></SelectBox>
           </div>
@@ -121,7 +123,7 @@ const StatMotel = () => {
         </TabsContent>
       </Tabs>
     </div>
-  );
-};
+  )
+}
 
-export default StatMotel;
+export default StatMotel

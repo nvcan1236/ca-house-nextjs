@@ -1,48 +1,50 @@
-"use client";
-import DecorativeHeading from "@/components/common/decorative-heading";
-import BaseMap from "@/components/map/base-map";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { geoMapEndpoint } from "@/configs/mapbox-config";
-import { getDistricts, getProvinces, getWards } from "@/lib/provinces-data";
-import { District, Location, Ward } from "@/lib/types";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import axios from "@/services/axios";
-import { useCreateLocationMotelMutation } from "@/stores/api/motelUtilApi";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { nextStep, prevStep } from "@/stores/slices/createMotelSlice";
-import { MapPinIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+"use client"
+
+import { useEffect, useState } from "react"
+import { geoMapEndpoint } from "@/configs/mapbox-config"
+import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import axios from "@/services/axios"
+import { useCreateLocationMotelMutation } from "@/stores/api/motelUtilApi"
+import { useAppDispatch, useAppSelector } from "@/stores/hooks"
+import { nextStep, prevStep } from "@/stores/slices/createMotelSlice"
+import { MapPinIcon } from "lucide-react"
 import ReactMapGL, {
   FullscreenControl,
   GeolocateControl,
   Marker,
   NavigationControl,
   ScaleControl,
-} from "react-map-gl";
-import { toast } from "sonner";
+} from "react-map-gl"
+import { toast } from "sonner"
+
+import { getDistricts, getProvinces, getWards } from "@/lib/provinces-data"
+import { District, Location, Ward } from "@/lib/types"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import DecorativeHeading from "@/components/common/decorative-heading"
+import BaseMap from "@/components/map/base-map"
 
 const LocationInfo = () => {
-  const dispatch = useAppDispatch();
-  const provinces = getProvinces();
-  const [districtList, setDistrictList] = useState<District[]>([]);
-  const [wardList, setWardList] = useState<Ward[]>([]);
-  const [locationList, setLocationList] = useState([]);
+  const dispatch = useAppDispatch()
+  const provinces = getProvinces()
+  const [districtList, setDistrictList] = useState<District[]>([])
+  const [wardList, setWardList] = useState<Ward[]>([])
+  const [locationList, setLocationList] = useState([])
   // const [createLocation] = useCreateLocationMotelMutation();
-  const { id } = useCreateMotelStore((state) => state);
+  const { id } = useCreateMotelStore((state) => state)
   const [location, setLocation] = useState<Location>({
     city: "",
     district: "",
@@ -51,7 +53,7 @@ const LocationInfo = () => {
     other: "",
     longitude: null,
     latitude: null,
-  });
+  })
 
   const getCoordinate = async () => {
     axios
@@ -61,24 +63,24 @@ const LocationInfo = () => {
         )
       )
       .then((data) => {
-        console.log(data);
+        console.log(data)
 
-        setLocationList(data.data.map((loc) => loc));
-      });
-  };
+        setLocationList(data.data.map((loc) => loc))
+      })
+  }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setViewState({
         ...viewState,
         longitude: position.coords.longitude,
         latitude: position.coords.latitude,
-      });
+      })
       setCurrent({
         longitude: position.coords.longitude,
         latitude: position.coords.latitude,
-      });
-    });
-  }, []);
+      })
+    })
+  }, [])
 
   const handleCreateLocation = () => {
     // if (id)
@@ -90,30 +92,30 @@ const LocationInfo = () => {
     //     .catch((error) => {
     //       toast.error(error.response.data.message);
     //     });
-  };
+  }
 
   const [current, setCurrent] = useState({
     latitude: 0,
     longitude: 0,
-  });
+  })
   const [viewState, setViewState] = useState({
     longitude: current.longitude,
     latitude: current.latitude,
     zoom: 15,
-  });
+  })
   const handleClickLocation = (loc: { lon: number; lat: number }) => {
     setLocation({
       ...location,
       longitude: loc.lon,
       latitude: loc.lat,
-    });
+    })
     setViewState({
       ...viewState,
       zoom: 18,
       longitude: loc.lon,
       latitude: loc.lat,
-    });
-  };
+    })
+  }
 
   return (
     <div className="">
@@ -130,8 +132,8 @@ const LocationInfo = () => {
                 <Select
                   defaultValue={""}
                   onValueChange={(value) => {
-                    setLocation({ ...location, city: value });
-                    setDistrictList(getDistricts(value));
+                    setLocation({ ...location, city: value })
+                    setDistrictList(getDistricts(value))
                   }}
                 >
                   <SelectTrigger>
@@ -152,8 +154,8 @@ const LocationInfo = () => {
                 <Select
                   defaultValue={""}
                   onValueChange={(value) => {
-                    setLocation({ ...location, district: value });
-                    setWardList(getWards(location.city, value));
+                    setLocation({ ...location, district: value })
+                    setWardList(getWards(location.city, value))
                   }}
                 >
                   <SelectTrigger>
@@ -174,7 +176,7 @@ const LocationInfo = () => {
                 <Select
                   defaultValue={""}
                   onValueChange={(value) => {
-                    setLocation({ ...location, ward: value });
+                    setLocation({ ...location, ward: value })
                   }}
                 >
                   <SelectTrigger>
@@ -276,7 +278,7 @@ const LocationInfo = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LocationInfo;
+export default LocationInfo

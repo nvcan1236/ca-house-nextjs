@@ -1,57 +1,59 @@
-"use client";
-import DecorativeHeading from "@/components/common/decorative-heading";
-import ImageSlider from "@/components/common/image-slider";
-import Item from "@/components/common/item";
-import MotelReview from "@/components/common/motel-review";
-import DetailMotelSkeleton from "@/components/motel/detail-motel-skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import { Amenity } from "@/lib/types";
-import { getRoomByWithUser } from "@/services/chartService";
-import { useGetMotelQuery } from "@/stores/api/motelApi";
+"use client"
+
+import React, { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { useParams } from "next/navigation"
+import { getRoomByWithUser } from "@/services/chartService"
+import { useGetMotelQuery } from "@/stores/api/motelApi"
 import {
   useBookAppointmentMutation,
   useLazyReservationQuery,
-} from "@/stores/api/motelUtilApi";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { openAuthModal } from "@/stores/slices/authSlice";
-import { openChat, setCurrentRoom } from "@/stores/slices/chatSlice";
+} from "@/stores/api/motelUtilApi"
+import { useAppDispatch, useAppSelector } from "@/stores/hooks"
+import { openAuthModal } from "@/stores/slices/authSlice"
+import { openChat, setCurrentRoom } from "@/stores/slices/chatSlice"
 import {
   CalendarIcon,
   HeartIcon,
   MapIcon,
   MapPinnedIcon,
   MessageCircle,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
+} from "lucide-react"
+
+import { Amenity } from "@/lib/types"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
+import DecorativeHeading from "@/components/common/decorative-heading"
+import ImageSlider from "@/components/common/image-slider"
+import Item from "@/components/common/item"
+import MotelReview from "@/components/common/motel-review"
+import DetailMotelSkeleton from "@/components/motel/detail-motel-skeleton"
 
 const DetailMotelPage = () => {
-  const { motelId } = useParams();
+  const { motelId } = useParams()
   // const { data, isLoading } = useGetMotelQuery(motelId || "");
   const detailMote = undefined,
     isLoading = undefined,
-    detailMotel = null;
+    detailMotel = null
   // const detailMotel = data?.result;
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(new Date())
   // const user = useAppSelector((state) => state.auth.user);
   // const [bookAppointment] = useBookAppointmentMutation();
   // const dispatch = useAppDispatch();
@@ -63,35 +65,35 @@ const DetailMotelPage = () => {
         motelId: detailMotel.id,
         amount: Math.floor(detailMotel.price / 30),
       }).then(({ data }) => {
-        if (data?.result.paymentUrl) location.href = data?.result.paymentUrl;
-      });
+        if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
+      })
     }
-  };
+  }
 
   const updateCurrentRoom = async () => {
     if (!user) {
-      dispatch(openAuthModal());
+      dispatch(openAuthModal())
     } else if (detailMotel) {
-      const room = await getRoomByWithUser(detailMotel.ownerId, user.username);
+      const room = await getRoomByWithUser(detailMotel.ownerId, user.username)
 
-      dispatch(openChat());
-      dispatch(setCurrentRoom(room));
+      dispatch(openChat())
+      dispatch(setCurrentRoom(room))
     }
-  };
+  }
 
-  if (isLoading || !detailMotel) return <DetailMotelSkeleton />;
+  if (isLoading || !detailMotel) return <DetailMotelSkeleton />
 
   const amenityByType = detailMotel?.amenities.reduce((acc, item: Amenity) => {
-    if (!item.type) return acc;
+    if (!item.type) return acc
 
     if (!acc[item.type]) {
-      acc[item.type] = [];
+      acc[item.type] = []
     }
 
-    acc[item.type].push(item);
+    acc[item.type].push(item)
 
-    return acc;
-  }, {});
+    return acc
+  }, {})
 
   return (
     <div className="md:px-10 mt-10">
@@ -345,7 +347,7 @@ const DetailMotelPage = () => {
         <MotelReview motelId={motelId || ""} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DetailMotelPage;
+export default DetailMotelPage

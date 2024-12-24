@@ -1,72 +1,75 @@
 "use client"
-import { ImageIcon, MessageCircleIcon, SendHorizonalIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Separator } from "../ui/separator";
-import { useEffect, useState } from "react";
-import { getMessagesInRoom, getRoomByUser } from "@/services/chartService";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { openAuthModal } from "@/stores/slices/authSlice";
-import { useSendMessageMutation } from "@/stores/api/userApi";
-import Message from "./message";
-import Rooms from "./room";
+
+import { useEffect, useState } from "react"
+import { getMessagesInRoom, getRoomByUser } from "@/services/chartService"
+import { useSendMessageMutation } from "@/stores/api/userApi"
+import { useAppDispatch, useAppSelector } from "@/stores/hooks"
+import { openAuthModal } from "@/stores/slices/authSlice"
 import {
   closeChat,
   setCurrentRoom,
   toggleChat,
-} from "@/stores/slices/chatSlice";
-import { ChatMessage, ChatRoom } from "@/lib/types";
+} from "@/stores/slices/chatSlice"
+import { ImageIcon, MessageCircleIcon, SendHorizonalIcon } from "lucide-react"
+
+import { ChatMessage, ChatRoom } from "@/types/chat"
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { ScrollArea } from "../ui/scroll-area"
+import { Separator } from "../ui/separator"
+import Message from "./message"
+import Rooms from "./room"
 
 const Chat = () => {
-  const user = useAppSelector((state) => state.auth.user);
-  const [rooms, setRooms] = useState<ChatRoom[] | null>(null);
-  const { currentRoom, openChat } = useAppSelector((state) => state.chat);
-  const dispatch = useAppDispatch();
-  const [messages, setMessages] = useState<ChatMessage[] | null>(null);
-  const [sendMessage] = useSendMessageMutation();
-  const [images, setImages] = useState<FileList | []>([]);
-  const [content, setContent] = useState("");
+  const user = useAppSelector((state) => state.auth.user)
+  const [rooms, setRooms] = useState<ChatRoom[] | null>(null)
+  const { currentRoom, openChat } = useAppSelector((state) => state.chat)
+  const dispatch = useAppDispatch()
+  const [messages, setMessages] = useState<ChatMessage[] | null>(null)
+  const [sendMessage] = useSendMessageMutation()
+  const [images, setImages] = useState<FileList | []>([])
+  const [content, setContent] = useState("")
   const send = () => {
     const partner = currentRoom?.member.filter(
       (member) => member != user?.username
-    )[0];
+    )[0]
     sendMessage({
       recipient: partner || "",
       type: images && images?.length > 0 ? "IMAGE" : "TEXT",
       content: content,
       images: images || [],
-    });
-    setImages([]);
-    setContent("");
-  };
+    })
+    setImages([])
+    setContent("")
+  }
 
   useEffect(() => {
     const unsubcribe = getRoomByUser(user?.username || "", (newRooms) => {
-      setRooms(newRooms);
-      dispatch(setCurrentRoom(newRooms[0]));
-    });
+      setRooms(newRooms)
+      dispatch(setCurrentRoom(newRooms[0]))
+    })
 
     return () => {
-      unsubcribe();
-    };
-  }, [user?.username]);
+      unsubcribe()
+    }
+  }, [user?.username])
 
   useEffect(() => {
     const unsubscribe = getMessagesInRoom(
       currentRoom?.id || "",
       (newMessages) => {
-        setMessages(newMessages);
+        setMessages(newMessages)
       }
-    );
+    )
 
     return () => {
-      unsubscribe();
-    };
-  }, [currentRoom?.id]);
+      unsubscribe()
+    }
+  }, [currentRoom?.id])
 
   return (
     <div className="fixed bottom-2 right-4 ">
@@ -130,9 +133,9 @@ const Chat = () => {
                     type="file"
                     className="invisible size-px"
                     onInput={(e) => {
-                      const target = e.target as HTMLInputElement; // Ép kiểu e.target thành HTMLInputElement
+                      const target = e.target as HTMLInputElement // Ép kiểu e.target thành HTMLInputElement
                       if (target.files) {
-                        setImages(target.files); // Lấy danh sách file
+                        setImages(target.files) // Lấy danh sách file
                       }
                     }}
                     accept=".png, .jpeg, .jpg"
@@ -156,9 +159,9 @@ const Chat = () => {
                 <p>Đăng nhập để bắt đầu chat</p>
                 <Button
                   onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(closeChat());
-                    dispatch(openAuthModal());
+                    e.stopPropagation()
+                    dispatch(closeChat())
+                    dispatch(openAuthModal())
                   }}
                   className="mt-3"
                 >
@@ -170,7 +173,7 @@ const Chat = () => {
         </PopoverContent>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default Chat;
+export default Chat

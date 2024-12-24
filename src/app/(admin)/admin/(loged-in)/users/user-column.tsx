@@ -1,5 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { User } from "@/utils/types"
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,12 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { IPost } from "@/utils/interfaces";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+} from "@/components/ui/dropdown-menu"
 
-export const columns: ColumnDef<IPost>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -36,33 +37,39 @@ export const columns: ColumnDef<IPost>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "content",
-    header: "Content",
+    accessorKey: "firstName",
+    header: "Firstname",
   },
   {
-    accessorKey: "type",
-    header: "Type",
+    accessorKey: "lastName",
+    header: "Lastname",
   },
   {
-    accessorKey: "comment_count",
-    header: "Comment count",
+    accessorKey: "username",
+    header: "Username",
   },
   {
-    accessorKey: "react_count",
-    header: "React count",
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
-    accessorKey: "create_by",
-    header: "Create by",
-  },
-  {
-    accessorKey: "create_at",
-    header: "Create at",
+    accessorKey: "roles",
+    header: "Role",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const payment = row.original
 
       return (
         <DropdownMenu>
@@ -84,7 +91,7 @@ export const columns: ColumnDef<IPost>[] = [
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      );
+      )
     },
   },
-];
+]

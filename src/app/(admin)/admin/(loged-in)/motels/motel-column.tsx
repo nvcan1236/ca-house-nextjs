@@ -1,5 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { IMotel } from "@/utils/interfaces"
+import { ColumnDef } from "@tanstack/react-table"
+import { MoreHorizontal } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,12 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { User } from "@/utils/types";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+} from "@/components/ui/dropdown-menu"
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<IMotel>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -36,39 +37,33 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "firstName",
-    header: "Firstname",
+    accessorKey: "city",
+    header: "City",
   },
   {
-    accessorKey: "lastName",
-    header: "Lastname",
+    accessorKey: "district",
+    header: "District",
   },
   {
-    accessorKey: "username",
-    header: "Username",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "price",
+    header: "Price",
   },
   {
-    accessorKey: "roles",
-    header: "Role",
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Create at",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const payment = row.original
 
       return (
         <DropdownMenu>
@@ -90,7 +85,7 @@ export const columns: ColumnDef<User>[] = [
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      );
+      )
     },
   },
-];
+]

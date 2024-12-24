@@ -1,18 +1,20 @@
-"use client";
-import DecorativeHeading from "@/components/common/decorative-heading";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import { UploadIcon } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import { UploadIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import DecorativeHeading from "@/components/common/decorative-heading"
 
 const UploadMotelImage = () => {
-  const { prevStep } = useCreateMotelStore((state) => state);
+  const { prevStep } = useCreateMotelStore((state) => state)
   // const dispatch = useAppDispatch();
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
   // const [uploadImage] = useUploadImageyMotelMutation();
-  const [files, setFiles] = useState<FileList | null>();
+  const [files, setFiles] = useState<FileList | null>()
   const handleUploadImage = async () => {
     // if (!files || files.length < 5) {
     //   toast.error("Vui long upload ít nhất 5 ảnh");
@@ -26,7 +28,7 @@ const UploadMotelImage = () => {
     //     toast.error(error.data.message);
     //   }
     // }
-  };
+  }
 
   return (
     <div className="">
@@ -78,7 +80,7 @@ const UploadMotelImage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UploadMotelImage;
+export default UploadMotelImage

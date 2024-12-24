@@ -1,4 +1,4 @@
-import H3 from "@/components/common/h3";
+import H3 from "@/components/common/h3"
 
 const ManageUsers = () => {
   // const { data } = useGetAllUserQuery();
@@ -10,7 +10,7 @@ const ManageUsers = () => {
         {/* <DataTable columns={columns} data={data?.result || []} /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ManageUsers;
+export default ManageUsers

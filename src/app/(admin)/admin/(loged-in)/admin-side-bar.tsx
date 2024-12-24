@@ -1,5 +1,19 @@
-"use client";
-import React from "react";
+"use client"
+
+import React from "react"
+import Image from "next/image"
+import {
+  FileCheckIcon,
+  FileImageIcon,
+  HomeIcon,
+  HouseIcon,
+  LogOutIcon,
+  UserRoundIcon,
+} from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+import { LogoutDialog } from "../../../../components/common/logout-dialog"
 import {
   Sidebar,
   SidebarContent,
@@ -12,19 +26,8 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
-} from "../ui/sidebar";
-import {
-  FileCheckIcon,
-  FileImageIcon,
-  HomeIcon,
-  HouseIcon,
-  LogOutIcon,
-  UserRoundIcon,
-} from "lucide-react";
-import { LogoutDialog } from "../common/logout-dialog";
-import Image from "next/image";
-import SidebarItem, { NavItem } from "../admin/side-bar-item";
-import { cn } from "@/lib/utils";
+} from "../../../../components/ui/sidebar"
+import SidebarItem, { NavItem } from "./side-bar-item"
 
 const entityNavData: NavItem[] = [
   {
@@ -42,7 +45,7 @@ const entityNavData: NavItem[] = [
     to: "/admin/posts",
     icon: <FileImageIcon size={20} />,
   },
-];
+]
 const statNavData: NavItem[] = [
   {
     label: "Người dùng",
@@ -59,10 +62,10 @@ const statNavData: NavItem[] = [
     to: "/admin/posts/stats",
     icon: <FileImageIcon size={20} />,
   },
-];
+]
 
 const AdminSideBar = () => {
-  const { open } = useSidebar();
+  const { open } = useSidebar()
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -150,9 +153,12 @@ const AdminSideBar = () => {
             <SidebarMenuButton asChild>
               <LogoutDialog>
                 <div
-                  className={cn("py-1.5 px-1 rounded-md font-medium inline-flex items-center text-destructive",{
-                    "px-4 gap-2": open
-                  })}
+                  className={cn(
+                    "py-1.5 px-1 rounded-md font-medium inline-flex items-center text-destructive",
+                    {
+                      "px-4 gap-2": open,
+                    }
+                  )}
                 >
                   <LogOutIcon size={20} /> {open && "Đăng suất"}
                 </div>
@@ -162,7 +168,7 @@ const AdminSideBar = () => {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  );
-};
+  )
+}
 
-export default AdminSideBar;
+export default AdminSideBar

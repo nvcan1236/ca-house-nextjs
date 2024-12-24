@@ -1,21 +1,23 @@
-"use client";
-import React from "react";
-import { steps } from "@/lib/predefined-data";
-import { useAuthStore } from "@/providers/auth-store-provider";
-import MapInCreate from "@/components/map/map-in-create";
-import { Button } from "@/components/ui/button";
-import H3 from "@/components/common/h3";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
-import UpdateProfileDialog from "@/components/motel/create/update-profile-dialog";
+"use client"
+
+import React from "react"
+import { useAuthStore } from "@/providers/auth-store-provider"
+import { useCreateMotelStore } from "@/providers/create-motel-provider"
+
+import { steps } from "@/lib/predefined-data"
+import { Button } from "@/components/ui/button"
+import H3 from "@/components/common/h3"
+import MapInCreate from "@/components/map/map-in-create"
+import UpdateProfileDialog from "@/components/motel/create/update-profile-dialog"
 
 const RegisterMotelPage = () => {
-  const { user } = useAuthStore((state) => state);
-  const { nextStep, currentStep } = useCreateMotelStore((state) => state);
+  const { user } = useAuthStore((state) => state)
+  const { nextStep, currentStep } = useCreateMotelStore((state) => state)
 
   // if (!user) redirect("/");
 
   if (!currentStep) {
-    if (user?.roles.includes("OWNER")) nextStep();
+    if (user?.roles.includes("OWNER")) nextStep()
     return (
       <div className="flex flex-col lg:flex-row gap-12 ">
         <div className="lg:w-1/3 w-full">
@@ -35,10 +37,10 @@ const RegisterMotelPage = () => {
           <MapInCreate></MapInCreate>
         </div>
       </div>
-    );
+    )
   }
 
-  return <div className="lg:px-10">{steps[currentStep].component}</div>;
-};
+  return <div className="lg:px-10">{steps[currentStep].component}</div>
+}
 
-export default RegisterMotelPage;
+export default RegisterMotelPage

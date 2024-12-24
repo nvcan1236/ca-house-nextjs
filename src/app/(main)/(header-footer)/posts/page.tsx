@@ -1,7 +1,8 @@
-"use client";
-import PostFilter from "@/components/post/post-filter";
-import PostCreate from "@/components/post/post-create";
-import PostList from "@/components/post/post-list";
+"use client"
+
+import PostCreate from "@/components/post/post-create"
+import PostFilter from "@/components/post/post-filter"
+import PostList from "@/components/post/post-list"
 
 const PostListPage = () => {
   // if fetching
@@ -20,10 +21,10 @@ const PostListPage = () => {
         <PostCreate />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostListPage;
+export default PostListPage
 
 //!: CODE CŨ POST CREATE HIỂN THỊ TRÊN MÀN HÌNH NHỎ
 // <div

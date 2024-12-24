@@ -1,6 +1,8 @@
-"use client";
-import LoginButton from "@/components/common/login-button";
-import Link from "next/link";
+"use client"
+
+import Link from "next/link"
+
+import LoginButton from "@/components/common/login-button"
 
 const AdminPage = () => {
   // const user = useAppSelector((state) => state.auth.user);
@@ -25,7 +27,7 @@ const AdminPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminPage;
+export default AdminPage

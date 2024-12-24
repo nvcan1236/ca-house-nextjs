@@ -1,28 +1,29 @@
-import { Button } from "@/components/ui/button";
+import { ReactNode, useState } from "react"
+import { useGetPostQuery, useUpdatePostMutation } from "@/stores/api/postApi"
+
+import { IPost } from "@/lib/types"
+import { formatDateTime } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { IPost } from "@/lib/types";
-import { formatDateTime } from "@/lib/utils";
-import { useGetPostQuery, useUpdatePostMutation } from "@/stores/api/postApi";
-import { ReactNode, useState } from "react";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 
 const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
   children,
   post,
 }) => {
-  const [open, setOpen] = useState(false);
-  const { data } = useGetPostQuery(post.id, { skip: !open });
-  const editPost = data?.result;
-  const [content, setContent] = useState(editPost?.content);
-  const [updatePost] = useUpdatePostMutation();
+  const [open, setOpen] = useState(false)
+  const { data } = useGetPostQuery(post.id, { skip: !open })
+  const editPost = data?.result
+  const [content, setContent] = useState(editPost?.content)
+  const [updatePost] = useUpdatePostMutation()
 
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>
@@ -89,7 +90,7 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
           <Button
             onClick={() => {
               if (editPost)
-                updatePost({ postId: editPost.id, content: content || "" });
+                updatePost({ postId: editPost.id, content: content || "" })
             }}
           >
             Save Changes
@@ -97,7 +98,7 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditPostDialog;
+export default EditPostDialog

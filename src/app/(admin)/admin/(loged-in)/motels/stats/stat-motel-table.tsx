@@ -1,4 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { FC } from "react"
+import { MotelStat } from "@/utils/types"
+
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -8,9 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { MotelStat } from "@/utils/types";
-import { FC } from "react";
+} from "@/components/ui/table"
 
 const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
   return (
@@ -157,7 +158,7 @@ const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StatMotelTable;
+export default StatMotelTable

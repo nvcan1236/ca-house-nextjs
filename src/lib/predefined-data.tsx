@@ -1,38 +1,34 @@
+import { ReactNode } from "react"
 import {
-  BedIcon,
-  Building,
-  HouseIcon,
-  SchoolIcon,
   AirVentIcon,
+  AngryIcon,
   ArmchairIcon,
+  BedIcon,
   BikeIcon,
+  Building,
   BusFrontIcon,
   BusIcon,
   CarrotIcon,
   CctvIcon,
   DoorClosedIcon,
   FireExtinguisherIcon,
+  FrownIcon,
+  HeartIcon,
   HeaterIcon,
   HospitalIcon,
+  HouseIcon,
   RefrigeratorIcon,
   School2Icon,
+  SchoolIcon,
   ShirtIcon,
+  SmileIcon,
   SoupIcon,
   StoreIcon,
+  ThumbsUpIcon,
   WashingMachineIcon,
   WifiIcon,
-  ThumbsUpIcon,
-  SmileIcon,
-  FrownIcon,
-  AngryIcon,
-  HeartIcon,
-} from "lucide-react";
-import RegularInfo from "@/components/motel/create/regular-infor";
-import LocationInfo from "@/components/motel/create/location-infor";
-import AmenityInfo from "@/components/motel/create/amenity-infor";
-import UploadMotelImage from "@/components/motel/create/update-motel-image";
-import PriceInfo from "@/components/motel/create/price-infor";
-import RequirementInfo from "@/components/motel/create/requirement-infor";
+} from "lucide-react"
+
 import {
   AppointmentStatus,
   Job,
@@ -40,9 +36,14 @@ import {
   MotelType,
   Price,
   Step,
-} from "@/types/motel";
-import { PostType, ReactionType } from "@/types/post";
-import { ReactNode } from "react";
+} from "@/types/motel"
+import { PostType, ReactionType } from "@/types/post"
+import AmenityInfo from "@/components/motel/create/amenity-infor"
+import LocationInfo from "@/components/motel/create/location-infor"
+import PriceInfo from "@/components/motel/create/price-infor"
+import RegularInfo from "@/components/motel/create/regular-infor"
+import RequirementInfo from "@/components/motel/create/requirement-infor"
+import UploadMotelImage from "@/components/motel/create/update-motel-image"
 
 export const motelTypes: MotelType[] = [
   {
@@ -65,7 +66,7 @@ export const motelTypes: MotelType[] = [
     icon: <BedIcon size={32}></BedIcon>,
     value: "DORMITORY",
   },
-];
+]
 
 export const motelStatus: MotelStatus[] = [
   {
@@ -76,7 +77,7 @@ export const motelStatus: MotelStatus[] = [
     label: "Đang cho thuê",
     value: "RENTING",
   },
-];
+]
 
 export const services = [
   {
@@ -109,7 +110,7 @@ export const services = [
     value: "ELEVATOR",
     icon: <DoorClosedIcon size={32} className="text-main-blue-s5" />,
   },
-];
+]
 
 export const furnitures = [
   {
@@ -147,7 +148,7 @@ export const furnitures = [
     value: "TABLE",
     icon: <ArmchairIcon size={32} className="text-main-blue-s5" />,
   },
-];
+]
 
 export const facilities = [
   {
@@ -185,7 +186,7 @@ export const facilities = [
     value: "STATION",
     icon: <BusIcon size={32} className="text-main-blue-s5" />,
   },
-];
+]
 export const prices: Price[] = [
   {
     name: "Điện",
@@ -222,7 +223,7 @@ export const prices: Price[] = [
     units: ["month"],
     type: "SERVICE",
   },
-];
+]
 
 export const definedJobs: { type: Job; label: string }[] = [
   {
@@ -245,13 +246,13 @@ export const definedJobs: { type: Job; label: string }[] = [
     type: "OTHER",
     label: "Khác",
   },
-];
+]
 
 export const reactions: {
   [key in ReactionType]: {
-    icon: ReactNode;
-    label: string;
-  };
+    icon: ReactNode
+    label: string
+  }
 } = {
   LIKE: {
     icon: <ThumbsUpIcon />,
@@ -273,16 +274,16 @@ export const reactions: {
     icon: <AngryIcon />,
     label: "Angry",
   },
-};
+}
 
 export const postType: {
-  [key in PostType]: string;
+  [key in PostType]: string
 } = {
   REVIEW: "Review",
   PASS_ROOM: "Pass phòng",
   FIND_ROOM: "Tìm phòng",
   FIND_ROOMMATE: "Tìm người ở ghép",
-};
+}
 
 export const steps: Step[] = [
   {
@@ -321,15 +322,15 @@ export const steps: Step[] = [
     href: "/register-motel/reuirements",
     nextStepHref: null,
   },
-];
+]
 
 export const appointmentStatus: {
-  [key in AppointmentStatus]: string;
+  [key in AppointmentStatus]: string
 } = {
   PENDING: "Đang chờ",
   ACCEPT: "Chấp nhận",
   DENY: "Từ chối",
-};
+}
 
 export const translations = {
   ELEVATOR: "Thang máy",
@@ -349,4 +350,4 @@ export const translations = {
   allowPet: "Cho phép vật nuôi",
   jobs: "Đối tượng cho thuê",
   other: "Khác",
-};
+}

@@ -1,7 +1,7 @@
-import { columns } from "@/components/admin/posts/post-column";
-import { DataTable } from "@/components/admin/posts/table-data";
-import H3 from "@/components/common/h3";
-import { IPost } from "@/lib/types";
+import { IPost } from "@/lib/types"
+import { columns } from "@/components/admin/posts/post-column"
+import { DataTable } from "@/components/admin/posts/table-data"
+import H3 from "@/components/common/h3"
 
 const ManagePosts = () => {
   // const { data } = useGetPostsQuery(0);
@@ -13,10 +13,10 @@ const ManagePosts = () => {
         {/* <DataTable columns={columns} data={data?.result || []} /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ManagePosts;
+export default ManagePosts
 
 // const data: IPost[] = [
 //   {

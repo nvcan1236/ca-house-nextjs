@@ -1,11 +1,12 @@
-import H3 from "@/components/common/h3";
+import React from "react"
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-} from "@/components/ui/card";
-import React from "react";
+} from "@/components/ui/card"
+import H3 from "@/components/common/h3"
 
 const AdminPage = () => {
   return (
@@ -69,7 +70,7 @@ const AdminPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminPage;
+export default AdminPage

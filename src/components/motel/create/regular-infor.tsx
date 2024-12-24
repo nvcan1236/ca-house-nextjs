@@ -1,6 +1,7 @@
-import DecorativeHeading from "@/components/common/decorative-heading";
-import MotelRegularForm from "@/components/motel/create/motel-requirement-form";
-import Image from "next/image";
+import Image from "next/image"
+
+import DecorativeHeading from "@/components/common/decorative-heading"
+import MotelRegularForm from "@/components/motel/create/motel-requirement-form"
 
 const RegularInfo = () => {
   return (
@@ -26,7 +27,7 @@ const RegularInfo = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RegularInfo;
+export default RegularInfo
