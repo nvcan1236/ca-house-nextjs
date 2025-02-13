@@ -9,6 +9,7 @@ import {
 import { Toaster } from "sonner"
 
 import HeaderNoSearch from "@/components/layout/header-no-search"
+import Container from "@/components/layout/container"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   // const role = useAppSelector((state) => state.common.role);
@@ -18,7 +19,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
     >
       <HeaderNoSearch />
       <div className=" flex  items-center justify-center">
-        <div className=" lg:px-10 container">{children}</div>
+        <Container>{children}</Container>
       </div>
       <Toaster
         position="top-right"

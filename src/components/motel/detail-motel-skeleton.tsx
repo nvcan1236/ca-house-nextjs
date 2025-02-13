@@ -1,8 +1,9 @@
+import Container from "../layout/container";
 import { Skeleton } from "../ui/skeleton";
 
 const DetailMotelSkeleton = () => {
   return (
-    <div className="container w-[1200px] mt-10 bg-background px-6 py-8 rounded-lg">
+    <Container className="w-[1200px] mt-10 bg-background py-8 rounded-lg">
       <Skeleton className="h-[300px]"></Skeleton>
       <div className="flex mt-12 gap-8 items-start ">
         <div className="w-2/3 flex flex-col gap-6">
@@ -32,7 +33,7 @@ const DetailMotelSkeleton = () => {
           <Skeleton className="mt-4 h-[40px] bg-slate-400"></Skeleton>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

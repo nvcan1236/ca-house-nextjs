@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 
 import { Toaster } from "@/components/ui/sonner"
+import Container from "@/components/layout/container"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
 
@@ -16,10 +17,10 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   // const role = useAppSelector((state) => state.common.role);
   return (
     <div
-      className={`  bg-gradient-to-b transition-all from-main-yellow-t9 to-main-blue-t8 `}
+      className={`bg-gradient-to-b transition-all from-main-yellow-t9 to-main-blue-t8 `}
     >
-      <Header></Header>
-      <div className="pt-[160px] pb-10">{children}</div>
+      <Header />
+      <Container className="pb-10">{children}</Container>
       <Toaster
         position="top-right"
         richColors
@@ -28,7 +29,6 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           classNames: {
             default: "border-2 border-main-blue",
             closeButton: "border border-inherit",
-            
           },
         }}
         icons={{

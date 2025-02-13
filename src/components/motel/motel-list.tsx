@@ -11,7 +11,7 @@ const MotelsList = () => {
   if (true)
     // isFetching
     return (
-      <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {Array(12)
           .fill(0)
           .map((_, index) => (
@@ -21,7 +21,7 @@ const MotelsList = () => {
     )
 
   return (
-    <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-8">
       {motelList?.map((motel) => {
         motel = {
           ...motel,

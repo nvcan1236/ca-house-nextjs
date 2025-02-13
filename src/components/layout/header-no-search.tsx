@@ -7,6 +7,7 @@ import { useAuthStore } from "@/providers/auth-store-provider"
 
 import LoginButton from "../common/login-button"
 import UserMenuPopover from "../common/user-menu-popover"
+import Container from "./container"
 
 const HeaderNoSearch = () => {
   const [scrollY, setScrollY] = useState(0)
@@ -26,8 +27,8 @@ const HeaderNoSearch = () => {
   const user = useAuthStore((state) => state.user)
 
   return (
-    <header className={`container ${scrollY > 0 ? "" : ""}`}>
-      <div
+    <header className={`${scrollY > 0 ? "" : ""}`}>
+      <Container
         className={`md:px-10 grid grid-cols-10 lg:gap-10 items-center py-4 md:gap-x-4 transition-all`}
       >
         <Link className="hidden md:block col-span-2" href="/">
@@ -53,7 +54,7 @@ const HeaderNoSearch = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </header>
   )
 }

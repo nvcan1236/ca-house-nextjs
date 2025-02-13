@@ -1,30 +1,31 @@
-import { User } from "@/types/auth";
-import { createStore } from "zustand/vanilla";
+import { createStore } from "zustand/vanilla"
+
+import { User } from "@/types/auth"
 
 export type AuthState = {
-  modalOpen: boolean;
-  authType: "login" | "signup";
-  user: User | null;
-};
+  modalOpen: boolean
+  authType: "login" | "signup"
+  user: User | null
+}
 
 export type AuthActions = {
-  openModal: () => void;
-  closeModal: () => void;
-  switchAuthType: () => void;
-  setUserInfor: (user: User) => void;
-};
+  openModal: () => void
+  closeModal: () => void
+  switchAuthType: () => void
+  setUserInfor: (user: User) => void
+}
 
-export type AuthStore = AuthState & AuthActions;
+export type AuthStore = AuthState & AuthActions
 
 export const initAuthStore = (): AuthState => {
-  return { modalOpen: false, authType: "login", user: null };
-};
+  return { modalOpen: false, authType: "login", user: null }
+}
 
 export const defaultInitState: AuthState = {
   modalOpen: false,
   authType: "login",
   user: null,
-};
+}
 
 export const createAuthStore = (initState: AuthState = defaultInitState) => {
   return createStore<AuthStore>()((set) => ({
@@ -35,6 +36,6 @@ export const createAuthStore = (initState: AuthState = defaultInitState) => {
       set((state) => ({
         authType: state.authType === "login" ? "signup" : "login",
       })),
-      setUserInfor: (user) => set(() => ({user}))
-  }));
-};
+    setUserInfor: (user) => set(() => ({ user })),
+  }))
+}

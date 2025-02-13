@@ -22,7 +22,7 @@ const Pagination = ({ current, max }: { current: number; max: number }) => {
   };
 
   return (
-    <UIPagination>
+    <UIPagination className="mt-8">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
