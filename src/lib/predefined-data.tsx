@@ -332,7 +332,7 @@ export const appointmentStatus: {
   DENY: "Từ chối",
 }
 
-export const translations = {
+export const translations: { [key: PropertyKey]: string } = {
   ELEVATOR: "Thang máy",
   IRON: "Dịch vụ giặt ủi",
   GARAGE: "Nhà để xe",
