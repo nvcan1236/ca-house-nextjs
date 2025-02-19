@@ -1,6 +1,6 @@
 import { caHouseBaseUrl } from "@/configs/api-config";
+import { getToken } from "@/services/localStorageService";
 import axios from "axios";
-import { getToken } from "./localStorageService";
 
 export default axios.create({
   baseURL: caHouseBaseUrl,
@@ -17,14 +17,6 @@ export const authAxios = axios.create({
   },
 });
 
-authAxios.interceptors.request.use((config) => {
-  const token = getToken()
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
 export const formDataAxios = axios.create({
   baseURL: caHouseBaseUrl,
   headers: {
@@ -32,11 +24,3 @@ export const formDataAxios = axios.create({
     Authorization: `Bearer ${getToken()}`,
   },
 });
-
-formDataAxios.interceptors.request.use((config) => {
-  const token = getToken()
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
