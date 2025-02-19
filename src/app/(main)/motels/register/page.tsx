@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { useAuthStore } from "@/providers/auth-store-provider"
-import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import { useAuthStore } from "@/stores/auth-store"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 
 import { steps } from "@/lib/predefined-data"
 import { Button } from "@/components/ui/button"
@@ -11,8 +11,8 @@ import MapInCreate from "@/components/map/map-in-create"
 import UpdateProfileDialog from "@/components/motel/create/update-profile-dialog"
 
 const RegisterMotelPage = () => {
-  const { user } = useAuthStore((state) => state)
-  const { nextStep, currentStep } = useCreateMotelStore((state) => state)
+  const { user } = useAuthStore()
+  const { nextStep, currentStep } = useCreateMotelStore()
 
   // if (!user) redirect("/");
 

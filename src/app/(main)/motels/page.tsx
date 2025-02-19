@@ -8,35 +8,26 @@ import Pagination from "@/components/common/pagination"
 import Map from "@/components/map/map"
 import MotelsList from "@/components/motel/motel-list"
 
-// import { useSearchParams } from "next/navigation";
-
 const MotelsPage = () => {
   const [showMap, setShowMap] = useState<boolean>(false)
-  // const pageParam = useSearchParams();
-  // const filter = useAppSelector((state) => state.filter);
-
-  // const { data, isFetching } = useGetMotelsQuery({
-  //   page: Number(pageParam.get("page")),
-  //   filter,
-  // });
-
-  // const motelList: IMotel[] = data?.result.data || [];
 
   return (
-    <div className="">
+    <div className="relative">
       {showMap ? (
-        <div className="fixed inset-0 z-30">
-          <Map />
+        <div className="min-h-screen">
+          <div className="fixed inset-0 z-30">
+            <Map />
+          </div>
         </div>
       ) : (
         <div>
           <MotelsList />
           <Pagination current={1} max={1} />
+          <div className="h-4"></div>
         </div>
       )}
-
       <Button
-        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-30"
+        className="left-1/2 -translate-x-1/2 z-30 sticky bottom-4"
         onClick={() => setShowMap(!showMap)}
       >
         {showMap ? (

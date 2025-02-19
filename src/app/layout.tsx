@@ -3,13 +3,13 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 import { Inter } from "next/font/google"
-import StoreProvider from "@/providers/store-provider"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { AuthProvider } from "@/providers/auth-provider"
+import { QueryProvider } from "@/providers/query-provider"
 
 import AuthModal from "@/components/auth/auth-modal"
 
 const inter = Inter({
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["200","300", "400", "500", "600", "700"],
   display: "swap",
   variable: "--font-inter",
   subsets: ["latin"],
@@ -25,9 +25,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  
-  const queryClient = new QueryClient()
-
   return (
     <html lang="vi">
       <head>
@@ -38,12 +35,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className}`}>
-        <StoreProvider>
-          {/* <QueryClientProvider client={queryClient}> */}
+        <QueryProvider>
+          <AuthProvider>
             {children}
-          <AuthModal />
-          {/* </QueryClientProvider> */}
-        </StoreProvider>
+            <AuthModal />
+          </AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   )
