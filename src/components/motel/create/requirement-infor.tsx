@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 
 import { definedJobs } from "@/lib/predefined-data"
 import { Requirement } from "@/lib/types"
@@ -17,7 +17,7 @@ const RequirementInfo = () => {
   // const dispatch = useAppDispatch();
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
 
-  const { prevStep } = useCreateMotelStore((state) => state)
+  const { prevStep } = useCreateMotelStore()
   const [requirement, setRequirement] = useState<Requirement>({
     deposit: 0,
     contractAmount: 0,

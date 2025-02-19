@@ -1,3 +1,16 @@
+import { useCreateRegularMotel } from "@/services/motelUtilApi"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { RadioGroup } from "@radix-ui/react-radio-group"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
+
+import { RegularCreate } from "@/types/motel"
+import { motelTypes } from "@/lib/predefined-data"
+
+import DatePicker from "../../common/date-picker"
+import { Button } from "../../ui/button"
 import {
   Form,
   FormControl,
@@ -6,25 +19,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../../ui/input";
-import { toast } from "sonner";
-import { Textarea } from "../../ui/textarea";
-import { RadioGroup } from "@radix-ui/react-radio-group";
-import { RadioGroupItem } from "../../ui/radio-group";
-import { Label } from "../../ui/label";
-import DatePicker from "../../common/date-picker";
-import { Button } from "../../ui/button";
-import { RegularCreate } from "@/lib/types";
-import { motelTypes } from "@/lib/predefined-data";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
+} from "../../ui/form"
+import { Input } from "../../ui/input"
+import { Label } from "../../ui/label"
+import { RadioGroupItem } from "../../ui/radio-group"
+import { Textarea } from "../../ui/textarea"
 
 const MotelRegularForm = () => {
-  const { nextStep, prevStep, setId } = useCreateMotelStore((state) => state);
-  // const [createRegular] = useCreateRegularMotelMutation();
+  const { nextStep, prevStep, setId } = useCreateMotelStore()
+  const { mutate: createRegular, data } = useCreateRegularMotel()
 
   const loginValidationSchema = z.object({
     name: z.string().min(1),
@@ -35,16 +38,16 @@ const MotelRegularForm = () => {
     availableDate: z.preprocess(
       (arg) => {
         if (typeof arg === "string" || arg instanceof Date) {
-          const date = new Date(arg);
-          return date.toISOString();
+          const date = new Date(arg)
+          return date.toISOString()
         }
-        return arg;
+        return arg
       },
       z.string().refine((val) => !isNaN(Date.parse(val)), {
         message: "Invalid date format",
       })
     ),
-  });
+  })
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -57,16 +60,16 @@ const MotelRegularForm = () => {
       area: 0,
       availableDate: "",
     },
-  });
+  })
 
   async function onSubmit(values: RegularCreate) {
     try {
-      const data = await createRegular(values as RegularCreate).unwrap();
-      setId(data.result.id);
-      nextStep();
+      createRegular(values)
+      setId(data.result.id)
+      nextStep()
     } catch (error) {
-      toast.error("Đã xãy ra lỗi. Vui lòng thử lại");
-      console.log(error);
+      toast.error("Đã xãy ra lỗi. Vui lòng thử lại")
+      console.log(error)
     }
   }
   return (
@@ -214,7 +217,7 @@ const MotelRegularForm = () => {
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default MotelRegularForm;
+export default MotelRegularForm

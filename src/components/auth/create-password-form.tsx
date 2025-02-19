@@ -1,6 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useCreatePasswordMutation } from "@/services/userApi"
+import { useAuthStore } from "@/stores/auth-store"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
+
+import { User } from "@/types/auth"
+
+import { Button } from "../ui/button"
 import {
   Form,
   FormControl,
@@ -8,14 +15,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { toast } from "sonner";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { setUserInfor } from "@/stores/slices/authSlice";
-import { useCreatePasswordMutation } from "@/stores/api/userApi";
-import { User } from "@/utils/types";
+} from "../ui/form"
+import { Input } from "../ui/input"
 
 const CreatePasswordForm = () => {
   const loginValidationSchema = z
@@ -26,10 +27,9 @@ const CreatePasswordForm = () => {
     .refine((data) => data.password === data.rePassword, {
       message: "Mật khẩu không trùng khớp",
       path: ["rePassword"],
-    });
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  const [createPassword] = useCreatePasswordMutation();
+    })
+  const { user, setUserInfor } = useAuthStore()
+  const { mutate: createPassword, data } = useCreatePasswordMutation()
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -37,18 +37,18 @@ const CreatePasswordForm = () => {
       password: "",
       rePassword: "",
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof loginValidationSchema>) {
     try {
-      const data = await createPassword(values).unwrap();
+      createPassword(values)
       if (user) {
-        const nextDetailUser: User = { ...user, noPassword: true };
-        dispatch(setUserInfor(nextDetailUser));
+        const nextDetailUser: User = { ...user, noPassword: true }
+        setUserInfor(nextDetailUser)
       }
-      toast.success(data.result);
-    } catch (error) {
-      toast.error("Đã có lỗi xảy ra.");
+      toast.success(data?.result)
+    } catch {
+      toast.error("Đã có lỗi xảy ra.")
     }
   }
   return (
@@ -90,7 +90,7 @@ const CreatePasswordForm = () => {
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default CreatePasswordForm;
+export default CreatePasswordForm

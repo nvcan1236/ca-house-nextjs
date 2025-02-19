@@ -4,15 +4,15 @@ import H3 from "../../common/h3";
 import { Button } from "../../ui/button";
 import { useState } from "react";
 import { facilities, furnitures, services } from "@/lib/predefined-data";
-import { useCreateMotelStore } from "@/providers/create-motel-provider";
 import AmenityItem from "./amenity-item";
+import { useCreateMotelStore } from "@/stores/create-motel-store";
 
 const MotelAmenityForm = () => {
   // const dispatch = useAppDispatch();
   // const [createAmenity] = useCreateAmenityMotelMutation();
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
 
-  const { nextStep, prevStep } = useCreateMotelStore((state) => state);
+  const { nextStep, prevStep } = useCreateMotelStore();
 
   type Data = {
     services: string[];

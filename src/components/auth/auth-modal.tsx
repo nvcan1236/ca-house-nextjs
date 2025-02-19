@@ -1,11 +1,13 @@
-"use client";
-import { useAuthStore } from "@/providers/auth-store-provider";
-import { Dialog, DialogContent } from "../ui/dialog";
-import LoginForm from "./login-form";
-import RegisterForm from "./register-form";
+"use client"
+
+import { useAuthStore } from "@/stores/auth-store"
+
+import { Dialog, DialogContent } from "../ui/dialog"
+import LoginForm from "./login-form"
+import RegisterForm from "./register-form"
 
 const AuthModal = () => {
-  const { authType, modalOpen, closeModal } = useAuthStore((state) => state);
+  const { authType, modalOpen, closeModal } = useAuthStore()
   return (
     <Dialog open={modalOpen} onOpenChange={closeModal}>
       <DialogContent>
@@ -19,7 +21,7 @@ const AuthModal = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AuthModal;
+export default AuthModal

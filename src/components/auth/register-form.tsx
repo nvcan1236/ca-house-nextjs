@@ -17,11 +17,11 @@ import axios from "@/services/axios";
 import { caHouseEndpoint } from "@/configs/api-config";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { toast } from "sonner";
-import { useAuthStore } from "@/providers/auth-store-provider";
+import { useAuthStore } from "@/stores/auth-store";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { closeModal, switchAuthType } = useAuthStore((state) => state);
+  const { closeModal, switchAuthType } = useAuthStore();
   const loginValidationSchema = z
     .object({
       username: z.string().min(4),

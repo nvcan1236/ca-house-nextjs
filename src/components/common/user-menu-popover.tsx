@@ -1,6 +1,13 @@
-import { AlertCircle, HousePlusIcon, MenuIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { useAuthStore } from "@/stores/auth-store"
+import { AlertCircle, HousePlusIcon, MenuIcon } from "lucide-react"
+import { toast } from "sonner"
+
+import CreatePasswordForm from "../auth/create-password-form"
+import { Alert, AlertDescription } from "../ui/alert"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,25 +15,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Alert, AlertDescription } from "../ui/alert";
-import CreatePasswordForm from "../auth/create-password-form";
-import { Separator } from "../ui/separator";
-import { LogoutDialog } from "./logout-dialog";
-import { Button } from "../ui/button";
-import { toast } from "sonner";
-import { redirect } from "next/navigation";
-import { User } from "@/lib/types";
-import Link from "next/link";
+} from "../ui/dialog"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Separator } from "../ui/separator"
+import { LogoutDialog } from "./logout-dialog"
 
-const UserMenuPopover = ({ user }: { user: User }) => {
+const UserMenuPopover = () => {
+  const { user } = useAuthStore()
   const handleCreateMotel = () => {
     if (!user || !user.id) {
-      toast.warning("Vui lòng đăng nhập trước!!");
-      return;
+      toast.warning("Vui lòng đăng nhập trước!!")
+      return
     }
-    redirect("/register-motel");
-  };
+    redirect("/register-motel")
+  }
+  if (!user) return
+  const menuItems: { href: string; label: string }[] = [
+    { href: `/profile/${user.id}`, label: "Profile" },
+    { href: "/saved-motel", label: "Danh sách yêu thích" },
+    { href: "/my-post", label: "Quản lý bài viết" },
+    { href: "/my-appointments", label: "Danh sách đặt phòng" },
+    { href: "/my-reservations", label: "Danh sách cọc phòng" },
+  ]
   return (
     <div className="flex gap-2 items-center">
       <Popover>
@@ -42,11 +52,11 @@ const UserMenuPopover = ({ user }: { user: User }) => {
             </Avatar>
           </div>
         </PopoverTrigger>
-        <PopoverContent align="end" className="w-fit max-w-[200px] p-2">
-          <ul>
+
+        <PopoverContent align="end" className="w-[240px] p-2">
+          <ul className="space-y-1 ">
             {user?.noPassword && (
               <>
-                <li className=" hover:bg-yellow-50 transition-all mb-1"></li>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Alert
@@ -77,6 +87,13 @@ const UserMenuPopover = ({ user }: { user: User }) => {
                 </li>
               </>
             )}
+            {user.roles.includes("OWNER") && (
+              <li className="py-1 px-2 hover:bg-slate-100 transition-all">
+                <Link href={"/my-motel"} className="block">
+                  Quản lý trọ
+                </Link>
+              </li>
+            )}
             <li className=" hover:bg-slate-100 transition-all block lg:hidden">
               <Button
                 variant={"secondary"}
@@ -87,26 +104,16 @@ const UserMenuPopover = ({ user }: { user: User }) => {
                 trọ
               </Button>
             </li>
-            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link href={`./profile/${user.id}`}>Profile</Link>
-            </li>
-            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link href={"/saved-motel"}>Danh sách yêu thích</Link>
-            </li>
-            {user.roles.includes("OWNER") && (
-              <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link href={"/my-motel"}>Quản lý trọ</Link>
+            {menuItems.map((item) => (
+              <li
+                key={item.label}
+                className="py-1 px-2 hover:bg-slate-100 transition-all"
+              >
+                <Link href={item.href} className="block">
+                  {item.label}
+                </Link>
               </li>
-            )}
-            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link href={"/my-post"}>Quản lý bài viết</Link>
-            </li>
-            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link href={"/my-appointments"}>Danh sách đặt phòng</Link>
-            </li>
-            <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-              <Link href={"/my-reservations"}>Danh sách cọc phòng</Link>
-            </li>
+            ))}
             <li className="py-1">
               <Separator />
             </li>
@@ -119,7 +126,7 @@ const UserMenuPopover = ({ user }: { user: User }) => {
         </PopoverContent>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default UserMenuPopover;
+export default UserMenuPopover

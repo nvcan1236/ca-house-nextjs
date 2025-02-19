@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ReactNode } from "react"
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,10 +10,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../ui/alert-dialog";
+} from "../ui/alert-dialog"
+import { useLogoutMutation } from "@/services/userApi"
 
 export function LogoutDialog({ children }: { children: ReactNode }) {
-  // const {} = useAuthStore(state => state)
+  const logout = useLogoutMutation()
 
   return (
     <AlertDialog>
@@ -27,9 +29,11 @@ export function LogoutDialog({ children }: { children: ReactNode }) {
 
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction>Đăng xuất</AlertDialogAction>
+          <AlertDialogAction onClick={() => logout.mutate()}>
+            Đăng xuất
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }

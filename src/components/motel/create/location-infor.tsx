@@ -2,23 +2,15 @@
 
 import { useEffect, useState } from "react"
 import { geoMapEndpoint } from "@/configs/mapbox-config"
-import { useCreateMotelStore } from "@/providers/create-motel-provider"
 import axios from "@/services/axios"
-import { useCreateLocationMotelMutation } from "@/stores/api/motelUtilApi"
-import { useAppDispatch, useAppSelector } from "@/stores/hooks"
-import { nextStep, prevStep } from "@/stores/slices/createMotelSlice"
+import { useCreateLocationMotel } from "@/services/motelUtilApi"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { MapPinIcon } from "lucide-react"
-import ReactMapGL, {
-  FullscreenControl,
-  GeolocateControl,
-  Marker,
-  NavigationControl,
-  ScaleControl,
-} from "react-map-gl"
-import { toast } from "sonner"
+import { Marker } from "react-map-gl"
 
+import { District, Ward } from "@/types/common"
+import { Location } from "@/types/motel"
 import { getDistricts, getProvinces, getWards } from "@/lib/provinces-data"
-import { District, Location, Ward } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -38,13 +30,13 @@ import DecorativeHeading from "@/components/common/decorative-heading"
 import BaseMap from "@/components/map/base-map"
 
 const LocationInfo = () => {
-  const dispatch = useAppDispatch()
   const provinces = getProvinces()
   const [districtList, setDistrictList] = useState<District[]>([])
   const [wardList, setWardList] = useState<Ward[]>([])
-  const [locationList, setLocationList] = useState([])
-  // const [createLocation] = useCreateLocationMotelMutation();
-  const { id } = useCreateMotelStore((state) => state)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [locationList, setLocationList] = useState<any[]>()
+  const { mutate: createLocation } = useCreateLocationMotel()
+  const { id, nextStep, prevStep } = useCreateMotelStore()
   const [location, setLocation] = useState<Location>({
     city: "",
     district: "",
@@ -53,6 +45,15 @@ const LocationInfo = () => {
     other: "",
     longitude: null,
     latitude: null,
+  })
+  const [current, setCurrent] = useState({
+    latitude: 0,
+    longitude: 0,
+  })
+  const [viewState, setViewState] = useState({
+    longitude: current.longitude,
+    latitude: current.latitude,
+    zoom: 15,
   })
 
   const getCoordinate = async () => {
@@ -63,11 +64,10 @@ const LocationInfo = () => {
         )
       )
       .then((data) => {
-        console.log(data)
-
-        setLocationList(data.data.map((loc) => loc))
+        setLocationList(data.data)
       })
   }
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setViewState({
@@ -83,26 +83,13 @@ const LocationInfo = () => {
   }, [])
 
   const handleCreateLocation = () => {
-    // if (id)
-    //   createLocation({ motelId: id, data: location })
-    //     .then((data) => {
-    //       console.log(data.data);
-    //       dispatch(nextStep());
-    //     })
-    //     .catch((error) => {
-    //       toast.error(error.response.data.message);
-    //     });
+    if (id) {
+      createLocation({ motelId: id, data: location })
+      nextStep()
+    }
   }
 
-  const [current, setCurrent] = useState({
-    latitude: 0,
-    longitude: 0,
-  })
-  const [viewState, setViewState] = useState({
-    longitude: current.longitude,
-    latitude: current.latitude,
-    zoom: 15,
-  })
+  
   const handleClickLocation = (loc: { lon: number; lat: number }) => {
     setLocation({
       ...location,
@@ -222,7 +209,7 @@ const LocationInfo = () => {
                 </PopoverTrigger>
                 <PopoverContent align="end" className="lg:w-[600px]">
                   <ul>
-                    {locationList.map((loc: { display_name: string }) => (
+                    {locationList?.map((loc: { display_name: string }) => (
                       <li
                         className="px-4 py-2 hover:bg-main-yellow-t9 transition-all"
                         onClick={() => handleClickLocation(loc)}

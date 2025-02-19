@@ -1,3 +1,17 @@
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import { caHouseEndpoint } from "@/configs/api-config"
+import { getToken, setToken } from "@/services/localStorageService"
+import { useAuthStore } from "@/stores/auth-store"
+import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import { loginWithGoogle } from "@/lib/utils"
+
+import { Button } from "../ui/button"
 import {
   Form,
   FormControl,
@@ -6,30 +20,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { Separator } from "../ui/separator";
-import { getToken, setToken } from "@/services/localStorageService";
-import { caHouseEndpoint } from "@/configs/api-config";
-import googleConfig from "@/configs/google-login-config";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { toast } from "sonner";
-import axios from "axios";
-import { useAuthStore } from "@/providers/auth-store-provider";
-import Image from "next/image";
+} from "../ui/form"
+import { Input } from "../ui/input"
+import { Separator } from "../ui/separator"
+import { useLoginMutation } from "@/services/userApi"
+
+const authCodeRegex = /code=([^&]+)/
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { switchAuthType } = useAuthStore((state) => state);
+  const [showPassword, setShowPassword] = useState(false)
+  const { setUserInfor, closeModal } = useAuthStore()
+  const { switchAuthType } = useAuthStore()
   const loginValidationSchema = z.object({
     username: z.string().min(4),
     password: z.string().min(4),
-  });
+  })
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -37,35 +42,21 @@ const LoginForm = () => {
       username: "",
       password: "",
     },
-  });
-
-  const loginWithGoogle = () => {
-    const callbackUri = googleConfig.redirect_uris || "";
-    const client_id = googleConfig.client_id;
-    const authUrli = googleConfig.auth_uri;
-
-    const targetUrl = `${authUrli}?client_id=${client_id}&redirect_uri=${encodeURIComponent(
-      callbackUri
-    )}&response_type=code&scope=openid%20email%20profile&`;
-
-    window.location.href = targetUrl;
-  };
+  })
 
   useEffect(() => {
-    const authCodeRegex = /code=([^&]+)/;
-    const isMatch = window.location.href.match(authCodeRegex);
+    const isMatch = window.location.href.match(authCodeRegex)
 
     if (isMatch) {
-      const authCode = isMatch[1];
-      console.log(authCode);
+      const authCode = isMatch[1]
 
       fetch(`${caHouseEndpoint.outbound}?code=${authCode}`, {
         method: "POST",
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          setToken(data.result.token);
+          console.log(data)
+          setToken(data.result.token)
           axios
             .get(caHouseEndpoint.getMyInfor, {
               headers: {
@@ -73,30 +64,29 @@ const LoginForm = () => {
               },
             })
             .then((data) => {
-              // dispatch(setUserInfor(data.data.result));
-            });
-        });
+              setUserInfor(data.data.result)
+            })
+        })
     }
-  }, []);
+  }, [])
 
-  // const [login] = useLoginMutation();
+  const login = useLoginMutation()
   async function onSubmit(values: z.infer<typeof loginValidationSchema>) {
-    // try {
-    //   const data = await login(values).unwrap();
-    //   if (data?.result?.token) {
-    //     setToken(data.result.token);
-    //     form.reset();
-    //     closeModal();
-    //   }
-    // } catch (error) {
-    //   if (error?.data?.code === 2001) {
-    //     toast.error("Thông tin đăng nhập không chính xác!!! Vui lòng thử lại.");
-    //   } else if (error?.data?.code === 1004) {
-    //     toast.error("Username không chính xác!!! Vui lòng thử lại.");
-    //   } else {
-    //     toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.");
-    //   }
-    // }
+    try {
+      login.mutate(values)
+      form.reset()
+      closeModal()
+    } catch (error) {
+      // if (error?.data?.code === 2001) {
+      //   toast.error("Thông tin đăng nhập không chính xác!!! Vui lòng thử lại.")
+      // } else if (error?.data?.code === 1004) {
+      //   toast.error("Username không chính xác!!! Vui lòng thử lại.")
+      // } else {
+      //   toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
+      // }
+
+      // toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
+    }
   }
 
   return (
@@ -158,9 +148,9 @@ const LoginForm = () => {
           />
 
           <FormDescription className="text-xs mt-2">
-            Chỉ dùng email cho tài khoản đăng nhập với Google và đã tạo mật khẩu
-            lẩn đầu. Đối với tài khoản chưa tạo mật khẩu lần đầu vùi long chọn
-            phương thức đăng nhập bằng Google.
+            Chỉ nhập email cho tài khoản đã đăng nhập bằng Google và đã tạo mật
+            khẩu lẩn đầu. Đối với tài khoản không đăng ký với Google vui lòng sử
+            dụng username.
           </FormDescription>
 
           <Button type="submit" className="mt-6 w-full">
@@ -195,7 +185,7 @@ const LoginForm = () => {
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

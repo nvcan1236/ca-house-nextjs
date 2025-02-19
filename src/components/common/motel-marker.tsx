@@ -1,7 +1,9 @@
-import { HouseIcon } from "lucide-react";
-import Motel from "../motel/motel-card";
-import { IMotel } from "@/lib/types";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { HouseIcon } from "lucide-react"
+
+import { IMotel } from "@/lib/types"
+
+import MotelCard from "../motel/motel-card"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 
 const MotelMarker = ({ motel }: { motel: IMotel }) => {
   const motelDefault: IMotel = {
@@ -32,7 +34,7 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
     latitude: 0,
     longitude: 0,
     approved: true,
-  };
+  }
   return (
     <div>
       <Popover>
@@ -46,11 +48,11 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
           </div>
         </PopoverTrigger>
         <PopoverContent className="p-2">
-          <Motel motel={motel.longitude ? motel : motelDefault}></Motel>
+          <MotelCard motel={motel.longitude ? motel : motelDefault}></MotelCard>
         </PopoverContent>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default MotelMarker;
+export default MotelMarker

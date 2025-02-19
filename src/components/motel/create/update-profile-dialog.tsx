@@ -1,48 +1,50 @@
 "use client"
 
 import { FC, ReactNode, useState } from "react"
-import { useUpdateProfileMutation } from "@/stores/api/userApi"
-import { DialogDescription } from "@radix-ui/react-dialog"
+import { useUpdateProfileMutation } from "@/services/userApi"
 
-import { Profile } from "@/lib/types"
+import { Profile } from "@/types/auth"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import DatePickerNoForm from "@/components/common/date-picker-no-form"
 import SelectBox from "@/components/common/select-box"
+
+const jobOptions = [
+  {
+    label: "Học sinh, sinh viên",
+    value: "STUDENT",
+  },
+  {
+    label: "Công nhân",
+    value: "WORKER",
+  },
+  {
+    label: "Nhân viên văn phòng",
+    value: "OFFICER",
+  },
+  {
+    label: "Công việc tự do",
+    value: "FREELANCER",
+  },
+  {
+    label: "Khác",
+    value: "OTHER",
+  },
+]
 
 const UpdateProfileDialog: FC<{
   children?: ReactNode
 }> = ({ children }) => {
-  const jobOptions = [
-    {
-      label: "Học sinh, sinh viên",
-      value: "STUDENT",
-    },
-    {
-      label: "Công nhân",
-      value: "WORKER",
-    },
-    {
-      label: "Nhân viên văn phòng",
-      value: "OFFICER",
-    },
-    {
-      label: "Công việc tự do",
-      value: "FREELANCER",
-    },
-    {
-      label: "Khác",
-      value: "OTHER",
-    },
-  ]
-  // const [updateProfileFetch] = useUpdateProfileMutation();
+  const { mutate: updateProfileMutation } = useUpdateProfileMutation()
   const [open, setOpen] = useState(false)
 
   const [profile, setProfile] = useState<Profile>({
@@ -60,7 +62,7 @@ const UpdateProfileDialog: FC<{
   }
   return (
     <div>
-      <Dialog modal open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={setOpen} modal={false}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="lg:min-w-[600px]">
           <DialogHeader>
@@ -86,13 +88,14 @@ const UpdateProfileDialog: FC<{
               <Label htmlFor="name" className="text-right">
                 Ngày sinh
               </Label>
-              <Input
-                type="date"
-                onChange={(e) => updateProfile("dob", e.target.value)}
-                value={profile.dob}
+              <DatePickerNoForm
+                value={profile.dob ? new Date(profile.dob) : undefined}
                 className="col-span-3"
-              ></Input>
-              {/* <DatePickerNoForm /> */}
+                onChange={(value) => {
+                  console.log("🚀 ~ value:", value)
+                  updateProfile("dob", value)
+                }}
+              />
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="name" className="text-right">
@@ -120,7 +123,7 @@ const UpdateProfileDialog: FC<{
             <div className="text-right">
               <Button
                 onClick={() => {
-                  // updateProfileFetch(profile);
+                  updateProfileMutation(profile)
                 }}
               >
                 Cập nhật

@@ -2,15 +2,15 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useCreateMotelStore } from "@/providers/create-motel-provider"
 import { UploadIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import DecorativeHeading from "@/components/common/decorative-heading"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 
 const UploadMotelImage = () => {
-  const { prevStep } = useCreateMotelStore((state) => state)
+  const { prevStep } = useCreateMotelStore()
   // const dispatch = useAppDispatch();
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
   // const [uploadImage] = useUploadImageyMotelMutation();

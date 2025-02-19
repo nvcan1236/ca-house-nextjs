@@ -1,8 +1,6 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
-import { Marker, ViewState } from "react-map-gl";
-import MotelMarker from "../common/motel-marker";
-import { useGetNearestMotelsQuery } from "@/stores/api/motelApi";
+import { ReactNode, useEffect, useState } from "react";
 import BaseMap from "./base-map";
+import { ViewState } from "react-map-gl";
 const Map = ({ children }: { children?: ReactNode }) => {
   const [current, setCurrent] = useState({
     latitude: 0,

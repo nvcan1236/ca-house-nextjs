@@ -1,8 +1,8 @@
-import { useAuthStore } from "@/providers/auth-store-provider";
+import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "../ui/button";
 
 const LoginButton = ({ className, ...props }: { className?: string }) => {
-  const {openModal} = useAuthStore((state) => state);
+  const {openModal} = useAuthStore();
   return (
     <Button
       onClick={(e) => {

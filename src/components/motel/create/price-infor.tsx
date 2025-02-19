@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useCreateMotelStore } from "@/providers/create-motel-provider"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { PlusIcon, XIcon } from "lucide-react"
 
+import { Price } from "@/types/motel"
 import { prices as predefinedPrices } from "@/lib/predefined-data"
-import { PredefinePrice, Price } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -30,7 +30,7 @@ const PriceInfo = () => {
     type: "ORTHER",
   })
   // const id: string | null = useAppSelector((state) => state.createMotel.id);
-  const { prevStep } = useCreateMotelStore((state) => state)
+  const { prevStep } = useCreateMotelStore()
   const updatePriceData = (type: PredefinePrice, value: number) => {
     const nextPrice = [...prices]
     const index = nextPrice.findIndex((price) => price.type === type)

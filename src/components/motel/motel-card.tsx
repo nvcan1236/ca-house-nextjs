@@ -1,17 +1,25 @@
-import { Badge } from "../ui/badge";
-import H3 from "../common/h3";
-import ImageSlider from "../common/image-slider";
-import { IMotel } from "@/lib/types";
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 
-const Motel = ({ motel, onClick }: { motel: IMotel; onClick?: () => void }) => {
+import { IMotel } from "@/types/motel"
+
+import H3 from "../common/h3"
+import ImageSlider from "../common/image-slider"
+import { Badge } from "../ui/badge"
+
+const MotelCard = ({
+  motel,
+  onClick,
+}: {
+  motel: IMotel
+  onClick?: () => void
+}) => {
   return (
     <div className="overflow-hidden border rounded-lg shadow-sm bg-background cursor-pointer">
       <ImageSlider
         images={motel.images}
         height={160}
         onClick={() => {
-          if (onClick) onClick();
+          if (onClick) onClick()
         }}
       ></ImageSlider>
       <div className="p-3 text-sm">
@@ -41,7 +49,7 @@ const Motel = ({ motel, onClick }: { motel: IMotel; onClick?: () => void }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Motel;
+export default MotelCard
