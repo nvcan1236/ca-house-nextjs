@@ -1,6 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
+import { useGetMotel } from "@/services/motelApi"
 
 import { IMotelDetail } from "@/types/motel"
 import DetailMotelImages from "@/components/motel/detail/images"
@@ -12,7 +13,6 @@ import DetailMotelRequirement from "@/components/motel/detail/requirement"
 import DetailMotelReservation from "@/components/motel/detail/reservation"
 import DetailMotelReview from "@/components/motel/detail/review"
 import DetailMotelSkeleton from "@/components/motel/detail/skeleton"
-import { useGetMotel } from "@/services/motelApi"
 
 const DetailMotelPage = () => {
   const { id } = useParams()
@@ -24,8 +24,8 @@ const DetailMotelPage = () => {
   return (
     <div className="md:mt-10">
       <DetailMotelImages detailMotel={detailMotel} />
-      <div className="flex gap-8">
-        <div className="flex-1 flex flex-col gap-6 pt-10">
+      <div className="flex gap-8 pt-10">
+        <div className="flex-1 flex flex-col gap-6 ">
           <DetailMotalMain detailMotel={detailMotel} />
 
           <div className="lg:hidden">
