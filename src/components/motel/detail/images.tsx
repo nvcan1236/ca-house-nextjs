@@ -1,6 +1,7 @@
 import React from "react"
 import Image from "next/image"
 
+import { IMotelDetail } from "@/types/motel"
 import {
   Dialog,
   DialogContent,
@@ -9,9 +10,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import ImageSlider from "@/components/common/image-slider"
-import { IMotelDetail } from "@/types/motel"
 
-const DetailMotelImages = ({detailMotel}: {detailMotel:IMotelDetail}) => {
+const DetailMotelImages = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   return (
     <div>
       <div className="lg:hidden">
@@ -34,6 +34,8 @@ const DetailMotelImages = ({detailMotel}: {detailMotel:IMotelDetail}) => {
                     src={image.url}
                     alt=""
                     className="w-full h-full object-cover"
+                    width={300}
+                    height={200}
                   />
                 </div>
               ))}

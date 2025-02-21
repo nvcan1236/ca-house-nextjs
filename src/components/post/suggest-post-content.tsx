@@ -1,43 +1,55 @@
-import { PenToolIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { PostType, SuggestContent } from "@/utils/types";
-import { useEffect, useState } from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { useGetSuggestPostContentMutation } from "@/stores/api/postApi";
+import { useEffect, useState } from "react"
+import { getToken } from "@/services/localStorageService"
+import { useGetSuggestPostContent } from "@/services/postApi"
+import { PenToolIcon } from "lucide-react"
+import { toast } from "sonner"
+
+import { PostType, SuggestContent } from "@/types/post"
+import { cn } from "@/lib/utils"
+
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 
 const SuggestPostContent = ({
   postType,
   onSubmit,
 }: {
-  postType: PostType;
-  onSubmit: (content: string) => void;
+  postType: PostType
+  onSubmit: (content: string) => void
 }) => {
+  const [open, setOpen] = useState(false)
   const [suggestQuery, setSuggestQuery] = useState<SuggestContent>({
     amenity: "",
     area: 0,
     budget: 0,
     location: "",
     post_type: postType,
-  });
+  })
   const handleInputChange = (type: string, value: string) => {
     setSuggestQuery((prev) => ({
       ...prev,
       [type]: value,
-    }));
-  };
+    }))
+  }
 
   useEffect(() => {
-    handleInputChange("post_type", postType);
-  }, [postType]);
-  // const [getSuggestContent] = useGetSuggestPostContentMutation();
+    handleInputChange("post_type", postType)
+  }, [postType])
+  const { mutateAsync: getSuggestContent, isPending } =
+    useGetSuggestPostContent()
   const handleClickCreate = async () => {
-    // const { data } = await getSuggestContent(suggestQuery);
-    // onSubmit(data?.result || "");
-    setOpen(false);
-  };
-  const [open, setOpen] = useState(false);
+    const token = getToken()
+    if (!token) {
+      toast.error("Vui lòng đăng nhập!!")
+      return
+    }
+    await getSuggestContent(suggestQuery).then((data) => {
+      onSubmit(data?.result || "")
+      setOpen(false)
+    })
+  }
 
   return (
     <Popover open={open} onOpenChange={() => setOpen(!open)}>
@@ -92,13 +104,17 @@ const SuggestPostContent = ({
               onChange={(e) => handleInputChange("amenity", e.target.value)}
             />
           </div>
-          <Button size={"sm"} onClick={handleClickCreate}>
-            Tạo
+          <Button
+            size={"sm"}
+            onClick={handleClickCreate}
+            className={cn({ "animate-pulse": isPending })}
+          >
+            {isPending ? "Đang tạo bằng AI..." : "Tạo"}
           </Button>
         </div>
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}
 
-export default SuggestPostContent;
+export default SuggestPostContent

@@ -54,6 +54,7 @@ const Header = () => {
               className="object-cover size-[60px]"
               height={68}
               width={68}
+              priority
             />
           </Link>
 

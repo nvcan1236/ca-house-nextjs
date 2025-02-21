@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { useCreatePrice } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { PlusIcon, XIcon } from "lucide-react"
+import { toast } from "sonner"
 
-import { Price } from "@/types/motel"
+import { Price, PriceType } from "@/types/motel"
 import { prices as predefinedPrices } from "@/lib/predefined-data"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,9 +31,8 @@ const PriceInfo = () => {
     units: ["month"],
     type: "ORTHER",
   })
-  // const id: string | null = useAppSelector((state) => state.createMotel.id);
-  const { prevStep } = useCreateMotelStore()
-  const updatePriceData = (type: PredefinePrice, value: number) => {
+  const { id, nextStep, prevStep } = useCreateMotelStore()
+  const updatePriceData = (type: PriceType, value: number) => {
     const nextPrice = [...prices]
     const index = nextPrice.findIndex((price) => price.type === type)
 
@@ -41,7 +42,7 @@ const PriceInfo = () => {
     }
   }
 
-  const updateUnit = (type: PredefinePrice, value: string) => {
+  const updateUnit = (type: PriceType, value: string) => {
     const nextPrice = [...prices]
     const index = nextPrice.findIndex((price) => price.type === type)
 
@@ -51,23 +52,23 @@ const PriceInfo = () => {
     }
   }
 
-  // const [createPrices] = useCreatePriceMotelMutation();
+  const { mutateAsync: createPrices } = useCreatePrice()
   const handleCreatePrices = () => {
-    // const postPrices: Omit<Price, "units">[] = prices.map((price) => ({
-    //   name: price.name,
-    //   type: price.type,
-    //   unit: price.unit,
-    //   value: price.value,
-    // }));
-    // if (id)
-    //   createPrices({ motelId: id, data: postPrices })
-    //     .then((data) => {
-    //       console.log(data.data);
-    //       dispatch(nextStep());
-    //     })
-    //     .catch((error) => {
-    //       toast.error(error.response.data.message);
-    //     });
+    const postPrices: Omit<Price, "units">[] = prices.map((price) => ({
+      name: price.name,
+      type: price.type,
+      unit: price.unit,
+      value: price.value,
+    }))
+    if (id)
+      createPrices({ motelId: id, data: postPrices })
+        .then((data) => {
+          console.log(data.data)
+          nextStep()
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message)
+        })
   }
 
   return (

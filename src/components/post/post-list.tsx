@@ -1,66 +1,61 @@
-import React, { useState } from "react";
-import PostSketeton from "./post-skeleton";
-import { IPost } from "@/lib/types";
+import React, { useEffect, useState } from "react"
+import { useGetPosts } from "@/services/postApi"
+import { usePostFilterStore } from "@/stores/post-filter-store"
+
+import { IPost } from "@/types/post"
+
+import PostCard from "./post-card"
+import PostCreate from "./post-create"
+import PostSketeton from "./post-skeleton"
 
 const PostList = () => {
-  // const [offset, setOffset] = useState(0);
-  // const [trigger, { data, isFetching }] = useLazyGetPostsQuery();
-  const [postList, setPostList] = useState<IPost[]>([]);
-  // const [hasMore, setHasMore] = useState(false);
+  const [offset, setOffset] = useState(0)
+  const [postList, setPostList] = useState<IPost[]>([])
+  const [hasMore, setHasMore] = useState(false)
+  const { data: postData, isFetching } = useGetPosts(offset)
 
-  // const [filterPost, setFilterPost] = useState<(keyof typeof postType)[]>([
-  //   "FIND_ROOM",
-  //   "FIND_ROOMMATE",
-  //   "PASS_ROOM",
-  //   "REVIEW",
-  // ]);
+  const { filter: filterPost } = usePostFilterStore()
 
-  // useEffect(() => {
-  //   trigger(offset);
-  // }, [offset, trigger]);
+  useEffect(() => {
+    if (postData) {
+      setPostList((prevPosts) => [...prevPosts, ...postData.result])
+      setHasMore(postData.result.length == 10)
+    }
+  }, [isFetching])
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setPostList((prevPosts) => [...prevPosts, ...data.result]);
-  //     setHasMore(data.result.length == 10);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 50 &&
+        !isFetching &&
+        hasMore
+      ) {
+        setOffset((prevPage) => prevPage + 10)
+      }
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll) // Xóa sự kiện khi component bị unmount
+  }, [isFetching, hasMore])
 
-  // const handleScroll = () => {
-  //   if (
-  //     window.innerHeight + window.scrollY >=
-  //       document.documentElement.scrollHeight - 50 &&
-  //     !isFetching &&
-  //     hasMore
-  //   ) {
-  //     setOffset((prevPage) => prevPage + 10);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll); // Xóa sự kiện khi component bị unmount
-  // }, [isFetching, hasMore]);
-
-  if (true)
+  if (!postData?.result && isFetching)
     return (
       <div className="flex gap-4 flex-col">
         <PostSketeton />
         <PostSketeton />
       </div>
-    );
+    )
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="lg:hidden">{/* <PostCreate /> */}</div>
-
+      <div className="lg:hidden">
+        <PostCreate />
+      </div>
       {postList
         ?.filter((p) => filterPost.includes(p.type))
-        .map((post) => (
-          <Post key={post.id} data={post} />
-        ))}
+        ?.map((post) => <PostCard key={post.id} data={post} />)}
     </div>
-  );
-};
+  )
+}
 
-export default PostList;
+export default PostList

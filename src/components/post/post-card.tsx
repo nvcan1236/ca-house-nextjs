@@ -1,57 +1,55 @@
-import { HouseIcon, MessageSquareTextIcon } from "lucide-react";
-import H3 from "../common/h3";
-import ImageSlider from "../common/image-slider";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
-import { useState } from "react";
-import CommentDialog from "./comment-dialog";
-import { useReactMutation } from "@/stores/api/postApi";
-import { useAppSelector } from "@/stores/hooks";
-import { toast } from "sonner";
-import { useFollowMutation } from "@/stores/api/userApi";
-import { IPost } from "@/lib/types";
-import { postType, reactions } from "@/lib/predefined-data";
-import { formatDate } from "@/lib/utils";
-import Link from "next/link";
+import { useState } from "react"
+import Link from "next/link"
+import { useReact } from "@/services/postApi"
+import { useFollow } from "@/services/userApi"
+import { useAuthStore } from "@/stores/auth-store"
+import { HouseIcon, MessageSquareTextIcon } from "lucide-react"
+import { toast } from "sonner"
+
+import { IPost } from "@/types/post"
+import { postType, reactions } from "@/lib/predefined-data"
+import { formatDate } from "@/lib/utils"
+
+import H3 from "../common/h3"
+import ImageSlider from "../common/image-slider"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
+import CommentDialog from "./comment-dialog"
 
 const PostCard = ({ data }: { data: IPost }) => {
   const [currentReact, setCurrentReact] = useState<
     keyof typeof reactions | null
-  >(data.liked);
-  const [reactPost] = useReactMutation();
-  const [liked, setLiked] = useState(!!data.liked);
-  const user = useAppSelector((state) => state.auth.user);
-  const [follow] = useFollowMutation();
-  const [post, setPost] = useState(data);
+  >(data.liked)
+  const { mutate: reactPost } = useReact()
+  const [liked, setLiked] = useState(!!data.liked)
+  const { mutate: follow } = useFollow()
+  const [post, setPost] = useState(data)
+  const { user } = useAuthStore()
 
   const react = (postId: string, type: keyof typeof reactions | null) => {
     if (!user) {
-      toast.warning("Vui lòng đăng nhập trước.");
-      return;
+      toast.warning("Vui lòng đăng nhập trước.")
+      return
     }
-    reactPost({ postId, type });
-    setLiked(!liked);
+    reactPost({ postId, type })
+    setLiked(!liked)
     setPost((prev) => {
       return {
         ...prev,
         react_count: liked ? prev.react_count - 1 : prev.react_count + 1,
-      };
-    });
-    setCurrentReact(type);
-  };
+      }
+    })
+    setCurrentReact(type)
+  }
 
   const followUser = (userId: string) => {
     if (!user) {
-      toast.warning("Vui lòng đăng nhập trước.");
-      return;
+      toast.warning("Vui lòng đăng nhập trước.")
+      return
     }
-    follow(userId);
-  };
+    follow(userId)
+  }
 
   return (
     <div className="bg-background border rounded-xl p-6 pb-4">
@@ -150,7 +148,7 @@ const PostCard = ({ data }: { data: IPost }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostCard;
+export default PostCard

@@ -1,13 +1,15 @@
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { FormControl } from "../ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
-import { ControllerRenderProps } from "react-hook-form";
 import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 
-const DatePicker = ({ field }: { field: ControllerRenderProps }) => {
+import { cn } from "@/lib/utils"
+
+import { Button } from "../ui/button"
+import { Calendar } from "../ui/calendar"
+import { FormControl } from "../ui/form"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DatePicker = ({ field }: { field: any }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -37,7 +39,7 @@ const DatePicker = ({ field }: { field: ControllerRenderProps }) => {
         />
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}
 
-export default DatePicker;
+export default DatePicker

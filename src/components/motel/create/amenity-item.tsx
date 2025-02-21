@@ -7,7 +7,7 @@ type AmenityItemProps = {
   icon: ReactNode
   onClick: () => void
   label: string
-  className: string
+  className?: string
 }
 
 const AmenityItem = ({

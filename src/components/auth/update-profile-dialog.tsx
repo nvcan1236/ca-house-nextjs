@@ -1,7 +1,9 @@
 "use client"
 
 import { FC, ReactNode, useState } from "react"
-import { useUpdateProfileMutation } from "@/services/userApi"
+import { getToken } from "@/services/localStorageService"
+import { useUpdateProfile } from "@/services/userApi"
+import { toast } from "sonner"
 
 import { Profile } from "@/types/auth"
 import { Button } from "@/components/ui/button"
@@ -44,7 +46,7 @@ const jobOptions = [
 const UpdateProfileDialog: FC<{
   children?: ReactNode
 }> = ({ children }) => {
-  const { mutate: updateProfileMutation } = useUpdateProfileMutation()
+  const { mutate: updateProfileMutation } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
   const [profile, setProfile] = useState<Profile>({
@@ -59,6 +61,15 @@ const UpdateProfileDialog: FC<{
       [type]: value,
     }
     setProfile(nextProfile)
+  }
+
+  const handleUpdateButton = () => {
+    const token = getToken()
+    if (!token) {
+      toast.error("Vui lòng đăng nhập trước")
+      return
+    }
+    updateProfileMutation(profile)
   }
   return (
     <div>
@@ -92,7 +103,6 @@ const UpdateProfileDialog: FC<{
                 value={profile.dob ? new Date(profile.dob) : undefined}
                 className="col-span-3"
                 onChange={(value) => {
-                  console.log("🚀 ~ value:", value)
                   updateProfile("dob", value)
                 }}
               />
@@ -121,13 +131,7 @@ const UpdateProfileDialog: FC<{
               />
             </div>
             <div className="text-right">
-              <Button
-                onClick={() => {
-                  updateProfileMutation(profile)
-                }}
-              >
-                Cập nhật
-              </Button>
+              <Button onClick={handleUpdateButton}>Cập nhật</Button>
             </div>
           </div>
         </DialogContent>

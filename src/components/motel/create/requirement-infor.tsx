@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { useCreateRequirement } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
+import { toast } from "sonner"
 
+import { Job, Requirement } from "@/types/motel"
 import { definedJobs } from "@/lib/predefined-data"
-import { Requirement } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
@@ -14,10 +16,7 @@ import { Textarea } from "@/components/ui/textarea"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
 const RequirementInfo = () => {
-  // const dispatch = useAppDispatch();
-  // const id: string | null = useAppSelector((state) => state.createMotel.id);
-
-  const { prevStep } = useCreateMotelStore()
+  const { id, prevStep, nextStep } = useCreateMotelStore()
   const [requirement, setRequirement] = useState<Requirement>({
     deposit: 0,
     contractAmount: 0,
@@ -27,15 +26,15 @@ const RequirementInfo = () => {
   })
   const handleChange = (
     type: keyof Requirement,
-    value: number | string | boolean
+    value: number | string | boolean | Job
   ) => {
     if (type == "jobs") {
-      const nextJobs = requirement?.jobs.includes(value)
+      const nextJobs = requirement?.jobs.includes(value as Job)
         ? [...requirement.jobs.filter((job) => job !== value)]
         : [...requirement.jobs, value]
       setRequirement({
         ...requirement,
-        jobs: nextJobs,
+        jobs: nextJobs as Job[],
       })
     } else {
       setRequirement({
@@ -44,16 +43,16 @@ const RequirementInfo = () => {
       })
     }
   }
-  // const [createRequirement] = useCreateRequirementMotelMutation();
+  const { mutateAsync: createRequirement } = useCreateRequirement()
   const handleCreateRequirement = () => {
-    // if (id)
-    //   createRequirement({ motelId: id, data: requirement })
-    //     .then(() => {
-    //       nextStep();
-    //     })
-    //     .catch((error) => {
-    //       toast.error(error.response.data.message);
-    //     });
+    if (id)
+      createRequirement({ motelId: id, data: requirement })
+        .then(() => {
+          nextStep()
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message)
+        })
   }
   return (
     <div className="">

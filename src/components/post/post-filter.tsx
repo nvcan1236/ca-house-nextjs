@@ -1,26 +1,15 @@
-import React, { useState } from "react";
-import H3 from "../common/h3";
-import { Label } from "../ui/label";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
-import { postType } from "@/lib/predefined-data";
+import { usePostFilterStore } from "@/stores/post-filter-store"
+
+import { postType } from "@/lib/predefined-data"
+
+import H3 from "../common/h3"
+import { Button } from "../ui/button"
+import { Checkbox } from "../ui/checkbox"
+import { Label } from "../ui/label"
 
 const PostFilter = () => {
-  const [filterPost, setFilterPost] = useState<(keyof typeof postType)[]>([
-    "FIND_ROOM",
-    "FIND_ROOMMATE",
-    "PASS_ROOM",
-    "REVIEW",
-  ]);
-  const handleCheckType = (type: keyof typeof postType) => {
-    let nextFilter = [...filterPost];
-    if (filterPost.includes(type)) {
-      nextFilter = filterPost.filter((t) => t != type);
-    } else {
-      if (type) nextFilter.push(type);
-    }
-    setFilterPost(nextFilter);
-  };
+  const { filter: filterPost, setFilter: handleCheckType } =
+    usePostFilterStore()
   return (
     <div className={`rounded-xl border bg-background py-4 px-6 `}>
       <H3 className="mb-4">Lọc bài viết</H3>
@@ -47,7 +36,7 @@ const PostFilter = () => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostFilter;
+export default PostFilter

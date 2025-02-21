@@ -2,32 +2,30 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { useUploadImages } from "@/services/motelUtilApi"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { UploadIcon } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import DecorativeHeading from "@/components/common/decorative-heading"
-import { useCreateMotelStore } from "@/stores/create-motel-store"
 
 const UploadMotelImage = () => {
-  const { prevStep } = useCreateMotelStore()
-  // const dispatch = useAppDispatch();
-  // const id: string | null = useAppSelector((state) => state.createMotel.id);
-  // const [uploadImage] = useUploadImageyMotelMutation();
+  const { id, prevStep, nextStep } = useCreateMotelStore()
+  const { mutateAsync: uploadImage } = useUploadImages()
   const [files, setFiles] = useState<FileList | null>()
   const handleUploadImage = async () => {
-    // if (!files || files.length < 5) {
-    //   toast.error("Vui long upload ít nhất 5 ảnh");
-    //   return;
-    // }
-    // if (id) {
-    //   try {
-    //     const data = await uploadImage({ motelId: id, images: files }).unwrap();
-    //     data.code == 1000 && dispatch(nextStep());
-    //   } catch (error) {
-    //     toast.error(error.data.message);
-    //   }
-    // }
+    if (!files || files.length < 5) {
+      toast.error("Vui lòng chọn ít nhất 5 ảnh")
+      return
+    }
+
+    if (id) {
+      const { code } = await uploadImage({ motelId: id, images: files })
+      if (code == 1000) nextStep()
+      else toast.error("Đã có lỗi xảy ra!!")
+    }
   }
 
   return (

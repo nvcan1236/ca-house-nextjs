@@ -69,17 +69,19 @@ const LocationInfo = () => {
   }
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setViewState({
-        ...viewState,
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-      })
-      setCurrent({
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-      })
-    })
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { longitude, latitude } }) => {
+        setViewState({
+          ...viewState,
+          longitude,
+          latitude,
+        })
+        setCurrent({
+          longitude,
+          latitude,
+        })
+      }
+    )
   }, [])
 
   const handleCreateLocation = () => {
@@ -89,7 +91,6 @@ const LocationInfo = () => {
     }
   }
 
-  
   const handleClickLocation = (loc: { lon: number; lat: number }) => {
     setLocation({
       ...location,
@@ -209,7 +210,7 @@ const LocationInfo = () => {
                 </PopoverTrigger>
                 <PopoverContent align="end" className="lg:w-[600px]">
                   <ul>
-                    {locationList?.map((loc: { display_name: string }) => (
+                    {locationList?.map((loc) => (
                       <li
                         className="px-4 py-2 hover:bg-main-yellow-t9 transition-all"
                         onClick={() => handleClickLocation(loc)}
@@ -258,7 +259,7 @@ const LocationInfo = () => {
           <Button
             size={"lg"}
             onClick={handleCreateLocation}
-            // disabled={location.longitude === null || location.latitude === null}
+            disabled={location.longitude === null || location.latitude === null}
           >
             Tiếp tục
           </Button>

@@ -1,47 +1,42 @@
+import { MouseEventHandler, ReactNode, useState } from "react"
+import { useGetComments, usePostComment } from "@/services/postApi"
+import { useAuthStore } from "@/stores/auth-store"
+import { SendHorizonalIcon } from "lucide-react"
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { SendHorizonalIcon } from "lucide-react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  useGetCommentsQuery,
-  usePostCommentMutation,
-} from "@/stores/api/postApi";
-import { MouseEventHandler, ReactNode, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { openAuthModal } from "@/stores/slices/authSlice";
-import { skipToken } from "@reduxjs/toolkit/query";
+} from "../ui/dialog"
+import { Input } from "../ui/input"
+import { ScrollArea } from "../ui/scroll-area"
 
 const CommentDialog = ({
   postId,
   children,
 }: {
-  postId: string;
-  children: ReactNode;
+  postId: string
+  children: ReactNode
 }) => {
-  const [open, setOpen] = useState(false);
-  const { data: commentsData } = useGetCommentsQuery(open ? postId : skipToken);
-  const commentList = commentsData?.result;
-  const [postComment] = usePostCommentMutation();
-  const [content, setContent] = useState("");
-  const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false)
+  const { data: commentsData } = useGetComments(postId)
+  const commentList = commentsData?.result
+  const { mutate: postComment } = usePostComment()
+  const [content, setContent] = useState("")
+  const { user, openModal } = useAuthStore()
 
   const comment: MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
+    event.stopPropagation()
 
     if (!user || !user.id) {
-      setOpen(false);
-      dispatch(openAuthModal());
-      setContent("");
-      return;
+      setOpen(false)
+      openModal()
+      setContent("")
+      return
     }
 
     postComment({
@@ -49,10 +44,10 @@ const CommentDialog = ({
       comment: {
         content,
       },
-    });
+    })
 
-    setContent("");
-  };
+    setContent("")
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -88,7 +83,10 @@ const CommentDialog = ({
             {commentList?.map((comment) => (
               <div className="font-medium text-sm flex gap-2">
                 <Avatar>
-                  <AvatarImage src={comment.owner.avatar} className="object-cover" />
+                  <AvatarImage
+                    src={comment.owner.avatar}
+                    className="object-cover"
+                  />
                   <AvatarFallback>NC</AvatarFallback>
                 </Avatar>
                 <div className="mt-1">
@@ -106,7 +104,7 @@ const CommentDialog = ({
         </ScrollArea>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default CommentDialog;
+export default CommentDialog

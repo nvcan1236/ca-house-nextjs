@@ -1,63 +1,63 @@
-import { IPostCreate } from "@/lib/types";
-import {
-  useCreatePostMutation,
-  useUploadImageMutation,
-} from "@/stores/api/postApi";
-import { useAppSelector } from "@/stores/hooks";
-import React, { ChangeEvent, useState } from "react";
-import { toast } from "sonner";
-import H3 from "../common/h3";
-import { Label } from "../ui/label";
-import SelectBox from "../common/select-box";
-import { Textarea } from "../ui/textarea";
-import SuggestPostContent from "./suggest-post-content";
-import { Input } from "../ui/input";
-import ImageSlider from "../common/image-slider";
-import { Button } from "../ui/button";
-import { HouseIcon, ImageIcon } from "lucide-react";
+import React, { ChangeEvent, useState } from "react"
+import { useCreatePost, useUploadImage } from "@/services/postApi"
+import { useAuthStore } from "@/stores/auth-store"
+import { HouseIcon, ImageIcon } from "lucide-react"
+import { toast } from "sonner"
+
+import { IPostCreate } from "@/types/post"
+
+import H3 from "../common/h3"
+import ImageSlider from "../common/image-slider"
+import SelectBox from "../common/select-box"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { Textarea } from "../ui/textarea"
+import SuggestPostContent from "./suggest-post-content"
+
+const postInit: IPostCreate = {
+  content: "",
+  type: "FIND_ROOM",
+}
 
 const PostCreate = () => {
-  const [images, setImages] = useState<FileList | null>(null);
-  // const [createPost] = useCreatePostMutation();
-  // const [uploadImages] = useUploadImageMutation();
-  // const user = useAppSelector((state) => state.auth.user);
-  // const postInit: IPostCreate = {
-  //   content: "",
-  //   type: "FIND_ROOM",
-  // };
+  const [images, setImages] = useState<FileList | null>(null)
+  const { mutateAsync: createPost } = useCreatePost()
+  const { mutate: uploadImages } = useUploadImage()
+  const { user } = useAuthStore()
+
+  const [postCreateData, setPostCreateData] = useState<IPostCreate>(postInit)
   const handleChangePost = (
     type: keyof IPostCreate,
     value: string | typeof postInit.type
   ) => {
-    // const nextData = {
-    //   ...postCreateData,
-    //   [type]: value,
-    // };
-    // setPostCreateData(nextData);
-    // console.log(nextData);
-  };
+    const nextData: IPostCreate = {
+      ...postCreateData,
+      [type]: value,
+    }
+    setPostCreateData(nextData)
+  }
 
   const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
-    setImages(event.target.files);
-  };
+    console.log(event.target.files)
+    setImages(event.target.files)
+  }
 
   const handleSubmitPost = () => {
-    // if (!user) {
-    //   toast.warning("Vui lòng đang nhập trước khi đăng");
-    //   return;
-    // }
-    // createPost(postCreateData).then((data) => {
-    //   const postId = data.data?.result.id;
-    //   if (images && images.length > 0 && postId)
-    //     uploadImages({ postId, images });
-    // });
+    if (!user) {
+      toast.warning("Vui lòng đang nhập trước khi đăng")
+      return
+    }
+    createPost(postCreateData).then((data) => {
+      const postId = data.result.id
+      if (images && images.length > 0 && postId)
+        uploadImages({ postId, images })
+    })
 
-    // setPostCreateData(postInit);
-    setImages(null);
-  };
+    setPostCreateData(postInit)
+    setImages(null)
+  }
 
-  const [postCreateData, setPostCreateData] = useState<IPostCreate>();
   return (
     <div className={`rounded-xl border bg-background py-4 px-6 `}>
       <H3>Tạo bài viết</H3>
@@ -78,12 +78,11 @@ const PostCreate = () => {
           <Textarea
             placeholder="Nội dung bài viết..."
             rows={10}
-            // value={postCreateData.content}
+            value={postCreateData.content}
             onChange={(e) => handleChangePost("content", e.target.value)}
           ></Textarea>
           <SuggestPostContent
-            postType={""}
-            // postType={postCreateData.type}
+            postType={postCreateData.type}
             onSubmit={(content) => handleChangePost("content", content)}
           />
         </div>
@@ -119,16 +118,16 @@ const PostCreate = () => {
             size={"sm"}
             className="block ml-auto"
             onClick={handleSubmitPost}
-            // disabled={Object.values(postCreateData).some(
-            //   (value) => !value.trim()
-            // )}
+            disabled={Object.values(postCreateData).some(
+              (value) => !value.trim()
+            )}
           >
             Đăng bài
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostCreate;
+export default PostCreate
