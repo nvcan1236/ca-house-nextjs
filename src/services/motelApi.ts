@@ -2,9 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { ApiResponse, PageResult } from "@/types/common"
 import { IMotel, IMotelDetail, MotelStat } from "@/types/motel"
-
-import { Filter } from "../slices/filterSlice"
-import api from "./api"
+import api from "./axios"
+import { FilterState } from "@/stores/filter-store"
 
 /** Fetch danh sách motels */
 export const useGetMotels = ({
@@ -15,7 +14,7 @@ export const useGetMotels = ({
 }: {
   page?: number
   size?: number
-  filter: Filter
+  filter: FilterState
   isAdmin?: boolean
 }) => {
   return useQuery({

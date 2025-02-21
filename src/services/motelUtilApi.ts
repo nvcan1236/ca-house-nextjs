@@ -1,29 +1,23 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { AppointmentStatus, Location, RegularCreate } from "@/types/motel"
+import { ApiResponse } from "@/types/common"
+import {
+  Amenity,
+  Appointment,
+  AppointmentStatus,
+  Location,
+  Price,
+  RegularCreate,
+  Requirement,
+  ReviewRequest,
+} from "@/types/motel"
 
-import api from "./api"
+import { authAxios, formDataAxios } from "./axios"
 
 export const useCreateRegularMotel = () => {
   return useMutation({
     mutationFn: async (data: RegularCreate) => {
-      const response = await api.post(`/motel/`, data)
-      return response.data
-    },
-  })
-}
-export const useUploadImagesMotel = () => {
-  return useMutation({
-    mutationFn: async ({
-      motelId,
-      images,
-    }: {
-      motelId: string
-      images: File[]
-    }) => {
-      const formData = new FormData()
-      Array.from(images).forEach((image) => formData.append("images", image))
-      const response = await api.post(`/motel/${motelId}/images`, formData)
+      const response = await authAxios.post(`/motel/`, data)
       return response.data
     },
   })
@@ -33,7 +27,7 @@ export const useGetReviews = (motelId: string) => {
   return useQuery({
     queryKey: ["reviews", motelId],
     queryFn: async () => {
-      const response = await api.get(`/motel/${motelId}/review`)
+      const response = await authAxios.get(`/motel/${motelId}/review`)
       return response.data
     },
   })
@@ -41,7 +35,9 @@ export const useGetReviews = (motelId: string) => {
 export const useBookAppointment = () => {
   return useMutation({
     mutationFn: async ({ motelId, date }: { motelId: string; date: Date }) => {
-      const response = await api.post(`/motel/${motelId}/appointment`, { date })
+      const response = await authAxios.post(`/motel/${motelId}/appointment`, {
+        date,
+      })
       return response.data
     },
   })
@@ -50,7 +46,7 @@ export const useGetAppointmentsByUser = () => {
   return useQuery({
     queryKey: ["appointmentsByUser"],
     queryFn: async () => {
-      const response = await api.get(`/motel/appointment/user`)
+      const response = await authAxios.get(`/motel/appointment/user`)
       return response.data
     },
   })
@@ -64,7 +60,7 @@ export const useChangeAppointmentStatus = () => {
       appointmentId: string
       status: AppointmentStatus
     }) => {
-      const response = await api.put(
+      const response = await authAxios.put(
         `/motel/appointment/${appointmentId}/update-status?status=${status}`
       )
       return response.data
@@ -75,7 +71,7 @@ export const useGetReservationsByUser = (page: number) => {
   return useQuery({
     queryKey: ["reservations", page],
     queryFn: async () => {
-      const response = await api.get(`/motel/reserve/user?page=${page}`)
+      const response = await authAxios.get(`/motel/reserve/user?page=${page}`)
       return response.data
     },
   })
@@ -90,8 +86,119 @@ export const useCreateLocationMotel = () => {
       motelId: string
       data: Location
     }) => {
-      const response = await api.post(`/motel/${motelId}/location`, data)
+      const response = await authAxios.post(`/motel/${motelId}/location`, data)
       return response.data
     },
   })
 }
+
+export const useCreateAmenity = () =>
+  useMutation({
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: Amenity[]
+    }) => {
+      return (await authAxios.post(`/motel/${motelId}/amenity`, data)).data
+    },
+  })
+
+export const useCreatePrice = () =>
+  useMutation({
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: Omit<Price, "units">[]
+    }) => {
+      return (await authAxios.post(`/motel/${motelId}/price`, data)).data
+    },
+  })
+export const useCreateRequirement = () =>
+  useMutation({
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: Requirement
+    }) => {
+      return (await authAxios.post(`/motel/${motelId}/requirement`, data)).data
+    },
+  })
+export const useUploadImages = () =>
+  useMutation({
+    mutationFn: async ({
+      motelId,
+      images,
+    }: {
+      motelId: string
+      images: FileList
+    }): Promise<ApiResponse<Appointment[]>> => {
+      const formData = new FormData()
+      Array.from(images).forEach((image) => formData.append("images", image))
+      return (await formDataAxios.post(`/motel/${motelId}/images`, formData))
+        .data
+    },
+  })
+export const useCreateReview = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: ReviewRequest
+    }) => {
+      return (await authAxios.post(`/motel/${motelId}/review`, data)).data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] })
+    },
+  })
+}
+export const useGetAppointmentsByOwner = () => {
+  return useQuery({
+    queryKey: ["appointments", "owner"],
+    queryFn: async (): Promise<ApiResponse<Appointment[]>> => {
+      return (await authAxios.get("/motel/appointment/owner")).data
+    },
+    staleTime: 5000, // 5s trước khi fetch lại
+  })
+}
+export const useMakeReservation = () =>
+  useMutation({
+    mutationFn: async ({
+      motelId,
+      amount,
+    }: {
+      motelId: string
+      amount: number
+    }) => {
+      return (
+        await authAxios.get(
+          `/motel/reserve/${motelId}/payment/vn-pay?amount=${amount}`
+        )
+      ).data
+    },
+  })
+export const useUpdatePaymentStatus = () =>
+  useMutation({
+    mutationFn: async ({
+      reservationId,
+      status,
+    }: {
+      reservationId: string
+      status: "PAYMENT_SUCCESS" | "PAYMENT_FAIL"
+    }) => {
+      return (
+        await authAxios.put(
+          `/motel/reserve/${reservationId}/status?status=${status}`
+        )
+      ).data
+    },
+  })

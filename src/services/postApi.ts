@@ -10,14 +10,11 @@ import {
   SuggestContent,
 } from "@/types/post"
 import { reactions } from "@/lib/predefined-data"
-
 import fetchWithAuth from "./baseQueryReauth"
 
 // API Helper
 const fetcher = async (url: string, options?: RequestInit) => {
-  const response = await fetchWithAuth(url, options)
-  if (!response.ok) throw new Error("Error fetching data")
-  return response.json()
+  return fetchWithAuth(url, options)
 }
 
 // React Query Hooks
@@ -52,7 +49,7 @@ export const useReact = () => {
   >({
     mutationFn: ({ postId, type }) =>
       fetcher(
-        `post/${postId}/react?${new URLSearchParams(type ? { type } : {})}`,
+        `/post/${postId}/react?${new URLSearchParams(type ? { type } : {})}`,
         { method: "POST" }
       ),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),

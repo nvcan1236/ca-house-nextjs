@@ -1,11 +1,14 @@
 import { create } from "zustand"
 
-type FilterStore = {
+export type FilterState = {
   roomType: string | null
   minPrice: number
   maxPrice: number
   amenities: string[]
   applied: boolean
+}
+
+type FilterStore = FilterState & {
   updatePrice: (min: number, max: number) => void
   updateAmenity: (amenity: string) => void
   updateMotelType: (type: string) => void
@@ -13,7 +16,14 @@ type FilterStore = {
   refreshFilter: () => void
 }
 
-const initialState: Omit<FilterStore, "updatePrice" | "updateAmenity" | "updateMotelType" | "applyFilter" | "refreshFilter"> = {
+const initialState: Omit<
+  FilterStore,
+  | "updatePrice"
+  | "updateAmenity"
+  | "updateMotelType"
+  | "applyFilter"
+  | "refreshFilter"
+> = {
   roomType: "SINGLE_ROOM",
   minPrice: 500000,
   maxPrice: 10000000,

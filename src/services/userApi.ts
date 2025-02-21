@@ -1,4 +1,4 @@
-import { authAxios, formDataAxios } from "@/services/axios"
+import axios, { authAxios, formDataAxios } from "@/services/axios"
 import { getToken, removeToken, setToken } from "@/services/localStorageService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -16,14 +16,12 @@ import {
 import { CreateMessage } from "@/types/chat"
 import { ApiResponse, TokenData } from "@/types/common"
 
-import api from "./api"
-
 // 📌 Lấy danh sách tất cả người dùng
 export const useGetAllUserQuery = () =>
   useQuery<ApiResponse<User[]>>({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await api.get("/identity/users")
+      const { data } = await axios.get("/identity/users")
       return data
     },
   })
@@ -57,7 +55,7 @@ export const useLoginMutation = () => {
     LoginForm
   >({
     mutationFn: async (data) => {
-      const response = await api.post("/identity/auth/token", data)
+      const response = await axios.post("/identity/auth/token", data)
       return response.data
     },
     onSuccess: (data) => {
@@ -82,7 +80,7 @@ export const useLogoutMutation = () => {
   const token = getToken()
   return useMutation<ApiResponse<null>, AxiosError>({
     mutationFn: async () => {
-      const { data } = await api.post("/identity/auth/logout", { token })
+      const { data } = await axios.post("/identity/auth/logout", { token })
       return data
     },
     onSuccess: () => {
@@ -142,7 +140,7 @@ export const useGetUserStatQuery = ({
   })
 
 // 📌 Cập nhật hồ sơ người dùng
-export const useUpdateProfileMutation = () => {
+export const useUpdateProfile = () => {
   const queryClient = useQueryClient()
   return useMutation<ApiResponse<DetailUser>, Error, Profile>({
     mutationFn: async (profile) => {
@@ -156,7 +154,7 @@ export const useUpdateProfileMutation = () => {
 }
 
 // 📌 Theo dõi người dùng
-export const useFollowMutation = () => {
+export const useFollow = () => {
   const queryClient = useQueryClient()
   return useMutation<ApiResponse<null>, Error, string>({
     mutationFn: async (userId) => {
