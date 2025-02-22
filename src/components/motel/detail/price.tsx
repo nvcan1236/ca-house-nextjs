@@ -1,4 +1,6 @@
 import React from "react"
+import { useRouter } from "next/navigation"
+import { usePayDeposit } from "@/services/motelUtilApi"
 
 import { IMotelDetail } from "@/types/motel"
 
@@ -9,15 +11,18 @@ import { Label } from "../../ui/label"
 import { Separator } from "../../ui/separator"
 
 const DetailMotelPrice = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
-  const handleFetchReservation = () => {
-    // if (detailMotel?.id) {
-    //   triggerReservationQuery({
-    //     motelId: detailMotel.id,
-    //     amount: Math.floor(detailMotel.price / 30),
-    //   }).then(({ data }) => {
-    //     if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
-    //   })
-    // }
+  const { mutateAsync: payDeposit } = usePayDeposit()
+  const router = useRouter()
+
+  const handleFetchReservation = async () => {
+    if (detailMotel?.id) {
+      const { result } = await payDeposit({
+        motelId: detailMotel.id,
+        amount: Math.floor(detailMotel.price / 30),
+      })
+      console.log("🚀 ~ handleFetchReservation ~ data:", result)
+      if (result.paymentUrl) router.push(result.paymentUrl)
+    }
   }
   return (
     <div className="border border-main-yellow-t6 p-4 rounded-xl bg-background sticky top-[120px]">

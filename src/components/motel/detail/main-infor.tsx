@@ -1,12 +1,26 @@
 import React from "react"
 import { MapPinIcon, MapPinnedIcon } from "lucide-react"
 
-import { IMotelDetail } from "@/types/motel"
+import { IMotelDetail, Location } from "@/types/motel"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 
-const DetailMotalMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
+const formatAddressMotel = (location: Location) => {
+  return (
+    [
+      location?.other,
+      location?.street,
+      location?.ward,
+      location?.district,
+    ].reduce((acc, curr) => {
+      if (curr) curr = acc = acc + curr + ", "
+      return acc
+    }) + location?.city
+  )
+}
+
+const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   return (
     <div>
       <div>
@@ -16,13 +30,7 @@ const DetailMotalMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
         <div className="text-xl font-medium mt-5 flex justify-between items-center gap-3">
           <span>
             <MapPinnedIcon className="inline-block mr-3" />{" "}
-            {`
-                  ${detailMotel?.location?.other}, 
-                  ${detailMotel?.location?.street}, 
-                  ${detailMotel?.location?.ward}, 
-                  ${detailMotel?.location?.district}, 
-                  ${detailMotel?.location?.city} 
-                  `}
+            {formatAddressMotel(detailMotel.location)}
           </span>
           <Button variant={"outline"} className="flex -gap-2">
             <MapPinIcon size={20} />{" "}
@@ -54,4 +62,4 @@ const DetailMotalMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   )
 }
 
-export default DetailMotalMain
+export default DetailMotelMain

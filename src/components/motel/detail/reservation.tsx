@@ -1,6 +1,6 @@
 import React, { useState } from "react"
+import { useBookAppointment } from "@/services/motelUtilApi"
 import { CalendarIcon, HeartIcon } from "lucide-react"
-import { toast } from "sonner"
 
 import { IMotelDetail } from "@/types/motel"
 import { Button } from "@/components/ui/button"
@@ -17,23 +17,17 @@ const DetailMotelReservation = ({
   detailMotel: IMotelDetail
 }) => {
   const [date, setDate] = useState(new Date())
-  const handleReservate = () => {
-    toast.info(date.toISOString())
-    // bookAppointment({
-    //   motelId: detailMotel?.id || "",
-    //   date: date?.toISOString() || "",
-    // })
+  const { mutateAsync: bookApointment } = useBookAppointment()
+  const handleReservation = () => {
+    if (detailMotel?.id) {
+      bookApointment({
+        motelId: detailMotel.id,
+        date,
+      }).then(({ data }) => {
+        if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
+      })
+    }
   }
-  // const handleFetchReservation = () => {
-  //   if (detailMotel?.id) {
-  //     triggerReservationQuery({
-  //       motelId: detailMotel.id,
-  //       amount: Math.floor(detailMotel.price / 30),
-  //     }).then(({ data }) => {
-  //       if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
-  //     })
-  //   }
-  // }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -52,7 +46,7 @@ const DetailMotelReservation = ({
           />
           <Button
             className="block mt-3 ml-auto px-10"
-            onClick={handleReservate}
+            onClick={handleReservation}
           >
             Đặt
           </Button>

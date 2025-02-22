@@ -32,9 +32,9 @@ const UserMenuPopover = () => {
   if (!user) return
   const menuItems: { href: string; label: string }[] = [
     { href: `/profile/${user.id}`, label: "Profile" },
-    { href: "/saved-motel", label: "Danh sách yêu thích" },
-    { href: "/my-post", label: "Quản lý bài viết" },
-    { href: "/my-appointments", label: "Danh sách đặt phòng" },
+    { href: "/motels/saved", label: "Danh sách yêu thích" },
+    { href: "/posts/mine", label: "Quản lý bài viết" },
+    { href: "/appointment", label: "Danh sách đặt phòng" },
     { href: "/my-reservations", label: "Danh sách cọc phòng" },
   ]
   return (

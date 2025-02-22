@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { useCreateAmenity } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
