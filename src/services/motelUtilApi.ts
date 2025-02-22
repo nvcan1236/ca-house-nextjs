@@ -9,6 +9,7 @@ import {
   Price,
   RegularCreate,
   Requirement,
+  ReservationCreationResponse,
   ReviewRequest,
 } from "@/types/motel"
 
@@ -45,7 +46,7 @@ export const useBookAppointment = () => {
 export const useGetAppointmentsByUser = () => {
   return useQuery({
     queryKey: ["appointmentsByUser"],
-    queryFn: async () => {
+    queryFn: async (): Promise<ApiResponse<Appointment[]>> => {
       const response = await authAxios.get(`/motel/appointment/user`)
       return response.data
     },
@@ -170,7 +171,7 @@ export const useGetAppointmentsByOwner = () => {
     staleTime: 5000, // 5s trước khi fetch lại
   })
 }
-export const useMakeReservation = () =>
+export const usePayDeposit = () =>
   useMutation({
     mutationFn: async ({
       motelId,
@@ -178,7 +179,7 @@ export const useMakeReservation = () =>
     }: {
       motelId: string
       amount: number
-    }) => {
+    }): Promise<ApiResponse<ReservationCreationResponse>> => {
       return (
         await authAxios.get(
           `/motel/reserve/${motelId}/payment/vn-pay?amount=${amount}`

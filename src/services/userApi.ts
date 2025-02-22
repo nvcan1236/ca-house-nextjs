@@ -21,7 +21,7 @@ export const useGetAllUserQuery = () =>
   useQuery<ApiResponse<User[]>>({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await axios.get("/identity/users")
+      const { data } = await authAxios.get("/identity/users")
       return data
     },
   })
@@ -133,7 +133,7 @@ export const useGetUserStatQuery = ({
     queryKey: ["userStat", startDate, endDate, period],
     queryFn: async () => {
       const { data } = await authAxios.get(
-        `/users/stat?startDate=${startDate}&endDate=${endDate}&period=${period}`
+        `/identity/users/stat?startDate=${startDate}&endDate=${endDate}&period=${period}`
       )
       return data
     },
