@@ -1,14 +1,25 @@
+"use client"
+
+import { useGetMotels } from "@/services/motelApi"
+import useFilterStore from "@/stores/filter-store"
+
 import H3 from "@/components/common/h3"
+import { columns } from "@/components/motel/motel-column"
+import { DataTable } from "@/components/motel/table-data"
 
 const ManageMotel = () => {
-  // const filter = useAppSelector((state) => state.filter);
-  // const { data } = useGetMotelsQuery({ page: 1, size: 100, filter });
+  const { roomType, amenities, maxPrice, minPrice, applied } = useFilterStore()
+  const { data } = useGetMotels({
+    page: 1,
+    size: 100,
+    filter: { roomType, amenities, maxPrice, minPrice, applied },
+  })
 
   return (
     <div>
       <H3 className="pl-10">Quản lý nhà trọ</H3>
       <div className="mt-6">
-        {/* <DataTable columns={columns} data={data?.result.data || []} /> */}
+        <DataTable columns={columns} data={data?.result.data || []} />
       </div>
     </div>
   )

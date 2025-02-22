@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useGetUserStatQuery } from "@/services/userApi"
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,13 +19,11 @@ const StatUser = () => {
     endDate: "2024-12-31",
     period: "MONTH",
   })
-  // const { data } = useGetUserStatQuery({
-  //   startDate: filter.startDate,
-  //   endDate: filter.endDate,
-  //   period: filter.period,
-  // });
-
-  const data = []
+  const { data } = useGetUserStatQuery({
+    startDate: filter.startDate,
+    endDate: filter.endDate,
+    period: filter.period as "MONTH" | "YEAR" | "QUARTER" | undefined,
+  })
 
   return (
     <div>

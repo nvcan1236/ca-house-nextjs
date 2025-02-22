@@ -1,31 +1,29 @@
 "use client"
 
 import { useState } from "react"
+import { useGetMotelStat } from "@/services/motelApi"
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import StatPriceChart from "@/components/admin/motels/stat-price-chart"
-import StatTypeChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-type-chart"
-import H3 from "@/components@/app/(admin)/admin/(loged-in)/motels/stats/stat-price-chart
+import H3 from "@/components/common/h3"
 import SelectBox from "@/components/common/select-box"
 import StatAreaChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-area-chart"
 import StatMotelTable from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-motel-table"
 import StatPeriodChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-period-chart"
+import StatTypeChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-type-chart"
+
+import StatPriceChart from "./stat-price-chart"
 
 const StatMotel = () => {
   const [filter, setFilter] = useState({
-    startDate: "2024-01-01",
-    endDate: "2024-12-31",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
     period: "MONTH",
   })
-  // const { data } = useGetMotelStatQuery({
-  //   startDate: filter.startDate,
-  //   endDate: filter.endDate,
-  // });
+  const { data } = useGetMotelStat(filter.startDate, filter.endDate)
 
-  const data = []
   return (
     <div>
       <Tabs defaultValue="chart">

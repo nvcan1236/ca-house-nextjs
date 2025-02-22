@@ -1,20 +1,21 @@
 "use client"
 
 import { useState } from "react"
+import { useGetPostStat } from "@/services/postApi"
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import StatTypeChart from "@/components/admin/motels/stat-type-chart"
-import StatPostTable from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-type-chart
 import H3 from "@/components/common/h3"
 import SelectBox from "@/components/common/select-box"
 import StatPeriodChart from "@/app/(admin)/admin/(loged-in)/motels/stats/stat-period-chart"
 
+import StatPostTable from "./stat-post-table"
+import StatTypeChart from "./stat-type-chart"
+
 const StatPost = () => {
-  // const { data } = useGetPostStatQuery();
-  const data = []
+  const { data } = useGetPostStat()
   const [filter, setFilter] = useState({
     startDate: "2024-01-01",
     endDate: "2024-12-31",

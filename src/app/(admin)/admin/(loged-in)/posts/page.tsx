@@ -1,16 +1,19 @@
-import { IPost } from "@/lib/types"
-import { columns } from "@/components/admin/posts/post-column"
-import { DataTable } from "@/components/admin/posts/table-data"
+"use client"
+
+import { useGetPosts } from "@/services/postApi"
+
 import H3 from "@/components/common/h3"
+import { columns } from "@/components/post/post-column"
+import { DataTable } from "@/components/post/table-data"
 
 const ManagePosts = () => {
-  // const { data } = useGetPostsQuery(0);
+  const { data } = useGetPosts(0)
 
   return (
     <div className="">
       <H3 className="pl-10">Quản lý bài đăng</H3>
       <div className="mt-6">
-        {/* <DataTable columns={columns} data={data?.result || []} /> */}
+        <DataTable columns={columns} data={data?.result || []} />
       </div>
     </div>
   )

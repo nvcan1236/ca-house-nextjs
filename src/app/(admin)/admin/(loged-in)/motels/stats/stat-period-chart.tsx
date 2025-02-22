@@ -1,7 +1,7 @@
 import { FC } from "react"
-import { MotelByPeriod } from "@/utils/types"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
+import { MotelByPeriod } from "@/types/motel"
 import {
   ChartConfig,
   ChartContainer,

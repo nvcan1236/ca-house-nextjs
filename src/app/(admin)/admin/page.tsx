@@ -1,13 +1,14 @@
 "use client"
 
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import { useAuthStore } from "@/stores/auth-store"
 
 import LoginButton from "@/components/common/login-button"
 
 const AdminPage = () => {
-  // const user = useAppSelector((state) => state.auth.user);
-  // if (user && user.roles.includes("ADMIN")) navigate("/admin/home");
-
+  const { user } = useAuthStore()
+  if (user && user.roles.includes("ADMIN")) redirect("/admin/home")
   return (
     <div className="flex bg-main-blue-t9 min-h-screen justify-center items-center p-4">
       <div className="border rounded-lg bg-background py-20 px-20 lg:px-40 max-w-[1000px]">

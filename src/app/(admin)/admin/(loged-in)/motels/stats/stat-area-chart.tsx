@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { ByArea } from "@/utils/types"
 import { Pie, PieChart } from "recharts"
 
 import {
@@ -10,18 +9,15 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { ByArea } from "@/types/motel"
 
 const StatAreaChart: FC<{ data: ByArea[] }> = ({ data }) => {
   const colors = [
-    "#1e3a8a",
-    "#075985",
-    "#1e40af",
-    "#1d4ed8",
-    "#0284c7",
-    "#2563eb",
-    "#3b82f6",
-    "#0ea5e9",
+    "#2563ea",
+    "#3787f7",
     "#60a5fa",
+    "#60a8fc",
+    "#90c7ff",
     "#93c5fd",
     "#bfdbfe",
   ]

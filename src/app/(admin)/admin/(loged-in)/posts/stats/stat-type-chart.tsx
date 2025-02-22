@@ -1,8 +1,8 @@
 import { FC } from "react"
-import { postType } from "@/utils/predefinedData"
-import { ByPostType } from "@/utils/types"
 import { Pie, PieChart } from "recharts"
 
+import { ByPostType } from "@/types/post"
+import { postType } from "@/lib/predefined-data"
 import {
   ChartConfig,
   ChartContainer,
@@ -15,10 +15,10 @@ import {
 const StatTypeChart: FC<{ data: ByPostType[] }> = ({ data }) => {
   const colors = [
     "#2563ea",
-    "#60a8fc",
     "#3787f7",
-    "#90c7ff",
     "#60a5fa",
+    "#60a8fc",
+    "#90c7ff",
     "#93c5fd",
     "#bfdbfe",
   ]

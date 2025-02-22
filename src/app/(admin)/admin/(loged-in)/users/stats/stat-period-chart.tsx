@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
-import { ByPeriod } from "@/lib/types"
 import {
   ChartConfig,
   ChartContainer,
@@ -10,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { ByPeriod } from "@/types/auth"
 
 const StatUserPeriodChart: FC<{ data: ByPeriod[] }> = ({ data }) => {
   const chartConfig = {
