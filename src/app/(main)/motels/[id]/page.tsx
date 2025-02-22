@@ -5,7 +5,7 @@ import { useGetMotel } from "@/services/motelApi"
 
 import { IMotelDetail } from "@/types/motel"
 import DetailMotelImages from "@/components/motel/detail/images"
-import DetailMotalMain from "@/components/motel/detail/main-infor"
+import DetailMotelMain from "@/components/motel/detail/main-infor"
 import DetailMotelAmenity from "@/components/motel/detail/motel-amenity"
 import DetailMotelOwner from "@/components/motel/detail/owner"
 import DetailMotelPrice from "@/components/motel/detail/price"
@@ -26,7 +26,7 @@ const DetailMotelPage = () => {
       <DetailMotelImages detailMotel={detailMotel} />
       <div className="flex gap-8 pt-10">
         <div className="flex-1 flex flex-col gap-6 ">
-          <DetailMotalMain detailMotel={detailMotel} />
+          <DetailMotelMain detailMotel={detailMotel} />
 
           <div className="lg:hidden">
             <DetailMotelPrice detailMotel={detailMotel} />
