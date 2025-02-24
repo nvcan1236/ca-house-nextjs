@@ -29,7 +29,7 @@ const CreatePasswordForm = () => {
       path: ["rePassword"],
     })
   const { user, setUserInfor } = useAuthStore()
-  const { mutate: createPassword, data } = useCreatePasswordMutation()
+  const { mutate: createPassword } = useCreatePasswordMutation()
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -46,7 +46,7 @@ const CreatePasswordForm = () => {
         const nextDetailUser: User = { ...user, noPassword: true }
         setUserInfor(nextDetailUser)
       }
-      toast.success(data?.result)
+      toast.success("Đã tạo mật khẩu thành công")
     } catch {
       toast.error("Đã có lỗi xảy ra.")
     }

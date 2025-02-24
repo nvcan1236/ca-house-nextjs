@@ -89,7 +89,7 @@ const UserMenuPopover = () => {
             )}
             {user.roles.includes("OWNER") && (
               <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link href={"/my-motel"} className="block">
+                <Link href={"/motels/mine"} className="block">
                   Quản lý trọ
                 </Link>
               </li>

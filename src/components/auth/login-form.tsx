@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { caHouseEndpoint } from "@/configs/api-config"
 import { getToken, setToken } from "@/services/localStorageService"
+import { useLoginMutation } from "@/services/userApi"
 import { useAuthStore } from "@/stores/auth-store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 import { loginWithGoogle } from "@/lib/utils"
@@ -23,7 +25,6 @@ import {
 } from "../ui/form"
 import { Input } from "../ui/input"
 import { Separator } from "../ui/separator"
-import { useLoginMutation } from "@/services/userApi"
 
 const authCodeRegex = /code=([^&]+)/
 
@@ -70,23 +71,24 @@ const LoginForm = () => {
     }
   }, [])
 
-  const login = useLoginMutation()
+  const { mutateAsync: login } = useLoginMutation()
   async function onSubmit(values: z.infer<typeof loginValidationSchema>) {
-    try {
-      login.mutate(values)
-      form.reset()
-      closeModal()
-    } catch (error) {
-      // if (error?.data?.code === 2001) {
-      //   toast.error("Thông tin đăng nhập không chính xác!!! Vui lòng thử lại.")
-      // } else if (error?.data?.code === 1004) {
-      //   toast.error("Username không chính xác!!! Vui lòng thử lại.")
-      // } else {
-      //   toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
-      // }
-
-      // toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
-    }
+    login(values)
+      .then(() => {
+        form.reset()
+        closeModal()
+      })
+      .catch((error) => {
+        if (error?.data?.code === 2001) {
+          toast.error(
+            "Thông tin đăng nhập không chính xác!!! Vui lòng thử lại."
+          )
+        } else if (error?.data?.code === 1004) {
+          toast.error("Username không chính xác!!! Vui lòng thử lại.")
+        } else {
+          toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
+        }
+      })
   }
 
   return (

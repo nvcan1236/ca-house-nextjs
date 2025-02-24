@@ -16,6 +16,23 @@ import {
 import { CreateMessage } from "@/types/chat"
 import { ApiResponse, TokenData } from "@/types/common"
 
+// outbound
+export const useOutbound = () => {
+  return useMutation<
+    ApiResponse<TokenData>,
+    AxiosError<{ code: number }>,
+    string
+  >({
+    mutationKey: ["outbound"],
+    mutationFn: async (code: string) => {
+      const { data } = await axios.post(
+        `/identity/auth/outbound/authentication?code=${encodeURIComponent(code)}`
+      )
+      return data
+    },
+  })
+}
+
 // 📌 Lấy danh sách tất cả người dùng
 export const useGetAllUserQuery = () =>
   useQuery<ApiResponse<User[]>>({
@@ -27,13 +44,14 @@ export const useGetAllUserQuery = () =>
   })
 
 // 📌 Lấy thông tin người dùng hiện tại
-export const useGetCurrentUserQuery = () =>
+export const useGetCurrentUserQuery = (enabled?: boolean) =>
   useQuery<ApiResponse<User>>({
     queryKey: ["currentUser"],
     queryFn: async () => {
       const { data } = await authAxios.get("/identity/users/my-infor")
       return data
     },
+    enabled,
   })
 
 // 📌 Lấy thông tin người dùng theo ID
@@ -177,8 +195,8 @@ export const useSendMessageMutation = () => {
         formData.append("images", image)
       })
 
-      const response = await authAxios.post(
-        `/identity/identity/chat/?content=${message.content}&type=${message.type}&recipient=${message.recipient}`,
+      const response = await formDataAxios.post(
+        `/identity/chat/?content=${message.content}&type=${message.type}&recipient=${message.recipient}`,
         formData
       )
       return response.data

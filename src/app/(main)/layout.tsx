@@ -12,9 +12,9 @@ import { Toaster } from "@/components/ui/sonner"
 import Container from "@/components/layout/container"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
+import Chat from "@/components/common/chat"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
-  // const role = useAppSelector((state) => state.common.role);
   return (
     <div
       className={`bg-gradient-to-b transition-all from-main-yellow-t9 to-main-blue-t8 `}
@@ -39,7 +39,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           error: <CircleXIcon size={20} />,
         }}
       />
-      {/* <Chat /> */}
+      <Chat />
       <Footer></Footer>
     </div>
   )

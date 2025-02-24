@@ -30,7 +30,7 @@ export function LogoutDialog({ children }: { children: ReactNode }) {
 
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction asChild>
+          <AlertDialogAction className="bg-none p-0">
             <Button variant={"destructive"} onClick={() => logout.mutate()}>
               Đăng xuất
             </Button>
