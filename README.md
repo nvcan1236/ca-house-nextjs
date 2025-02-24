@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏠 CAHOUSE - Hệ thống tìm kiếm nhà trọ
 
-## Getting Started
+## 📌 Giới thiệu
 
-First, run the development server:
+CAHOUSE là một nền tảng giúp người dùng dễ dàng tìm kiếm nhà trọ theo nhiều tiêu chí khác nhau, bao gồm bộ lọc nâng cao, tìm kiếm trên bản đồ và tìm kiếm qua bài đăng. Ngoài ra, hệ thống còn cung cấp giao diện quản lý dành cho admin.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tính năng chính
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🔍 **Search with filter**: Tìm kiếm nhà trọ theo các tiêu chí như giá, diện tích, vị trí, tiện ích,...
+- 🗺 **Search on Map**: Xem danh sách nhà trọ trên bản đồ để tìm vị trí phù hợp.
+- 📜 **Search through post**: Xem danh sách các bài đăng chi tiết về nhà trọ.
+- ⚙ **Management system for admin**: Quản lý người dùng, bài đăng và hệ thống.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠 Công nghệ sử dụng
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend:
 
-## Learn More
+- **Next.js** - Framework cho React giúp tối ưu SEO và hiệu năng.
+- **ShadCN UI** - Thư viện giao diện hiện đại dựa trên Radix UI.
+- **TailwindCSS** - Framework CSS giúp xây dựng giao diện nhanh chóng.
+- **Zustand** - Quản lý state đơn giản và hiệu quả.
+- **React Query** - Quản lý caching và fetch dữ liệu hiệu quả.
 
-To learn more about Next.js, take a look at the following resources:
+### Backend:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Java Spring Boot** - Framework mạnh mẽ để xây dựng API.
+- **Spring Security** - Bảo mật và quản lý xác thực.
+- **Spring Data JPA** - Tương tác với cơ sở dữ liệu.
+- **PostgreSQL/MySQL** - Lưu trữ dữ liệu.
