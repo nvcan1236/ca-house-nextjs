@@ -23,7 +23,7 @@ const CommentDialog = ({
   children: ReactNode
 }) => {
   const [open, setOpen] = useState(false)
-  const { data: commentsData } = useGetComments(postId)
+  const { data: commentsData } = useGetComments(postId, open)
   const commentList = commentsData?.result
   const { mutate: postComment } = usePostComment()
   const [content, setContent] = useState("")
@@ -81,7 +81,7 @@ const CommentDialog = ({
               </p>
             )}
             {commentList?.map((comment) => (
-              <div className="font-medium text-sm flex gap-2">
+              <div className="font-medium text-sm flex gap-2" key={comment.id}>
                 <Avatar>
                   <AvatarImage
                     src={comment.owner.avatar}

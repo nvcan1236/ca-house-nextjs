@@ -38,7 +38,7 @@ const Header = () => {
         "fixed left-1/2 top-0 -translate-x-1/2 w-full z-20": scrollDown,
       })}
     >
-      <Container className="flex-1 ">
+      <Container className="flex-1">
         <div
           className={`flex gap-4 lg:gap-8 justify-between items-center py-4 transition-all rounded-b-xl ${
             scrollDown

@@ -1,20 +1,16 @@
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ComponentProps } from "react"
 
-const H3 = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: ReactNode;
-}) => {
+import { cn } from "@/lib/utils"
+
+const H3 = ({ className, children, ...props }: ComponentProps<"h3">) => {
   return (
     <h3
+      {...props}
       className={cn("text-lg text-main-blue-s3 font-medium w-fit", className)}
     >
       {children}
     </h3>
-  );
-};
+  )
+}
 
-export default H3;
+export default H3

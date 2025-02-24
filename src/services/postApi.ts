@@ -10,6 +10,8 @@ import {
   SuggestContent,
 } from "@/types/post"
 import { reactions } from "@/lib/predefined-data"
+
+import { formDataAxios } from "./axios"
 import fetchWithAuth from "./baseQueryReauth"
 
 // API Helper
@@ -91,19 +93,17 @@ export const useUploadImage = () => {
     mutationFn: ({ postId, images }) => {
       const formData = new FormData()
       Array.from(images).forEach((image) => formData.append("images", image))
-      return fetcher(`/post/${postId}/images/`, {
-        method: "POST",
-        body: formData,
-      })
+      return formDataAxios.post(`/post/${postId}/images/`, formData)
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
   })
 }
 
-export const useGetComments = (postId: string) =>
+export const useGetComments = (postId: string, enabled?: boolean) =>
   useQuery<ApiResponse<IComment[]>>({
     queryKey: ["comments", postId],
     queryFn: () => fetcher(`/post/${postId}/comment`),
+    enabled,
   })
 
 export const usePostComment = () => {
