@@ -2,10 +2,11 @@ import { ReactNode, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useApproveMotel, useGetMotel } from "@/services/motelApi"
 import { useAuthStore } from "@/stores/auth-store"
+import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { PlusIcon, XIcon } from "lucide-react"
 
 import { IMotel, IMotelDetail } from "@/types/motel"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
@@ -20,7 +21,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import ImageSlider from "@/components/common/image-slider"
-import { useCreateMotelStore } from "@/stores/create-motel-store"
+
+import { Button } from "../ui/button"
 
 const EditMotelDialog: React.FC<{
   children: ReactNode
@@ -29,8 +31,8 @@ const EditMotelDialog: React.FC<{
 }> = ({ children, motel, forPage = "user" }) => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const {setId, setCurrentStep} = useCreateMotelStore()
-  const { data } = useGetMotel(motel.id)
+  const { setId, setCurrentStep } = useCreateMotelStore()
+  const { data } = useGetMotel(motel.id, true)
   const [editedMotel, setEditedMotel] = useState(data?.result)
   const { user } = useAuthStore()
   const { mutate: approveMotel } = useApproveMotel()
@@ -364,7 +366,7 @@ const EditMotelDialog: React.FC<{
                 }
               }}
             >
-              Tiếp tục chính sửa
+              Tiếp tục chỉnh sửa
             </Button>
           )}
           {forPage === "admin" && (
@@ -373,11 +375,11 @@ const EditMotelDialog: React.FC<{
                 approveMotel(editedMotel?.id || "")
                 setOpen(false)
               }}
-              className={`${
-                editedMotel?.status == "NOT_APPROVED" &&
-                "bg-green-600 hover:bg-green-700"
-              }`}
-              variant={"destructive"}
+              variant={"unset"}
+              className={cn("hover:opacity-70 text-white", {
+                "bg-green-600 ": editedMotel?.status == "NOT_APPROVED",
+                "bg-destructive": editedMotel?.status == "AVAILABLE",
+              })}
             >
               {`${
                 editedMotel && editedMotel.status == "AVAILABLE"

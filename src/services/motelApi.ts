@@ -1,9 +1,10 @@
+import { FilterState } from "@/stores/filter-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { ApiResponse, PageResult } from "@/types/common"
 import { IMotel, IMotelDetail, MotelStat } from "@/types/motel"
-import api from "./axios"
-import { FilterState } from "@/stores/filter-store"
+
+import api, { authAxios } from "./axios"
 
 /** Fetch danh sách motels */
 export const useGetMotels = ({
@@ -36,7 +37,8 @@ export const useGetMotels = ({
           filterParam.append("amenities", filter.amenities.join(","))
       }
 
-      const response = await api.get<ApiResponse<PageResult<IMotel>>>(
+      const axios = isAdmin ? authAxios : api
+      const response = await axios.get<ApiResponse<PageResult<IMotel>>>(
         `/motel/?${params.toString()}&${filterParam.size > 0 ? filterParam.toString() : ""}`
       )
       return response.data
@@ -49,7 +51,7 @@ export const useGetMotelStat = (startDate: string, endDate: string) => {
   return useQuery({
     queryKey: ["motelStat", startDate, endDate],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<MotelStat>>(
+      const response = await authAxios.get<ApiResponse<MotelStat>>(
         `/motel/stat?startDate=${startDate}&endDate=${endDate}&period=MONTH`
       )
       return response.data
@@ -58,11 +60,14 @@ export const useGetMotelStat = (startDate: string, endDate: string) => {
 }
 
 /** Fetch chi tiết một motel */
-export const useGetMotel = (id: string) => {
+export const useGetMotel = (id: string, isAdmin?: boolean) => {
+  const axios = isAdmin ? authAxios : api
   return useQuery({
     queryKey: ["motel", id],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<IMotelDetail>>(`/motel/${id}`)
+      const response = await axios.get<ApiResponse<IMotelDetail>>(
+        `/motel/${id}`
+      )
       return response.data
     },
   })
@@ -112,7 +117,7 @@ export const useApproveMotel = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (motelId: string) => {
-      const response = await api.put<ApiResponse<null>>(
+      const response = await authAxios.put<ApiResponse<null>>(
         `/motel/${motelId}/approve`
       )
       return response.data

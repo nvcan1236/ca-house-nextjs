@@ -1,6 +1,7 @@
 import React from "react"
 import { useRouter } from "next/navigation"
 import { usePayDeposit } from "@/services/motelUtilApi"
+import { useAuthStore } from "@/stores/auth-store"
 
 import { IMotelDetail } from "@/types/motel"
 
@@ -13,8 +14,14 @@ import { Separator } from "../../ui/separator"
 const DetailMotelPrice = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const { mutateAsync: payDeposit } = usePayDeposit()
   const router = useRouter()
+  const { user, openModal } = useAuthStore()
 
   const handleFetchReservation = async () => {
+    if (!user) {
+      openModal()
+      return
+    }
+
     if (detailMotel?.id) {
       const { result } = await payDeposit({
         motelId: detailMotel.id,
