@@ -1,15 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getMessagesInRoom, getRoomByUser } from "@/services/chartService"
-import { useSendMessageMutation } from "@/stores/api/userApi"
-import { useAppDispatch, useAppSelector } from "@/stores/hooks"
-import { openAuthModal } from "@/stores/slices/authSlice"
-import {
-  closeChat,
-  setCurrentRoom,
-  toggleChat,
-} from "@/stores/slices/chatSlice"
+import { getMessagesInRoom, getRoomByUser } from "@/services/chatService"
+import { useSendMessageMutation } from "@/services/userApi"
+import { useAuthStore } from "@/stores/auth-store"
+import { useChatStore } from "@/stores/chat-store"
 import { ImageIcon, MessageCircleIcon, SendHorizonalIcon } from "lucide-react"
 
 import { ChatMessage, ChatRoom } from "@/types/chat"
@@ -25,12 +20,12 @@ import Message from "./message"
 import Rooms from "./room"
 
 const Chat = () => {
-  const user = useAppSelector((state) => state.auth.user)
+  const { user, openModal } = useAuthStore()
   const [rooms, setRooms] = useState<ChatRoom[] | null>(null)
-  const { currentRoom, openChat } = useAppSelector((state) => state.chat)
-  const dispatch = useAppDispatch()
+  const { currentRoom, chatOpen, setCurrentRoom, toggleChat, closeChat } =
+    useChatStore()
   const [messages, setMessages] = useState<ChatMessage[] | null>(null)
-  const [sendMessage] = useSendMessageMutation()
+  const { mutate: sendMessage } = useSendMessageMutation()
   const [images, setImages] = useState<FileList | []>([])
   const [content, setContent] = useState("")
   const send = () => {
@@ -50,7 +45,7 @@ const Chat = () => {
   useEffect(() => {
     const unsubcribe = getRoomByUser(user?.username || "", (newRooms) => {
       setRooms(newRooms)
-      dispatch(setCurrentRoom(newRooms[0]))
+      setCurrentRoom(newRooms[0])
     })
 
     return () => {
@@ -73,7 +68,7 @@ const Chat = () => {
 
   return (
     <div className="fixed bottom-2 right-4 ">
-      <Popover open={openChat} onOpenChange={() => dispatch(toggleChat())}>
+      <Popover open={chatOpen} onOpenChange={toggleChat}>
         <PopoverTrigger>
           <div className="bg-main-yellow text-white rounded-xl w[60px] px-4 py-2">
             <MessageCircleIcon />
@@ -135,11 +130,11 @@ const Chat = () => {
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement // Ép kiểu e.target thành HTMLInputElement
                       if (target.files) {
-                        setImages(target.files) // Lấy danh sách file
+                        setImages(target.files)
                       }
                     }}
                     accept=".png, .jpeg, .jpg"
-                    multiple // Nếu bạn muốn cho phép chọn nhiều file
+                    multiple
                   ></Input>
                   <Button variant={"ghost"} size={"icon"}>
                     <Label htmlFor="image-chat">
@@ -160,8 +155,8 @@ const Chat = () => {
                 <Button
                   onClick={(e) => {
                     e.stopPropagation()
-                    dispatch(closeChat())
-                    dispatch(openAuthModal())
+                    closeChat()
+                    openModal()
                   }}
                   className="mt-3"
                 >

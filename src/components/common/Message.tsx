@@ -1,12 +1,14 @@
-import { ChatMessage } from "@/utils/interfaces";
-import { FC } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import ImageSlider from "./image-slider";
-import { formatCreatedAt } from "@/services/chartService";
+import { FC } from "react"
+import Image from "next/image"
+
+import { ChatMessage } from "@/types/chat"
+
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
+import ImageSlider from "./image-slider"
 
 const Message: FC<{
-  chat: ChatMessage;
-  mine?: boolean;
+  chat: ChatMessage
+  mine?: boolean
 }> = ({ mine = false, chat }) => {
   if (chat.type.toLowerCase() == "image")
     return (
@@ -21,7 +23,13 @@ const Message: FC<{
           {chat.content.map((image, i) => (
             <Dialog key={i}>
               <DialogTrigger asChild>
-                <img className="h-[125px] object-cover" src={image} />
+                <Image
+                  className="h-[125px] object-cover"
+                  width={60}
+                  height={60}
+                  src={image}
+                  alt="chat user avatar"
+                />
               </DialogTrigger>
               <DialogContent>
                 <ImageSlider
@@ -37,7 +45,7 @@ const Message: FC<{
         </div>
         {/* <span className="text-[10px] text-slate-600 text-right">{formatCreatedAt(chat.createdAt)}</span> */}
       </>
-    );
+    )
 
   return (
     <div>
@@ -52,7 +60,7 @@ const Message: FC<{
       </div>
       {/* <p className="text-[10px] text-slate-600 text-right">{formatCreatedAt(chat.createdAt)}</p> */}
     </div>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message

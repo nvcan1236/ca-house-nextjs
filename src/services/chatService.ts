@@ -68,12 +68,11 @@ export const getRoomByWithUser = async (
   me: string
 ): Promise<ChatRoom> => {
   try {
-    const roomCollectionsRef = collection(db, "RoomChat")
-
-    const q = query(roomCollectionsRef, where("member", "array-contains", me))
-
-    const roomsSnap = await getDocs(q)
     const rooms: ChatRoom[] = []
+    const roomCollectionsRef = collection(db, "RoomChat")
+    const q = query(roomCollectionsRef, where("member", "array-contains", me))
+    const roomsSnap = await getDocs(q)
+
     roomsSnap.forEach((doc) => {
       if (doc.data().member.includes(username)) {
         rooms.push({ ...doc.data(), id: doc.id } as ChatRoom)

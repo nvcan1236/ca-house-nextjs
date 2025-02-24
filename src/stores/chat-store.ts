@@ -1,41 +1,27 @@
-import { createStore } from "zustand/vanilla"
+import { create } from "zustand"
 
-import { User } from "@/types/auth"
+import { ChatRoom } from "@/types/chat"
 
-export type AuthState = {
-  modalOpen: boolean
-  authType: "login" | "signup"
-  user: User | null
+export type ChatState = {
+  chatOpen: boolean
+  currentRoom: ChatRoom | null
 }
 
-export type AuthActions = {
-  openModal: () => void
-  closeModal: () => void
-  switchAuthType: () => void
-  setUserInfor: (user: User) => void
+export type ChatActions = {
+  openChat: () => void
+  closeChat: () => void
+  toggleChat: () => void
+  setCurrentRoom: (room: ChatRoom) => void
 }
 
-export type AuthStore = AuthState & AuthActions
+type ChatStore = ChatState & ChatActions
 
-export const initAuthStore = (): AuthState => {
-  return { modalOpen: false, authType: "login", user: null }
-}
+const initChatState: ChatState = { chatOpen: false, currentRoom: null }
 
-export const defaultInitState: AuthState = {
-  modalOpen: false,
-  authType: "login",
-  user: null,
-}
-
-export const createAuthStore = (initState: AuthState = defaultInitState) => {
-  return createStore<AuthStore>()((set) => ({
-    ...initState,
-    openModal: () => set(() => ({ modalOpen: true })),
-    closeModal: () => set(() => ({ modalOpen: false })),
-    switchAuthType: () =>
-      set((state) => ({
-        authType: state.authType === "login" ? "signup" : "login",
-      })),
-    setUserInfor: (user) => set(() => ({ user })),
-  }))
-}
+export const useChatStore = create<ChatStore>((set) => ({
+  ...initChatState,
+  closeChat: () => set(() => ({ chatOpen: false })),
+  openChat: () => set(() => ({ chatOpen: true })),
+  setCurrentRoom: (room) => set(() => ({ currentRoom: room })),
+  toggleChat: () => set(({ chatOpen }) => ({ chatOpen: !chatOpen })),
+}))

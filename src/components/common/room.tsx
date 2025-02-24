@@ -1,13 +1,15 @@
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { ChatRoom } from "@/utils/interfaces";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { setCurrentRoom } from "@/stores/slices/chatSlice";
+import { useAuthStore } from "@/stores/auth-store"
+import { useChatStore } from "@/stores/chat-store"
+
+import { ChatRoom } from "@/types/chat"
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 const Rooms = ({ rooms }: { rooms: ChatRoom[] }) => {
   const partner = (room: ChatRoom) =>
-    room.member.filter((member) => member != user?.username)[0];
-  const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
+    room.member.filter((member) => member != user?.username)[0]
+  const user = useAuthStore((state) => state.user)
+  const { setCurrentRoom } = useChatStore()
 
   return (
     <>
@@ -16,7 +18,7 @@ const Rooms = ({ rooms }: { rooms: ChatRoom[] }) => {
           className="flex gap-2 text-xs"
           key={room.id}
           onClick={() => {
-            dispatch(setCurrentRoom(room));
+            setCurrentRoom(room)
           }}
         >
           <Avatar className="size-8">
@@ -34,7 +36,7 @@ const Rooms = ({ rooms }: { rooms: ChatRoom[] }) => {
         </li>
       ))}
     </>
-  );
-};
+  )
+}
 
-export default Rooms;
+export default Rooms
