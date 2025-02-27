@@ -4,7 +4,7 @@ import { useGetPostsByUser } from "@/services/postApi"
 import { useAuthStore } from "@/stores/auth-store"
 
 import H3 from "@/components/common/h3"
-import EditPostDialog from "@/components/post/edit-post-dialog"
+import EditPostDialog from "@/components/post/edit/edit-post-dialog"
 import PostCard from "@/components/post/post-card"
 
 const MyPosts = () => {

@@ -4,7 +4,7 @@ import { useGetPosts } from "@/services/postApi"
 
 import H3 from "@/components/common/h3"
 import { columns } from "@/components/post/post-column"
-import { DataTable } from "@/components/post/table-data"
+import { DataTable } from "@/components/post/edit/table-data"
 
 const ManagePosts = () => {
   const { data } = useGetPosts(0)

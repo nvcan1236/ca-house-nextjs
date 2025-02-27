@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table"
 import ProtectedRoute from "@/components/auth/protected-route"
 import H3 from "@/components/common/h3"
-import EditMotelDialog from "@/components/motel/edit-motel-dialog"
+import EditMotelDialog from "@/components/motel/edit/edit-motel-dialog"
 import MotelCard from "@/components/motel/motel-card"
 
 const MyMotelsPage = () => {
