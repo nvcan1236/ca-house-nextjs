@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Item from "@/components/common/item"
 
-const UserDialog = ({
+const EditUserDialog = ({
   children,
   user,
 }: {
@@ -159,4 +159,4 @@ const UserDialog = ({
   )
 }
 
-export default UserDialog
+export default EditUserDialog

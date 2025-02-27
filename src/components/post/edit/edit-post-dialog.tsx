@@ -71,7 +71,6 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
               id="create_at"
               name="create_at"
               value={formatDateTime(editPost?.create_at || "")}
-              // onChange={handleInputChange}
               disabled
               className="col-span-3"
             />
@@ -85,7 +84,6 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
               id="type"
               name="type"
               value={editPost?.type}
-              // onChange={handleInputChange}
               className="col-span-3"
             />
           </div>

@@ -32,7 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import EditMotelDialog from "./edit-motel-dialog"
+import EditMotelDialog from "./edit/edit-motel-dialog"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

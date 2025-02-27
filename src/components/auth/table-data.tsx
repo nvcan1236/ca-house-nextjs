@@ -31,8 +31,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import UserDialog from "./user-dialog"
 
+import EditUserDialog from "./edit-user-dialog"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -129,7 +129,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <UserDialog user={row.original as User} key={row.id}>
+                <EditUserDialog user={row.original as User} key={row.id}>
                   <TableRow
                     data-state={row.getIsSelected() && "selected"}
                     className="cursor-pointer"
@@ -143,7 +143,7 @@ export function DataTable<TData, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                </UserDialog>
+                </EditUserDialog>
               ))
             ) : (
               <TableRow>

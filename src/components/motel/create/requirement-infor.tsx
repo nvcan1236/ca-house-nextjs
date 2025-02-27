@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { useCreateRequirement } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { toast } from "sonner"
@@ -16,7 +17,8 @@ import { Textarea } from "@/components/ui/textarea"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
 const RequirementInfo = () => {
-  const { id, prevStep, nextStep } = useCreateMotelStore()
+  const router = useRouter()
+  const { id, prevStep } = useCreateMotelStore()
   const [requirement, setRequirement] = useState<Requirement>({
     deposit: 0,
     contractAmount: 0,
@@ -48,7 +50,7 @@ const RequirementInfo = () => {
     if (id)
       createRequirement({ motelId: id, data: requirement })
         .then(() => {
-          nextStep()
+          router.push("/motels")
         })
         .catch((error) => {
           toast.error(error.response.data.message)
@@ -58,7 +60,6 @@ const RequirementInfo = () => {
     <div className="">
       <div className="flex gap-10 items-stretch mb-20">
         <div className="w-1/2 h-[500px] md:block hidden">
-          {/* <Skeleton className="size-full"></Skeleton> */}
           <Image
             src="/house-banner-1.jpg"
             alt=""

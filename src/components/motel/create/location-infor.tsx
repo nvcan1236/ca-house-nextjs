@@ -224,7 +224,7 @@ const LocationInfo = () => {
               </Popover>
             </div>
             <div className="h-[400px] rounded-xl">
-              <BaseMap>
+              <BaseMap viewState={viewState}>
                 {location.longitude && location.latitude && (
                   <Marker
                     draggable
