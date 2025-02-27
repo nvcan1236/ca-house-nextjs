@@ -53,6 +53,7 @@ export const useGetAppointmentsByUser = () => {
   })
 }
 export const useChangeAppointmentStatus = () => {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async ({
       appointmentId,
@@ -65,6 +66,9 @@ export const useChangeAppointmentStatus = () => {
         `/motel/appointment/${appointmentId}/update-status?status=${status}`
       )
       return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["appointments", "owner"] })
     },
   })
 }

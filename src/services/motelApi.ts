@@ -78,7 +78,7 @@ export const useGetMotelByUser = (userId: string) => {
   return useQuery({
     queryKey: ["motelsByUser", userId],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<IMotel[]>>(
+      const response = await authAxios.get<ApiResponse<IMotel[]>>(
         `/motel/owner/${userId}`
       )
       return response.data
