@@ -170,7 +170,7 @@ const ProfilePage = () => {
                 <div className="flex gap-3 items-center">
                   <Label className="w-32">Ngày sinh</Label>{" "}
                   <Input
-                    value={detailUser?.profile?.dob}
+                    value={detailUser?.profile?.dob }
                     placeholder="dd-mm-yyyy"
                     readOnly={!editting.profile}
                   />

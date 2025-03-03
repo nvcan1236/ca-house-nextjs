@@ -127,3 +127,33 @@ export const useApproveMotel = () => {
     },
   })
 }
+
+// Fetch get saved motels
+
+export const useGetSavedMotel = () => {
+  return useQuery({
+    queryKey: ["saved motel"],
+    queryFn: async () => {
+      const response =
+        await authAxios.get<ApiResponse<IMotel[]>>("/motel/saved")
+      return response.data
+    },
+  })
+}
+
+// save motel
+export const useSaveMotel = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ["saveMotel"],
+    mutationFn: async (motelId: string) => {
+      const response = await authAxios.post<ApiResponse<null>>(
+        `motel/save/${motelId}`
+      )
+      queryClient.invalidateQueries({
+        queryKey: ["saved motel"],
+      })
+      return response.data
+    },
+  })
+}

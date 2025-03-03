@@ -34,6 +34,7 @@ const UserMenuPopover = () => {
     { href: `/profile/${user.id}`, label: "Profile" },
     { href: "/motels/saved", label: "Danh sách yêu thích" },
     { href: "/posts/mine", label: "Quản lý bài viết" },
+    { href: "/motels/saved", label: "Danh sách phòng đã lưu" },
     { href: "/appointment", label: "Danh sách đặt phòng" },
     { href: "/my-reservations", label: "Danh sách cọc phòng" },
   ]

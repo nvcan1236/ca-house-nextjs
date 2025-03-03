@@ -21,6 +21,7 @@ const formatAddressMotel = (location: Location) => {
 }
 
 const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
+  
   return (
     <div>
       <div>

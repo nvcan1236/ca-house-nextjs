@@ -1,6 +1,9 @@
 import React, { useState } from "react"
+import { useSaveMotel } from "@/services/motelApi"
 import { useBookAppointment } from "@/services/motelUtilApi"
-import { CalendarIcon, HeartIcon } from "lucide-react"
+import { useAuthStore } from "@/stores/auth-store"
+import { BookmarkIcon, CalendarIcon } from "lucide-react"
+import { toast } from "sonner"
 
 import { IMotelDetail } from "@/types/motel"
 import { Button } from "@/components/ui/button"
@@ -18,6 +21,8 @@ const DetailMotelReservation = ({
 }) => {
   const [date, setDate] = useState(new Date())
   const { mutateAsync: bookApointment } = useBookAppointment()
+  const { user, openModal } = useAuthStore()
+  const { mutateAsync: saveMotel } = useSaveMotel()
   const handleReservation = () => {
     if (detailMotel?.id) {
       bookApointment({
@@ -27,6 +32,15 @@ const DetailMotelReservation = ({
         if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
       })
     }
+  }
+  const handleSaveMotel = async () => {
+    if (!user) {
+      toast.error("Vui lòng đăng nhập trước")
+      openModal()
+      return
+    }
+    await saveMotel(detailMotel.id)
+    toast.success("Lưu trọ thành công!")
   }
 
   return (
@@ -53,8 +67,8 @@ const DetailMotelReservation = ({
         </PopoverContent>
       </Popover>
 
-      <Button variant={"secondary"} className="p-4">
-        <HeartIcon size={16} className="mr-2" /> Thêm vào danh sách yêu thích
+      <Button variant={"secondary"} className="p-4" onClick={handleSaveMotel}>
+        <BookmarkIcon size={16} className="mr-2" /> Lưu trọ
       </Button>
     </div>
   )
