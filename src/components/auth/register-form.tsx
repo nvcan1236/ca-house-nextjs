@@ -1,3 +1,14 @@
+import { useState } from "react"
+import { caHouseEndpoint } from "@/configs/api-config"
+import axios from "@/services/axios"
+import { useAuthStore } from "@/stores/auth-store"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
+
+import { Button } from "../ui/button"
 import {
   Form,
   FormControl,
@@ -5,23 +16,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { useState } from "react";
-import axios from "@/services/axios";
-import { caHouseEndpoint } from "@/configs/api-config";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { toast } from "sonner";
-import { useAuthStore } from "@/stores/auth-store";
+} from "../ui/form"
+import { Input } from "../ui/input"
+import { Separator } from "../ui/separator"
+import UsernameStatus from "./username-unique-status"
 
 const RegisterForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { closeModal, switchAuthType } = useAuthStore();
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+
+  const { closeModal, switchAuthType } = useAuthStore()
   const loginValidationSchema = z
     .object({
       username: z.string().min(4),
@@ -34,7 +37,7 @@ const RegisterForm = () => {
     .refine((data) => data.password === data.rePassword, {
       message: "Mật khẩu không trùng khớp",
       path: ["rePassword"],
-    });
+    })
 
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
@@ -46,18 +49,18 @@ const RegisterForm = () => {
       password: "",
       rePassword: "",
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof loginValidationSchema>) {
-    const data = { ...values, roles: ["USER"] };
+    const data = { ...values, roles: ["USER"] }
     axios
       .post(caHouseEndpoint.register, JSON.stringify(data))
       .then((data) => {
-        form.reset();
-        closeModal();
-        console.log(data.data.result);
+        form.reset()
+        closeModal()
+        console.log(data.data.result)
       })
-      .catch((error) => toast.error(error.response.data.message));
+      .catch((error) => toast.error(error.response.data.message))
   }
   return (
     <Form {...form}>
@@ -102,7 +105,10 @@ const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your username" {...field} />
+                  <>
+                    <Input placeholder="Enter your username" {...field} />
+                    <UsernameStatus  username={form.watch("username")} />
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -143,8 +149,8 @@ const RegisterForm = () => {
                     <span
                       className="absolute right-3 top-1/2 p-1 -translate-y-1/2 "
                       onClick={(e) => {
-                        e.stopPropagation();
-                        setShowPassword(!showPassword);
+                        e.stopPropagation()
+                        setShowPassword(!showPassword)
                       }}
                     >
                       {showPassword ? (
@@ -177,8 +183,8 @@ const RegisterForm = () => {
                     <span
                       className="absolute right-3 top-1/2 p-1 -translate-y-1/2 "
                       onClick={(e) => {
-                        e.stopPropagation();
-                        setShowPassword(!showPassword);
+                        e.stopPropagation()
+                        setShowPassword(!showPassword)
                       }}
                     >
                       {showPassword ? (
@@ -194,7 +200,11 @@ const RegisterForm = () => {
             )}
           />
           <div className="mt-2 flex gap-3">
-            <Button type="submit" className="flex-1">
+            <Button
+              type="submit"
+              className="flex-1"
+              // disabled={!form.formState.isValid}
+            >
               Tạo
             </Button>
           </div>
@@ -213,7 +223,7 @@ const RegisterForm = () => {
         </p>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

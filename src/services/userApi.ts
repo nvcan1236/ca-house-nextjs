@@ -137,6 +137,16 @@ export const useCreatePasswordMutation = () =>
     },
   })
 
+// check username
+export const useCheckUsername = () =>
+  useMutation<ApiResponse<boolean>, Error, string>({
+    mutationKey: ["checkUsername"],
+    mutationFn: async (username: string) => {
+      const response = await axios.post(`identity/users/check/${username}`)
+      return response.data
+    },
+  })
+
 // 📌 Lấy thống kê người dùng
 export const useGetUserStatQuery = ({
   startDate,
