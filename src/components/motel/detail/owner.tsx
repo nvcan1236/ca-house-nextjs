@@ -1,9 +1,11 @@
 import Link from "next/link"
-import { getRoomByWithUser } from "@/services/chatService"
+import { useChatRooms } from "@/services/chatService"
+// import { getRoomByWithUser } from "@/services/chatService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useChatStore } from "@/stores/chat-store"
 import { MailIcon, MessageCircle } from "lucide-react"
 
+import { TEMP_CHAT_ID } from "@/types/chat"
 import { IMotelDetail } from "@/types/motel"
 
 import DecorativeHeading from "../../common/decorative-heading"
@@ -13,13 +15,30 @@ import { Button } from "../../ui/button"
 const DetailMotelOwner = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const { user, openModal } = useAuthStore()
   const { openChat, setCurrentRoom } = useChatStore()
+  const { data } = useChatRooms()
   const updateCurrentRoom = async () => {
     if (!user) {
       openModal()
-    } else if (detailMotel) {
-      const room = await getRoomByWithUser(detailMotel.ownerId, user.username)
+      return
+    }
+
+    if (detailMotel) {
+      const rooms = data?.result
+      const roomWithOwner = rooms?.filter(
+        (room) => room.members[0].username === detailMotel.owner.username
+      )
+
+      if (roomWithOwner?.length) {
+        setCurrentRoom(roomWithOwner[0])
+      } else {
+        setCurrentRoom({
+          members: [detailMotel.owner, user],
+          id: TEMP_CHAT_ID,
+          createdAt: "",
+        })
+      }
+      // const room = await getRoomByWithUser(detailMotel.ownerId, user.username)
       openChat()
-      setCurrentRoom(room)
     }
   }
   return (

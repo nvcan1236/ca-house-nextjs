@@ -5,8 +5,8 @@ import { HousePlusIcon, MenuIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import LoginButton from "../common/login-button"
-import UserMenuPopover from "../common/user-menu-popover"
 import { Button } from "../ui/button"
+import UserMenuPopover from "../auth/user-menu-popover"
 
 const HeaderAction = () => {
   const { user } = useAuthStore()
