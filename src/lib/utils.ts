@@ -2,6 +2,9 @@ import googleConfig from "@/configs/google-login-config"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
+import { User } from "@/types/auth"
+import { RoomChat } from "@/types/chat"
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -33,3 +36,10 @@ export const loginWithGoogle = () => {
 
   window.location.href = targetUrl
 }
+
+export const getPartnerChat = (room: RoomChat): User => {
+  return room?.members[0]
+}
+
+export const getFullName = (user: User) =>
+  `${user.firstName} ${user.lastName}`

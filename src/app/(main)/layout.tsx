@@ -9,10 +9,10 @@ import {
 } from "lucide-react"
 
 import { Toaster } from "@/components/ui/sonner"
+import ChatSheet from "@/components/chat/chat-sheet"
 import Container from "@/components/layout/container"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
-import Chat from "@/components/common/chat"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -39,7 +39,8 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           error: <CircleXIcon size={20} />,
         }}
       />
-      <Chat />
+      {/* <Chat /> */}
+      <ChatSheet />
       <Footer></Footer>
     </div>
   )

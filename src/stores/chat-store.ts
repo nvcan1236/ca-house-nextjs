@@ -1,17 +1,16 @@
+import { RoomChat } from "@/types/chat"
 import { create } from "zustand"
-
-import { ChatRoom } from "@/types/chat"
 
 export type ChatState = {
   chatOpen: boolean
-  currentRoom: ChatRoom | null
+  currentRoom: RoomChat | null
 }
 
 export type ChatActions = {
   openChat: () => void
   closeChat: () => void
   toggleChat: () => void
-  setCurrentRoom: (room: ChatRoom) => void
+  setCurrentRoom: (room: RoomChat | null) => void
 }
 
 type ChatStore = ChatState & ChatActions
