@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "ca-house.s3.ap-southeast-2.amazonaws.com",
+      },
     ],
   },
 }

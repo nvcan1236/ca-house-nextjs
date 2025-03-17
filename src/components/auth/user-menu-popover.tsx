@@ -5,6 +5,7 @@ import { AlertCircle, HousePlusIcon, MenuIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import CreatePasswordForm from "../auth/create-password-form"
+import { LogoutDialog } from "../common/logout-dialog"
 import { Alert, AlertDescription } from "../ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "../ui/button"
@@ -18,7 +19,6 @@ import {
 } from "../ui/dialog"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { Separator } from "../ui/separator"
-import { LogoutDialog } from "./logout-dialog"
 
 const UserMenuPopover = () => {
   const { user } = useAuthStore()
