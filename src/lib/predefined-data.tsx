@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react"
 import {
   AirVentIcon,
@@ -23,20 +24,14 @@ import {
   ShirtIcon,
   SmileIcon,
   SoupIcon,
+  SquareSplitVertical,
   StoreIcon,
   ThumbsUpIcon,
   WashingMachineIcon,
   WifiIcon,
 } from "lucide-react"
 
-import {
-  AppointmentStatus,
-  Job,
-  MotelStatus,
-  MotelType,
-  Price,
-  Step,
-} from "@/types/motel"
+import { AppointmentStatus, Job, Price, Step } from "@/types/motel"
 import { PostType, ReactionType } from "@/types/post"
 import AmenityInfo from "@/components/motel/create/amenity-infor"
 import LocationInfo from "@/components/motel/create/location-infor"
@@ -45,7 +40,13 @@ import RegularInfo from "@/components/motel/create/regular-infor"
 import RequirementInfo from "@/components/motel/create/requirement-infor"
 import UploadMotelImage from "@/components/motel/create/update-motel-image"
 
-export const motelTypes: MotelType[] = [
+type MotelTypeDetail = {
+  label: string
+  icon: ReactNode
+  value: string
+}
+
+export const motelTypes: MotelTypeDetail[] = [
   {
     label: "Phòng đơn",
     icon: <HouseIcon size={32}></HouseIcon>,
@@ -68,7 +69,12 @@ export const motelTypes: MotelType[] = [
   },
 ]
 
-export const motelStatus: MotelStatus[] = [
+type MotelStatusDetail = {
+  label: string
+  value: "RENTING" | "AVAILABLE"
+}
+
+export const motelStatus: MotelStatusDetail[] = [
   {
     label: "Còn sẵn",
     value: "AVAILABLE",
@@ -79,114 +85,119 @@ export const motelStatus: MotelStatus[] = [
   },
 ]
 
-export const services = [
-  {
+export const services: { [key: string]: any } = {
+  GARAGE: {
     label: "Nhà gửi xe",
     value: "GARAGE",
     icon: <BikeIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  IRON: {
     label: "Dịch vụ giặt ủi",
     value: "IRON",
     icon: <WashingMachineIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  SECURITY: {
     label: "An ninh, bảo vệ",
     value: "SECURITY",
     icon: <CctvIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  FIRE_PROTECTION: {
     label: "Phòng cháy chữa cháy",
     value: "FIRE_PROTECTION",
     icon: <FireExtinguisherIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  INTERNET: {
     label: "Wifi, Internet",
     value: "INTERNET",
     icon: <WifiIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  ELEVATOR: {
     label: "Thang máy",
     value: "ELEVATOR",
     icon: <DoorClosedIcon size={32} className="text-main-blue-s5" />,
   },
-]
+}
 
-export const furnitures = [
-  {
+export const furnitures: { [key: string]: any } = {
+  BED: {
     label: "Giường, nệm",
     value: "BED",
     icon: <BedIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  FRIDGE: {
     label: "Tủ lạnh",
     value: "FRIDGE",
     icon: <RefrigeratorIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  WASHING_MACHINE: {
     label: "Máy giặt",
     value: "WASHING_MACHINE",
     icon: <WashingMachineIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  MEZANIN: {
+    label: "Gác",
+    value: "MEZANIN",
+    icon: <SquareSplitVertical size={32} className="text-main-blue-s5" />,
+  },
+  WARDROBE: {
     label: "Tủ, giá treo đồ",
     value: "WARDROBE",
     icon: <ShirtIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  KITCHEN: {
     label: "Bếp, kệ bếp",
     value: "KITCHEN",
     icon: <HeaterIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  AC: {
     label: "Máy lạnh",
     value: "AC",
     icon: <AirVentIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  TABLE: {
     label: "Bàn ghế",
     value: "TABLE",
     icon: <ArmchairIcon size={32} className="text-main-blue-s5" />,
   },
-]
+}
 
-export const facilities = [
-  {
-    label: "Nhà thuốc, Bênh viện",
+export const facilities: { [key: string]: any } = {
+  HOSPITAL: {
+    label: "Nhà thuốc, Bệnh viện",
     value: "HOSPITAL",
     icon: <HospitalIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  SCHOOL: {
     label: "Trường học",
     value: "SCHOOL",
     icon: <School2Icon size={32} className="text-main-blue-s5" />,
   },
-  {
+  MARKET: {
     label: "Chợ, tạp hoá",
     value: "MARKET",
     icon: <CarrotIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  SUPERMARKET: {
     label: "Siêu thị, cửa hàng",
     value: "SUPERMARKET",
     icon: <StoreIcon size={32} className="text-main-blue-s5" />,
   },
-  {
-    label: "Nhà hàng quán ăn",
+  FOOD_STALL: {
+    label: "Nhà hàng, quán ăn",
     value: "FOOD_STALL",
     icon: <SoupIcon size={32} className="text-main-blue-s5" />,
   },
-  {
-    label: "Trạm xe bus",
+  BUSSTOP: {
+    label: "Trạm xe buýt",
     value: "BUSSTOP",
     icon: <BusFrontIcon size={32} className="text-main-blue-s5" />,
   },
-  {
+  STATION: {
     label: "Bến xe",
     value: "STATION",
     icon: <BusIcon size={32} className="text-main-blue-s5" />,
   },
-]
+}
 export const prices: Price[] = [
   {
     name: "Điện",
@@ -225,28 +236,13 @@ export const prices: Price[] = [
   },
 ]
 
-export const definedJobs: { type: Job; label: string }[] = [
-  {
-    type: "STUDENT",
-    label: "Học sinh, sinh viên",
-  },
-  {
-    type: "OFFICER",
-    label: "Nhân viên văn phòng",
-  },
-  {
-    type: "WORKER",
-    label: "Công nhân",
-  },
-  {
-    type: "FREELANCER",
-    label: "Làm việc tự do",
-  },
-  {
-    type: "OTHER",
-    label: "Khác",
-  },
-]
+export const definedJobs: { [key in Job]: string } = {
+  STUDENT: "Học sinh, sinh viên",
+  OFFICER: "Nhân viên văn phòng",
+  WORKER: "Công nhân",
+  FREELANCER: "Làm việc tự do",
+  OTHER: "Khác",
+} as const
 
 export const reactions: {
   [key in ReactionType]: {
@@ -333,6 +329,8 @@ export const appointmentStatus: {
 }
 
 export const translations: { [key: PropertyKey]: string } = {
+  FACILITY: "Tiện nghi khác",
+  SERVICE: "Dịch vụ",
   ELEVATOR: "Thang máy",
   IRON: "Dịch vụ giặt ủi",
   GARAGE: "Nhà để xe",
@@ -342,9 +340,15 @@ export const translations: { [key: PropertyKey]: string } = {
   BUSSTOP: "Trạm xe buýt",
   FOOD_STALL: "Quán ăn",
   MARKET: "Chợ",
-  FACILITY: "Cơ sở vật chất",
   FURNITURE: "Nội thất",
-  SERVICE: "Dịch vụ",
+  SUPERMARKET: "Siêu thị",
+  FRIDGE: "Tủ lạnh",
+  WASHING_MACHINE: "Máy giặt",
+  SECURITY: "An ninh",
+  FIRE_PROTECTION: "PCCC",
+  HOSPITAL: "Bệnh viện",
+  INTERNET: "Internet/Wifi",
+  SCHOOL: "Trường học",
   deposit: "Tiền đặt cọc",
   contractAmount: "Số tháng hợp đồng",
   allowPet: "Cho phép vật nuôi",

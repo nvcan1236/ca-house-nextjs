@@ -1,5 +1,3 @@
-import { ReactNode } from "react"
-
 import { User } from "./auth"
 import { Image } from "./common"
 
@@ -11,12 +9,6 @@ export type PriceType =
   | "SERVICE"
   | "ORTHER"
 
-export type MotelType = {
-  label: string
-  icon: ReactNode
-  value: string
-}
-
 export type Location = {
   city: string
   district: string
@@ -26,8 +18,6 @@ export type Location = {
   longitude: number | null
   latitude: number | null
 }
-
-export type Amenity = { name: string; type: string }
 
 export type Price = {
   type: PriceType
@@ -43,11 +33,6 @@ export type Requirement = {
   allowPet: boolean
   jobs: Job[]
   other: string | null
-}
-
-export type MotelStatus = {
-  label: string
-  value: "RENTING" | "AVAILABLE"
 }
 
 export interface Step {
@@ -84,14 +69,26 @@ export type ReservationResponse = {
   motelId: string
 }
 
+export type MotelType =
+  | "SINGLE_ROOM"
+  | "WHOLE_HOUSE"
+  | "APARTMENT"
+  | "DORMITORY"
+export type MotelStatus =
+  | "RENTING"
+  | "AVAILABLE"
+  | "BANNED"
+  | "NOT_APPROVED"
+  | "RESERVED"
+
 export interface IMotel {
   id: string
   name: string
   area: number
   price: number
-  type: string
+  type: MotelType
   availableDate: string
-  status: "RENTING" | "AVAILABLE" | "BANNED" | "NOT_APPROVED" | "RESERVED"
+  status: MotelStatus
   createdAt: string
   images: Image[]
   longitude: number
@@ -99,6 +96,13 @@ export interface IMotel {
   district: string
   city: string
   approved: boolean
+}
+
+export type AmenityType = "FACILITY" | "FURNITURE" | "SERVICE"
+
+export type Amenity = {
+  name: string
+  type: AmenityType
 }
 
 export interface IMotelDetail extends IMotel {

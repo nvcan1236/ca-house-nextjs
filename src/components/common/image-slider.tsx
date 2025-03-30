@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import Image from "next/image"
+
+import { Image as ImageType } from "@/types/common"
+
 import {
   Carousel,
   CarouselApi,
@@ -6,35 +10,34 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
-import { Skeleton } from "../ui/skeleton";
-import { Image } from "@/lib/types";
+} from "../ui/carousel"
+import { Skeleton } from "../ui/skeleton"
 
 const ImageSlider = ({
   height,
   images,
   onClick,
 }: {
-  height?: number;
-  images: Image[];
-  onClick?: () => void;
+  height?: number
+  images: ImageType[]
+  onClick?: () => void
 }) => {
-  const [hoved, setHovered] = useState(false);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  const [hoved, setHovered] = useState(false)
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
   useEffect(() => {
     if (!api) {
-      return;
+      return
     }
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }, [api])
   return (
     <Carousel
       setApi={setApi}
@@ -42,13 +45,20 @@ const ImageSlider = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <CarouselContent onClick={onClick}>
+      <CarouselContent onClick={onClick} draggable={images.length > 1}>
         {images.map((image) => (
           <CarouselItem
             style={{ height: height ? height : "auto" }}
             key={image.id}
           >
-            <img src={image.url} alt="" className="size-full object-cover" loading="lazy" />
+            <Image
+              src={image.url}
+              alt=""
+              className="size-full object-cover"
+              loading="lazy"
+              width={400}
+              height={400}
+            />
           </CarouselItem>
         ))}
         {images.length === 0 && (
@@ -70,12 +80,16 @@ const ImageSlider = ({
               ></div>
             ))}
           </div>
-          <CarouselPrevious className="left-2" />
-          <CarouselNext className="right-2" />
+          {images.length > 1 && (
+            <>
+              <CarouselPrevious className="left-2" />
+              <CarouselNext className="right-2" />
+            </>
+          )}
         </>
       )}
     </Carousel>
-  );
-};
+  )
+}
 
-export default ImageSlider;
+export default ImageSlider

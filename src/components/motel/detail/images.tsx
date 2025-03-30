@@ -36,6 +36,7 @@ const DetailMotelImages = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
                     className="w-full h-full object-cover"
                     width={300}
                     height={200}
+                    priority
                   />
                 </div>
               ))}

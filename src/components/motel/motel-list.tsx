@@ -1,12 +1,13 @@
 import React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useGetMotels } from "@/services/motelApi"
 import useFilterStore from "@/stores/filter-store"
 
 import { IMotel } from "@/types/motel"
 import MotelSkeleton from "@/components/motel/motel-skeleton"
 
+import Pagination from "../common/pagination"
 import MotelCard from "./motel-card"
-import { useGetMotels } from "@/services/motelApi"
 
 const MotelsList = () => {
   const pageParam = useSearchParams()
@@ -29,21 +30,22 @@ const MotelsList = () => {
     )
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-      {motelList?.map((motel) => {
-        motel = {
-          ...motel,
-          images: motel.images.length > 0 ? [motel.images[0]] : motel.images,
-        }
-        return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        {motelList?.map((motel) => (
           <MotelCard
             motel={motel}
             key={motel.id}
             onClick={() => router.push(`/motels/${motel.id}`)}
           />
-        )
-      })}
-    </div>
+        ))}
+      </div>
+      <Pagination
+        current={data?.result.currentPage || 1}
+        max={data?.result.totalPage || 1}
+      />
+      <div className="h-4"></div>
+    </>
   )
 }
 

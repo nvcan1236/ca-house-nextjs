@@ -2,9 +2,10 @@ import React from "react"
 import { MapPinIcon, MapPinnedIcon } from "lucide-react"
 
 import { IMotelDetail, Location } from "@/types/motel"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+
+import MotelTypeBadge from "../motel-type.badge"
 
 const formatAddressMotel = (location: Location) => {
   return (
@@ -21,7 +22,6 @@ const formatAddressMotel = (location: Location) => {
 }
 
 const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
-  
   return (
     <div>
       <div>
@@ -39,16 +39,14 @@ const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
           </Button>
         </div>
       </div>
-      <div className="py-6 px-2 rounded-xl border border-main-yellow-t6 flex bg-background mt-4">
+      <div className="py-6 px-2 rounded-xl border border-main-yellow-t6 flex bg-background mt-4 shadow">
         <div className="flex-1 flex flex-col gap-4 items-center">
           <Label className="text-slate-500">Diện tích</Label>{" "}
           <span className="font-medium text-lg">{detailMotel?.area}m2</span>
         </div>
         <div className="flex-1 flex flex-col gap-4 items-center">
           <Label className="text-slate-500">Loại phòng</Label>{" "}
-          <Badge className="px-4 bg-main-yellow-t6 hover:bg-main-yellow text-main-blue-s3 font-normal text-md pb-1">
-            {detailMotel?.type.toLowerCase()}
-          </Badge>
+          <MotelTypeBadge type={detailMotel.type} />
         </div>
         <div className="flex-1 flex flex-col gap-4 items-center">
           <Label className="text-slate-500">Phòng trống từ</Label>{" "}

@@ -9,7 +9,8 @@ import { useGetCurrentUserQuery } from "@/services/userApi"
 import { EllipsisIcon } from "lucide-react"
 
 import { appointmentStatus } from "@/lib/predefined-data"
-import { formatDate, formatDateTime } from "@/lib/utils"
+import { cn, formatDate, formatDateTime } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Popover,
@@ -44,8 +45,21 @@ const MyMotelsPage = () => {
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 mt-6 gap-4">
           {motels?.map((motel) => (
             <EditMotelDialog motel={motel} key={motel.id}>
-              <div>
+              <div
+                className={cn("relative", {
+                  "": !motel.approved,
+                })}
+              >
                 <MotelCard motel={motel} />
+                {!motel.approved ? (
+                  <Badge className="top-2 right-2 absolute bg-main-yellow px-4 py-1">
+                    Đang chờ duyệt
+                  </Badge>
+                ) : (
+                  <Badge className="top-2 right-2 absolute bg-green-600 px-4 py-1">
+                    Đã duyệt
+                  </Badge>
+                )}
               </div>
             </EditMotelDialog>
           ))}

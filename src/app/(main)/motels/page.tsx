@@ -22,8 +22,7 @@ const MotelsPage = () => {
       ) : (
         <div>
           <MotelsList />
-          <Pagination current={1} max={1} />
-          <div className="h-4"></div>
+          
         </div>
       )}
       <Button

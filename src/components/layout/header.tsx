@@ -13,9 +13,6 @@ import Container from "./container"
 import HeaderAction from "./header-action"
 
 const Header = () => {
-  // const changeLanguage = (value: language) => {
-  //   i18n.changeLanguage(value);
-  // };
   const pathname = usePathname()
   const [scrollY, setScrollY] = useState(0)
   const scrollDown = scrollY > 0
@@ -46,14 +43,16 @@ const Header = () => {
               : ""
           }`}
         >
+
           {/* LOGO */}
-          <Link className="xl:w-1/6" href="/">
+          <Link className="xl:w-1/6 min-w-[60px]" href="/">
             <Image
               src="/logo.png"
               alt="logo"
               className="object-cover size-[60px]"
               height={68}
               width={68}
+
               priority
             />
           </Link>
@@ -72,6 +71,7 @@ const Header = () => {
 
             {hasSearch && <SearchInput />}
           </div>
+
           {/* ACTION */}
           <div className=" hidden md:block">
             <HeaderAction />

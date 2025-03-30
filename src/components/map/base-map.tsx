@@ -3,7 +3,6 @@ import envConfig from "@/configs/env-config"
 import ReactMapGL, {
   FullscreenControl,
   GeolocateControl,
-  Marker,
   NavigationControl,
   ScaleControl,
   ViewState,
@@ -65,9 +64,11 @@ const BaseMap = ({
         <FullscreenControl position="top-left" />
         <NavigationControl position="top-left" />
         <ScaleControl />
-        <Marker longitude={current.longitude} latitude={current.latitude}>
-          {children}
-        </Marker>
+        {children}
+        {/* <Marker
+          longitude={current.longitude}
+          latitude={current.latitude}
+        ></Marker> */}
       </ReactMapGL>
     </div>
   )

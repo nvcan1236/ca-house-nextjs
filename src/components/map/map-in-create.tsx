@@ -1,4 +1,4 @@
-import MotelMarker from "../common/motel-marker";
+import MotelMarker from "../motel/motel-marker";
 import BaseMap from "./base-map";
 const MapInCreate = () => {
   return (
@@ -15,7 +15,7 @@ const MapInCreate = () => {
           name: "Tên trọ của bạn",
           price: 2000000,
           status: "AVAILABLE",
-          type: "Phòng đơn",
+          type: "SINGLE_ROOM",
           images: [],
           district: "Nhà Bè",
           approved: true,

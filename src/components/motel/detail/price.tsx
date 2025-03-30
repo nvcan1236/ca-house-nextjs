@@ -32,7 +32,7 @@ const DetailMotelPrice = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
     }
   }
   return (
-    <div className="border border-main-yellow-t6 p-4 rounded-xl bg-background sticky top-[120px]">
+    <div className="border border-main-yellow-t6 p-4 rounded-xl bg-background sticky top-[120px] shadow">
       <DecorativeHeading>Giá cả</DecorativeHeading>
       <div className="flex flex-col gap-3 mt-4">
         <Item>

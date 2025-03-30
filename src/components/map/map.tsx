@@ -1,6 +1,8 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import BaseMap from "./base-map";
-import { ViewState } from "react-map-gl";
+import { Marker, ViewState } from "react-map-gl";
+import { useGetNearestMotels } from "@/services/motelApi";
+import MotelMarker from "../motel/motel-marker";
 const Map = ({ children }: { children?: ReactNode }) => {
   const [current, setCurrent] = useState({
     latitude: 0,
@@ -48,29 +50,29 @@ const Map = ({ children }: { children?: ReactNode }) => {
     }));
   };
 
-  // const { data } = useGetNearestMotelsQuery({
-  //   lon: filter.longitude,
-  //   lat: filter.latitude,
-  //   radius: filter.radius,
-  // });
+  const { data } = useGetNearestMotels({
+    lon: filter.longitude,
+    lat: filter.latitude,
+    radius: filter.radius,
+  });
 
-  // const motels = data?.result;
+  const motels = data?.result;
 
-  // const motelMarkers = useMemo(
-  //   () =>
-  //     motels?.map((motel, index) => (
-  //       <Marker
-  //         key={`marker-${index}`}
-  //         longitude={motel.longitude}
-  //         latitude={motel.latitude}
-  //         anchor="bottom"
-  //       >
-  //         <MotelMarker motel={motel}></MotelMarker>
-  //         {children}
-  //       </Marker>
-  //     )),
-  //   [JSON.stringify(motels)]
-  // );
+  const motelMarkers = useMemo(
+    () =>
+      motels?.map((motel, index) => (
+        <Marker
+          key={`marker-${index}`}
+          longitude={motel.longitude}
+          latitude={motel.latitude}
+          anchor="bottom"
+        >
+          <MotelMarker motel={motel}></MotelMarker>
+          {children}
+        </Marker>
+      )),
+    [JSON.stringify(motels)]
+  );
 
   // const motels = useMemo(
   //   () => (
@@ -91,7 +93,7 @@ const Map = ({ children }: { children?: ReactNode }) => {
 
   return (
     <BaseMap onMoveEnd={({ viewState }) => updateFilter(viewState)}>
-      {/* {motelMarkers} */}
+      {motelMarkers}
     </BaseMap>
   );
 };

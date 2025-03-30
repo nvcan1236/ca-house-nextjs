@@ -5,6 +5,7 @@ import {
   Amenity,
   Appointment,
   AppointmentStatus,
+  IMotel,
   Location,
   Price,
   RegularCreate,
@@ -18,7 +19,10 @@ import { authAxios, formDataAxios } from "./axios"
 export const useCreateRegularMotel = () => {
   return useMutation({
     mutationFn: async (data: RegularCreate) => {
-      const response = await authAxios.post(`/motel/`, data)
+      const response = await authAxios.post<ApiResponse<IMotel>>(
+        `/motel/`,
+        data
+      )
       return response.data
     },
   })

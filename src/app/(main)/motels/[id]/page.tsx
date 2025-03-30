@@ -35,7 +35,7 @@ const DetailMotelPage = () => {
           <DetailMotelReservation detailMotel={detailMotel} />
 
           <DetailMotelAmenity detailMotel={detailMotel} />
-
+          
           <DetailMotelRequirement detailMotel={detailMotel} />
 
           <DetailMotelOwner detailMotel={detailMotel} />

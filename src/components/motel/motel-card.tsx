@@ -4,7 +4,7 @@ import { IMotel } from "@/types/motel"
 
 import H3 from "../common/h3"
 import ImageSlider from "../common/image-slider"
-import { Badge } from "../ui/badge"
+import MotelTypeBadge from "./motel-type.badge"
 
 const MotelCard = ({
   motel,
@@ -31,12 +31,7 @@ const MotelCard = ({
           >
             {motel?.name}
           </H3>
-          <Badge
-            variant="default"
-            className="text-xs bg-main-yellow-t6 text-main-blue hover:bg-main-yellow"
-          >
-            {motel?.type?.toLowerCase()}
-          </Badge>
+          <MotelTypeBadge type={motel.type} size="sm"></MotelTypeBadge>
         </div>
         <p className="!text-sm ">
           {motel.district}, {motel.city}

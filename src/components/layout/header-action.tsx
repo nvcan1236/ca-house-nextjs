@@ -1,12 +1,12 @@
 import React from "react"
 import { useRouter } from "next/navigation"
 import { useAuthStore } from "@/stores/auth-store"
-import { HousePlusIcon, MenuIcon } from "lucide-react"
+import { HousePlusIcon } from "lucide-react"
 import { toast } from "sonner"
 
+import UserMenuPopover from "../auth/user-menu-popover"
 import LoginButton from "../common/login-button"
 import { Button } from "../ui/button"
-import UserMenuPopover from "../auth/user-menu-popover"
 
 const HeaderAction = () => {
   const { user } = useAuthStore()
@@ -37,9 +37,7 @@ const HeaderAction = () => {
       </div>
 
       <div className="md:hidden">
-        <Button size={"icon"} variant={"outline"}>
-          <MenuIcon />
-        </Button>
+        <UserMenuPopover />
       </div>
     </>
   )

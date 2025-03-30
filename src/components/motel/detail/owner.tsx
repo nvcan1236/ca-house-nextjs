@@ -42,10 +42,10 @@ const DetailMotelOwner = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
     }
   }
   return (
-    <div className="">
+    <div>
       <DecorativeHeading>Thông tin chủ trọ</DecorativeHeading>
-      <div className="py-6 px-8 border rounded-xl mt-4 bg-background border-main-yellow-t6">
-        <div className="flex justify-between items-center">
+      <div className="py-6 px-8 border rounded-xl mt-4 bg-background border-main-yellow-t6 shadow">
+        <div className="flex lg:justify-between lg:items-center flex-col lg:flex-row gap-y-6">
           <div className="flex gap-4 flex-1">
             <Avatar className="size-20 border">
               <AvatarImage src={detailMotel.owner.avatar}></AvatarImage>
@@ -65,7 +65,7 @@ const DetailMotelOwner = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
             </div>
           </div>
 
-          <div className="text-right w-[200px]">
+          <div className="text-right lg:max-w-[200px]">
             <p className="text-sm text-gray-700">
               Chủ động nhắn tin với chủ trọ để có nhiều thông tin hơn
             </p>
