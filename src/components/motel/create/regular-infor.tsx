@@ -64,7 +64,7 @@ const formFields: {
 ]
 const RegularInfo = () => {
   const { nextStep, prevStep, setId } = useCreateMotelStore()
-  const { mutateAsync: createRegular, data } = useCreateRegularMotel()
+  const { mutateAsync: createRegular } = useCreateRegularMotel()
 
   const loginValidationSchema = z.object({
     name: z.string().min(1),
@@ -101,7 +101,7 @@ const RegularInfo = () => {
 
   async function onSubmit(values: RegularCreate) {
     try {
-      await createRegular(values)
+      const data = await createRegular(values)
       setId(data.result.id)
       nextStep()
     } catch (error) {

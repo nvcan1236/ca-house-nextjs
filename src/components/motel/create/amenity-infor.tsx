@@ -77,7 +77,7 @@ const AmenityInfo = () => {
               <div>
                 <H3 className="text-foreground">Các dịch vụ bao gồm</H3>
                 <div className="grid grid-cols-4 gap-3 mt-4">
-                  {services?.map((service) => (
+                  {Object.values(services)?.map((service) => (
                     <AmenityItem
                       key={service.value}
                       label={service.label}
@@ -92,7 +92,7 @@ const AmenityInfo = () => {
               <div>
                 <H3 className="text-foreground">Nội thất trong phòng</H3>
                 <div className="grid grid-cols-4 gap-3 mt-4">
-                  {furnitures?.map((furniture) => (
+                  {Object.values(furnitures)?.map((furniture) => (
                     <AmenityItem
                       key={furniture.value}
                       label={furniture.label}
@@ -107,7 +107,7 @@ const AmenityInfo = () => {
               <div>
                 <H3 className="text-foreground">Các tiện ích xung quanh</H3>
                 <div className="grid grid-cols-4 gap-3 mt-4">
-                  {facilities?.map((facility) => (
+                  {Object.values(facilities)?.map((facility) => (
                     <AmenityItem
                       key={facility.value}
                       label={facility.label}

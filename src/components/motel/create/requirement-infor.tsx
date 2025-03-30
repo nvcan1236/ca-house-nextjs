@@ -101,15 +101,15 @@ const RequirementInfo = () => {
             <div>
               <Label>Đối tượng cho thuê</Label>
               <div className="mt-3 ml-4 ">
-                {definedJobs.map((job) => (
-                  <div className="flex items-center mt-3 gap-3" key={job.type}>
+                {Object.keys(definedJobs).map((job) => (
+                  <div className="flex items-center mt-3 gap-3" key={job}>
                     <Checkbox
                       className="size-6"
-                      id={job.type}
-                      checked={requirement?.jobs.includes(job.type)}
-                      onCheckedChange={() => handleChange("jobs", job.type)}
+                      id={job}
+                      checked={requirement?.jobs.includes(job as Job)}
+                      onCheckedChange={() => handleChange("jobs", job)}
                     />
-                    <Label htmlFor={job.type}>{job.label}</Label>
+                    <Label htmlFor={job}>{definedJobs[job as Job]}</Label>
                   </div>
                 ))}
               </div>

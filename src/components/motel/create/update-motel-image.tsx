@@ -13,7 +13,7 @@ import DecorativeHeading from "@/components/common/decorative-heading"
 
 const UploadMotelImage = () => {
   const { id, prevStep, nextStep } = useCreateMotelStore()
-  const { mutateAsync: uploadImage } = useUploadImages()
+  const { mutateAsync: uploadImage, isPending } = useUploadImages()
   const [files, setFiles] = useState<FileList | null>()
   const handleUploadImage = async () => {
     if (!files || files.length < 5) {
@@ -72,8 +72,8 @@ const UploadMotelImage = () => {
           <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
             Quay lại
           </Button>
-          <Button size={"lg"} onClick={handleUploadImage}>
-            Tiếp tục
+          <Button size={"lg"} onClick={handleUploadImage} disabled={isPending}>
+            {isPending ? "Đang tải lên" : "Tiếp tục"}
           </Button>
         </div>
       </div>

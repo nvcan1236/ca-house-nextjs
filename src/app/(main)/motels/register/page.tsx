@@ -9,12 +9,13 @@ import { Button } from "@/components/ui/button"
 import H3 from "@/components/common/h3"
 import MapInCreate from "@/components/map/map-in-create"
 import UpdateProfileDialog from "@/components/auth/update-profile-dialog"
+import { redirect } from "next/navigation"
 
 const RegisterMotelPage = () => {
   const { user } = useAuthStore()
   const { nextStep, currentStep } = useCreateMotelStore()
 
-  // if (!user) redirect("/");
+  if (!user) redirect("/");
 
   if (!currentStep) {
     if (user?.roles.includes("OWNER")) nextStep()
