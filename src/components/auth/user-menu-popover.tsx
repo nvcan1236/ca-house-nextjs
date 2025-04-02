@@ -31,7 +31,7 @@ const UserMenuPopover = () => {
   }
   if (!user) return
   const menuItems: { href: string; label: string }[] = [
-    { href: `/profile/${user.id}`, label: "Profile" },
+    { href: `/profile/${user.username}`, label: "Profile" },
     { href: "/motels/saved", label: "Danh sách yêu thích" },
     { href: "/posts/mine", label: "Quản lý bài viết" },
     { href: "/motels/saved", label: "Danh sách phòng đã lưu" },
@@ -120,7 +120,7 @@ const UserMenuPopover = () => {
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all t-destructive">
               <LogoutDialog>
-                <div className="w-full text-left">Đăng xuất</div>
+                <div className="w-full text-left text-destructive">Đăng xuất</div>
               </LogoutDialog>
             </li>
           </ul>

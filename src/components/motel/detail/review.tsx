@@ -1,9 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import { useGetReviews, usePostReview } from "@/services/motelApi"
+import { useAuthStore } from "@/stores/auth-store"
 import { SendIcon } from "lucide-react"
+import { toast } from "sonner"
 
-import { IMotelDetail, Review } from "@/types/motel"
+import { IMotelDetail } from "@/types/motel"
 import { formatDate } from "@/lib/utils"
 import Pagination from "@/components/common/pagination"
 
@@ -14,15 +17,23 @@ import { Input } from "../../ui/input"
 
 const DetailMotelReview = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const [reviewInput, setReviewInput] = useState("")
+  const user = useAuthStore((state) => state.user)
+  const { data: reviewData } = useGetReviews(detailMotel.id)
+  const { mutate: postReview } = usePostReview()
+
   const handleCreateReview = () => {
-    // createReview({
-    //   data: {
-    //     content: reviewInput,
-    //   },
-    //   motelId: detailMotel.id,
-    // })
+    if (!user || !user.username) {
+      toast.error("Vui lòng đăng nhập trước!!")
+      return
+    }
+    postReview({
+      motelId: detailMotel.id,
+      data: {
+        content: reviewInput
+      },
+    })
   }
-  const reviews: Review[] = []
+
   return (
     <div>
       <DecorativeHeading>Đánh giá</DecorativeHeading>
@@ -44,7 +55,7 @@ const DetailMotelReview = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
               Gửi <SendIcon className="ml-2" size={20} />
             </Button>
           </div>
-          {reviews?.map((review) => (
+          {reviewData?.result?.map((review) => (
             <div
               className="border rounded-lg bg-background flex gap-4 px-6 py-4"
               key={review.id}

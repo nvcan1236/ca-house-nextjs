@@ -2,9 +2,10 @@ import { FilterState } from "@/stores/filter-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { ApiResponse, PageResult } from "@/types/common"
-import { IMotel, IMotelDetail, MotelStat } from "@/types/motel"
+import { IMotel, IMotelDetail, MotelStat, Review } from "@/types/motel"
 
 import api, { authAxios } from "./axios"
+import axios from "./axios"
 
 /** Fetch danh sách motels */
 export const useGetMotels = ({
@@ -154,6 +155,40 @@ export const useSaveMotel = () => {
         queryKey: ["saved motel"],
       })
       return response.data
+    },
+  })
+}
+
+export const useGetReviews = (motelId: string) => {
+  return useQuery({
+    queryKey: ["getReviews"],
+    queryFn: async () => {
+      const response = await axios.get<ApiResponse<Review[]>>(
+        `/motel/${motelId}/review`
+      )
+      return response.data
+    },
+  })
+}
+
+export const usePostReview = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: ["post-review"],
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: Pick<Review, "content">
+    }) => {
+      const res = await authAxios.post<ApiResponse<Review>>(
+        `/motel/${motelId}/review`,
+        data
+      )
+      queryClient.invalidateQueries({ queryKey: ["getReviews"] })
+      return res
     },
   })
 }
