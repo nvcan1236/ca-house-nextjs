@@ -20,11 +20,21 @@ const ProfileTab = ({ userId }: { userId: string }) => {
   return (
     <Tabs defaultValue="motel">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="motel">Trọ</TabsTrigger>
-        <TabsTrigger value="post">Bài đăng</TabsTrigger>
+        <TabsTrigger
+          value="motel"
+          className="data-[state=active]:bg-main-blue-t8"
+        >
+          Trọ
+        </TabsTrigger>
+        <TabsTrigger
+          value="post"
+          className="data-[state=active]:bg-main-blue-t8"
+        >
+          Bài đăng
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="motel">
-        <Card>
+        <Card className="min-h-[600px]">
           <CardHeader>
             <CardTitle>Trọ</CardTitle>
             <CardDescription>Danh sách các phòng trọ</CardDescription>
@@ -45,7 +55,7 @@ const ProfileTab = ({ userId }: { userId: string }) => {
       </TabsContent>
 
       <TabsContent value="post">
-        <Card>
+        <Card className="min-h-[400px]">
           <CardHeader>
             <CardTitle>Bài đăng</CardTitle>
             <CardDescription>Danh sách các bài đăng</CardDescription>

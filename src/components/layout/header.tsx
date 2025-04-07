@@ -43,7 +43,6 @@ const Header = () => {
               : ""
           }`}
         >
-
           {/* LOGO */}
           <Link className="xl:w-1/6 min-w-[60px]" href="/">
             <Image
@@ -52,7 +51,6 @@ const Header = () => {
               className="object-cover size-[60px]"
               height={68}
               width={68}
-
               priority
             />
           </Link>
@@ -63,8 +61,8 @@ const Header = () => {
                 scrollDown && hasSearch ? "scale-0 -translate-y-[100%] h-0" : ""
               }`}
             >
-              {hasNav ? <NavButtons /> : <div></div>}
-              <div className="md:hidden">
+              {hasNav && <NavButtons />}
+              <div className="lg:hidden ml-auto">
                 <HeaderAction />
               </div>
             </div>
@@ -73,7 +71,7 @@ const Header = () => {
           </div>
 
           {/* ACTION */}
-          <div className=" hidden md:block">
+          <div className="hidden lg:block">
             <HeaderAction />
           </div>
         </div>

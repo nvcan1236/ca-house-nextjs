@@ -69,6 +69,7 @@ const SuggestPostContent = ({
             <Label htmlFor="area">Diện tích</Label>
             <Input
               id="area"
+              type="number"
               className="col-span-2 h-8"
               value={suggestQuery?.area}
               onChange={(e) => handleInputChange("area", e.target.value)}
@@ -79,6 +80,7 @@ const SuggestPostContent = ({
             <Label htmlFor="budget">Giá thuê</Label>
             <Input
               id="budget"
+              type="number"
               className="col-span-2 h-8"
               value={suggestQuery?.budget}
               onChange={(e) => handleInputChange("budget", e.target.value)}

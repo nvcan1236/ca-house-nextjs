@@ -52,7 +52,7 @@ export const useGetMotelStat = (startDate: string, endDate: string) => {
   return useQuery({
     queryKey: ["motelStat", startDate, endDate],
     queryFn: async () => {
-      const response = await authAxios.get<ApiResponse<MotelStat>>(
+      const response = await axios.get<ApiResponse<MotelStat>>(
         `/motel/stat?startDate=${startDate}&endDate=${endDate}&period=MONTH`
       )
       return response.data
@@ -130,7 +130,6 @@ export const useApproveMotel = () => {
 }
 
 // Fetch get saved motels
-
 export const useGetSavedMotel = () => {
   return useQuery({
     queryKey: ["saved motel"],

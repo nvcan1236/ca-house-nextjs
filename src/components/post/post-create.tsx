@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ChangeEvent, useState } from "react"
 import { useCreatePost, useUploadImage } from "@/services/postApi"
 import { useAuthStore } from "@/stores/auth-store"
@@ -9,7 +11,15 @@ import { IPostCreate } from "@/types/post"
 import H3 from "../common/h3"
 import ImageSlider from "../common/image-slider"
 import SelectBox from "../common/select-box"
+import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
@@ -25,6 +35,7 @@ const PostCreate = () => {
   const { mutateAsync: createPost } = useCreatePost()
   const { mutate: uploadImages } = useUploadImage()
   const { user } = useAuthStore()
+  const [open, setOpen] = useState(false)
 
   const [postCreateData, setPostCreateData] = useState<IPostCreate>(postInit)
   const handleChangePost = (
@@ -89,27 +100,50 @@ const PostCreate = () => {
         <Input
           id="post-image-input"
           type="file"
+          accept="image/*"
           className="size-0 invisible"
           onChange={handleChangeImage}
           multiple
         ></Input>
-        <div>
-          {images && (
-            <ImageSlider
-              height={200}
-              images={Array.from(images).map((image: File) => ({
-                id: image.name,
-                url: URL.createObjectURL(image),
-              }))}
-            ></ImageSlider>
-          )}
-        </div>
+
         <div className="flex justify-end text-main-blue-s3 mt-3 items-center">
-          <Button size={"icon"} variant={"ghost"}>
-            <Label htmlFor="post-image-input">
-              <ImageIcon></ImageIcon>
-            </Label>
-          </Button>
+          <Dialog
+            open={(open && images && images.length > 0) || false}
+            onOpenChange={setOpen}
+          >
+            <DialogTrigger asChild>
+              <Button size={"icon"} variant={"ghost"} className="relative">
+                <Label
+                  htmlFor={
+                    !images || images.length === 0 ? "post-image-input" : ""
+                  }
+                >
+                  <ImageIcon></ImageIcon>
+                </Label>
+                {images && images.length > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-main-yellow text-white text-xs rounded-full">
+                    {images.length}
+                  </Badge>
+                )}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="p-8 max-w-[1000px]">
+              <DialogHeader>
+                <DialogTitle>Ảnh bài viết</DialogTitle>
+              </DialogHeader>
+              <div>
+                {images && (
+                  <ImageSlider
+                    height={500}
+                    images={Array.from(images).map((image: File) => ({
+                      id: image.name,
+                      url: URL.createObjectURL(image),
+                    }))}
+                  ></ImageSlider>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
           <Button size={"icon"} variant={"ghost"}>
             <HouseIcon></HouseIcon>
           </Button>

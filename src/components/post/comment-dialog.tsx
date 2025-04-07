@@ -54,7 +54,7 @@ const CommentDialog = ({
       <DialogTrigger className="flex gap-2 items-center pl-3">
         {children}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[800px]">
         <DialogHeader>
           <DialogTitle>Bình luận</DialogTitle>
         </DialogHeader>
@@ -87,7 +87,9 @@ const CommentDialog = ({
                     src={comment.owner.avatar}
                     className="object-cover"
                   />
-                  <AvatarFallback>NC</AvatarFallback>
+                  <AvatarFallback>
+                    {comment.owner.firstName.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="mt-1">
                   <span className="">{`${comment.owner.lastName} ${comment.owner.firstName}`}</span>

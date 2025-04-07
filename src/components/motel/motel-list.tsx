@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useGetMotels } from "@/services/motelApi"
 import useFilterStore from "@/stores/filter-store"
@@ -14,8 +14,19 @@ const MotelsList = () => {
   const filter = useFilterStore()
   const page = Number(pageParam.get("page"))
   const router = useRouter()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>()
+  const [isFetching, setIsFetching] = useState(false)
 
-  const { data, isFetching } = useGetMotels({ page, filter })
+  const { refetch: getMotels } = useGetMotels({ page, filter })
+  useEffect(() => {
+    const fetchMotels = async () => {
+      const { data, isFetching } = await getMotels()
+      setData(data)
+      setIsFetching(isFetching)
+    }
+    fetchMotels()
+  }, [filter.applied, page])
   const motelList: IMotel[] = data?.result.data || []
 
   if (isFetching)

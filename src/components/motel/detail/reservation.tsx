@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useSaveMotel } from "@/services/motelApi"
 import { useBookAppointment } from "@/services/motelUtilApi"
 import { useAuthStore } from "@/stores/auth-store"
-import { BookmarkIcon, CalendarIcon } from "lucide-react"
+import { BookmarkIcon, CalendarIcon, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { IMotelDetail } from "@/types/motel"
@@ -14,22 +14,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const DetailMotelReservation = ({
-  detailMotel,
-}: {
-  detailMotel: IMotelDetail
-}) => {
+const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const [date, setDate] = useState(new Date())
-  const { mutateAsync: bookApointment } = useBookAppointment()
+  const { mutateAsync: bookApointment, isPending: loadingBookAppointment } =
+    useBookAppointment()
   const { user, openModal } = useAuthStore()
   const { mutateAsync: saveMotel } = useSaveMotel()
-  const handleReservation = () => {
+  const handleBookAppointment = () => {
     if (detailMotel?.id) {
       bookApointment({
         motelId: detailMotel.id,
         date,
-      }).then(({ data }) => {
-        if (data?.result.paymentUrl) location.href = data?.result.paymentUrl
+      }).then(() => {
+        toast.success("Đặt lịch xem phòng thành công!")
       })
     }
   }
@@ -60,9 +57,13 @@ const DetailMotelReservation = ({
           />
           <Button
             className="block mt-3 ml-auto px-10"
-            onClick={handleReservation}
+            onClick={handleBookAppointment}
           >
-            Đặt
+            {loadingBookAppointment ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Đặt"
+            )}
           </Button>
         </PopoverContent>
       </Popover>
@@ -74,4 +75,4 @@ const DetailMotelReservation = ({
   )
 }
 
-export default DetailMotelReservation
+export default DetailMotelAction

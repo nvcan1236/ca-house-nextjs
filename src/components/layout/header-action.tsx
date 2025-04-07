@@ -1,34 +1,16 @@
 import React from "react"
-import { useRouter } from "next/navigation"
 import { useAuthStore } from "@/stores/auth-store"
-import { HousePlusIcon } from "lucide-react"
-import { toast } from "sonner"
 
 import UserMenuPopover from "../auth/user-menu-popover"
+import { CreateMotelButton } from "../common/create-motel-button"
 import LoginButton from "../common/login-button"
-import { Button } from "../ui/button"
 
 const HeaderAction = () => {
   const { user } = useAuthStore()
-  const router = useRouter()
-  const handleCreateMotel = () => {
-    if (!user || !user.id) {
-      toast.warning("Vui lòng đăng nhập trước!!")
-      return
-    }
-    router.push("/motels/register")
-  }
   return (
     <>
       <div className="hidden md:flex gap-2 justify-end flex-wrap">
-        <Button
-          variant={"secondary"}
-          onClick={handleCreateMotel}
-          className="flex border-main-yellow text-main-yellow hover:bg-main-yellow-t6 transition-all hover:border-main-yellow hover:border-2 border-2"
-        >
-          <HousePlusIcon size={20} className="mr-3"></HousePlusIcon> Đăng trọ
-        </Button>
-
+        <CreateMotelButton />
         <div className="flex gap-3 item-center">
           <div className="hidden md:block">
             {user ? <UserMenuPopover /> : <LoginButton />}
@@ -37,7 +19,7 @@ const HeaderAction = () => {
       </div>
 
       <div className="md:hidden">
-        <UserMenuPopover />
+        {user ? <UserMenuPopover /> : <LoginButton />}
       </div>
     </>
   )

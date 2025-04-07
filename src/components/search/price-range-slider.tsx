@@ -42,7 +42,7 @@ const PriceRangeSlider: React.FC<TwoHandleSliderProps> = ({
 
   useEffect(() => {
     onChange?.(leftValue, rightValue);
-  }, [leftValue, rightValue, onChange]);
+  }, [onChange]);
 
   const leftPercent = ((leftValue - min) / (max - min)) * 100;
   const rightPercent = ((rightValue - min) / (max - min)) * 100;

@@ -22,6 +22,8 @@ import { Separator } from "../ui/separator"
 
 const UserMenuPopover = () => {
   const { user } = useAuthStore()
+  
+
   const handleCreateMotel = () => {
     if (!user || !user.id) {
       toast.warning("Vui lòng đăng nhập trước!!")
@@ -29,15 +31,17 @@ const UserMenuPopover = () => {
     }
     redirect("/register-motel")
   }
+  
   if (!user) return
+
   const menuItems: { href: string; label: string }[] = [
-    { href: `/profile/${user.username}`, label: "Profile" },
-    { href: "/motels/saved", label: "Danh sách yêu thích" },
+    { href: `/profile/${user.username}`, label: "Hồ sơ cá nhân" },
     { href: "/posts/mine", label: "Quản lý bài viết" },
-    { href: "/motels/saved", label: "Danh sách phòng đã lưu" },
-    { href: "/appointment", label: "Danh sách đặt phòng" },
-    { href: "/my-reservations", label: "Danh sách cọc phòng" },
+    { href: "/appointment", label: "Lịch hẹn" },
+    { href: "/motels/saved", label: "Xem phòng đã lưu" },
+    { href: "/appointment", label: "Xem phòng đã đặt" },
   ]
+  
   return (
     <div className="flex gap-2 items-center">
       <Popover>
@@ -49,7 +53,7 @@ const UserMenuPopover = () => {
             </span>
             <Avatar className="size-6">
               <AvatarImage src={user?.avatar} />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{user?.firstName?.charAt(0)}</AvatarFallback>
             </Avatar>
           </div>
         </PopoverTrigger>
@@ -88,13 +92,7 @@ const UserMenuPopover = () => {
                 </li>
               </>
             )}
-            {user.roles.includes("OWNER") && (
-              <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link href={"/motels/mine"} className="block">
-                  Quản lý trọ
-                </Link>
-              </li>
-            )}
+
             <li className=" hover:bg-slate-100 transition-all block lg:hidden">
               <Button
                 variant={"secondary"}
@@ -115,12 +113,21 @@ const UserMenuPopover = () => {
                 </Link>
               </li>
             ))}
+            {user.roles.includes("OWNER") && (
+              <li className="py-1 px-2 hover:bg-slate-100 transition-all">
+                <Link href={"/motels/mine"} className="block">
+                  Quản lý trọ
+                </Link>
+              </li>
+            )}
             <li className="py-1">
               <Separator />
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all t-destructive">
               <LogoutDialog>
-                <div className="w-full text-left text-destructive">Đăng xuất</div>
+                <div className="w-full text-left text-destructive">
+                  Đăng xuất
+                </div>
               </LogoutDialog>
             </li>
           </ul>

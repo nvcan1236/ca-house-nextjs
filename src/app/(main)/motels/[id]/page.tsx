@@ -10,7 +10,7 @@ import DetailMotelAmenity from "@/components/motel/detail/motel-amenity"
 import DetailMotelOwner from "@/components/motel/detail/owner"
 import DetailMotelPrice from "@/components/motel/detail/price"
 import DetailMotelRequirement from "@/components/motel/detail/requirement"
-import DetailMotelReservation from "@/components/motel/detail/reservation"
+import DetailMotelAction from "@/components/motel/detail/reservation"
 import DetailMotelReview from "@/components/motel/detail/review"
 import DetailMotelSkeleton from "@/components/motel/detail/skeleton"
 
@@ -32,10 +32,10 @@ const DetailMotelPage = () => {
             <DetailMotelPrice detailMotel={detailMotel} />
           </div>
 
-          <DetailMotelReservation detailMotel={detailMotel} />
+          <DetailMotelAction detailMotel={detailMotel} />
 
           <DetailMotelAmenity detailMotel={detailMotel} />
-          
+
           <DetailMotelRequirement detailMotel={detailMotel} />
 
           <DetailMotelOwner detailMotel={detailMotel} />

@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react"
+import { useGetMotelStat } from "@/services/motelApi"
+import useFilterStore from "@/stores/filter-store"
+import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react"
+
+import {
+  facilities,
+  furnitures,
+  motelTypes,
+  services,
+} from "@/lib/predefined-data"
+
+import H3 from "../common/h3"
+import { Button } from "../ui/button"
+import { Checkbox } from "../ui/checkbox"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
-import { Checkbox } from "../ui/checkbox";
-import H3 from "../common/h3";
-import { Label } from "../ui/label";
+} from "../ui/dialog"
+import { Label } from "../ui/label"
+import { ScrollArea } from "../ui/scroll-area"
+import PriceRangeSlider from "./price-range-slider"
 
 const DialogFilter = () => {
-  // const filter = useAppSelector((state) => state.filter);
-  // const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(false);
-  // const { data } = useGetMotelStatQuery({
-  //   startDate: "2024-01-01",
-  //   endDate: "2024-12-31",
-  // });
+  const [open, setOpen] = useState<boolean>(false)
+  const filter = useFilterStore()
+  const handleChangePrice = useCallback(
+    (min: number, max: number) => filter.updatePrice(min, max),
+    [filter]
+  )
+  // const { data } = useGetMotelStat("2025-01-01", "2025-01-31")
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -31,16 +42,16 @@ const DialogFilter = () => {
       <DialogContent className="p-10 min-w-[800px] ">
         <DialogHeader className="flex flex-row justify-between items-center">
           <DialogTitle>Tìm kiếm nhanh hơn với bộ lọc</DialogTitle>
-          {/* {filter.applied && (
+          {filter.applied && (
             <Button
               variant={"secondary"}
-              onClick={() => dispatch(refreshFilter())}
+              onClick={() => filter.refreshFilter()}
             >
               <RotateCcwIcon size={20} className="mr-2" /> Làm mới
             </Button>
-          )} */}
+          )}
         </DialogHeader>
-        {/* <ScrollArea className="max-h-[500px] pr-4">
+        <ScrollArea className="max-h-[500px] pr-4">
           <div className="flex flex-col gap-6 mt-6">
             <div>
               <H3>Loại phòng</H3>
@@ -52,7 +63,7 @@ const DialogFilter = () => {
                       "border-main-blue bg-main-blue-t9"
                     }`}
                     key={type.value}
-                    onClick={() => dispatch(updateMotelType(type.value))}
+                    onClick={() => filter.updateMotelType(type.value)}
                   >
                     {type.icon} <p className="text-sm mt-2">{type.label}</p>
                   </div>
@@ -63,9 +74,9 @@ const DialogFilter = () => {
             <div>
               <H3>Khoảng giá</H3>
               <div>
-                <div className="h-[200px] mt-2">
-                    <StatPriceChart data={data?.result.byPrice || []} />
-                  </div>
+                {/* <div className="h-[200px] mt-2">
+                  <StatPriceBarChart data={data?.result.byPrice || []} />
+                </div> */}
                 <div className="max-w-full mx-auto mt-2 px-4">
                   <PriceRangeSlider
                     min={500000}
@@ -73,9 +84,7 @@ const DialogFilter = () => {
                     step={500000}
                     currentMin={filter.minPrice}
                     currentMax={filter.maxPrice}
-                    onChange={(min, max) => {
-                      dispatch(updatePrice({ min, max }));
-                    }}
+                    // onChange={handleChangePrice}
                   ></PriceRangeSlider>
                 </div>
               </div>
@@ -85,16 +94,16 @@ const DialogFilter = () => {
               <div className="flex-1">
                 <H3>Dịch vụ</H3>
                 <div className="ml-3 mt-1">
-                  {services.map((service) => (
-                    <div key={service.value}>
+                  {Object.keys(services).map((serviceKey) => (
+                    <div key={serviceKey}>
                       <Checkbox
-                        checked={filter.amenities.includes(service.value)}
-                        onCheckedChange={() =>
-                          dispatch(updateAmenity(service.value))
-                        }
-                        id={service.value}
+                        checked={filter.amenities.includes(serviceKey)}
+                        onCheckedChange={() => filter.updateAmenity(serviceKey)}
+                        id={serviceKey}
                       />{" "}
-                      <Label htmlFor={service.value}>{service.label}</Label>
+                      <Label htmlFor={serviceKey}>
+                        {services[serviceKey].label}
+                      </Label>
                     </div>
                   ))}
                 </div>
@@ -103,16 +112,18 @@ const DialogFilter = () => {
               <div className="flex-1">
                 <H3>Nội thất</H3>
                 <div className="ml-3 mt-1">
-                  {furnitures.map((fur) => (
-                    <div key={fur.value}>
+                  {Object.keys(furnitures).map((furnitureKey) => (
+                    <div key={furnitureKey}>
                       <Checkbox
-                        checked={filter.amenities.includes(fur.value)}
+                        checked={filter.amenities.includes(furnitureKey)}
                         onCheckedChange={() =>
-                          dispatch(updateAmenity(fur.value))
+                          filter.updateAmenity(furnitureKey)
                         }
-                        id={fur.value}
+                        id={furnitureKey}
                       />{" "}
-                      <Label htmlFor={fur.value}>{fur.label}</Label>
+                      <Label htmlFor={furnitureKey}>
+                        {furnitures[furnitureKey].label}
+                      </Label>
                     </div>
                   ))}
                 </div>
@@ -121,16 +132,18 @@ const DialogFilter = () => {
               <div className="flex-1">
                 <H3>Tiện ích xung quanh</H3>
                 <div className="ml-3 mt-1">
-                  {facilities.map((fac) => (
-                    <div key={fac.value}>
+                  {Object.keys(facilities).map((facilityKey) => (
+                    <div key={facilityKey}>
                       <Checkbox
-                        checked={filter.amenities.includes(fac.value)}
+                        checked={filter.amenities.includes(facilityKey)}
                         onCheckedChange={() =>
-                          dispatch(updateAmenity(fac.value))
+                          filter.updateAmenity(facilityKey)
                         }
-                        id={fac.value}
+                        id={facilityKey}
                       />{" "}
-                      <Label htmlFor={fac.value}>{fac.label}</Label>
+                      <Label htmlFor={facilityKey}>
+                        {facilities[facilityKey].label}
+                      </Label>
                     </div>
                   ))}
                 </div>
@@ -140,18 +153,18 @@ const DialogFilter = () => {
               <Button
                 className="block ml-auto mt-6 px-10"
                 onClick={() => {
-                  dispatch(applyFilter(true));
-                  setOpen(false);
+                  filter.applyFilter(true)
+                  setOpen(false)
                 }}
               >
                 Áp dụng
               </Button>
             </div>
           </div>
-        </ScrollArea> */}
+        </ScrollArea>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default DialogFilter;
+export default DialogFilter

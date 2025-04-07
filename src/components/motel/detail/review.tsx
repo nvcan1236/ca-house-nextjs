@@ -19,7 +19,7 @@ const DetailMotelReview = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const [reviewInput, setReviewInput] = useState("")
   const user = useAuthStore((state) => state.user)
   const { data: reviewData } = useGetReviews(detailMotel.id)
-  const { mutate: postReview } = usePostReview()
+  const { mutateAsync: postReview } = usePostReview()
 
   const handleCreateReview = () => {
     if (!user || !user.username) {
@@ -29,9 +29,16 @@ const DetailMotelReview = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
     postReview({
       motelId: detailMotel.id,
       data: {
-        content: reviewInput
+        content: reviewInput,
       },
     })
+      .then(() => {
+        toast.success("Đánh giá thành công")
+        setReviewInput("")
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message)
+      })
   }
 
   return (

@@ -5,7 +5,6 @@ import { usePostFilterStore } from "@/stores/post-filter-store"
 import { IPost } from "@/types/post"
 
 import PostCard from "./post-card"
-import PostCreate from "./post-create"
 import PostSketeton from "./post-skeleton"
 
 const PostList = () => {
@@ -35,7 +34,7 @@ const PostList = () => {
       }
     }
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll) // Xóa sự kiện khi component bị unmount
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [isFetching, hasMore])
 
   if (!postData?.result && isFetching)
@@ -48,9 +47,6 @@ const PostList = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="lg:hidden">
-        <PostCreate />
-      </div>
       {postList
         ?.filter((p) => filterPost.includes(p.type))
         ?.map((post) => <PostCard key={post.id} data={post} />)}

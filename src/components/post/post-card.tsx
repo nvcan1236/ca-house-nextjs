@@ -56,30 +56,27 @@ const PostCard = ({ data }: { data: IPost }) => {
   return (
     <div className="bg-background border rounded-xl p-6 pb-4">
       <div className="flex flex-col gap-3">
-        <div className="flex justify-between">
-          <div className="flex">
-            <Avatar>
-              <AvatarImage src={post.owner.avatar} />
-              <AvatarFallback>C</AvatarFallback>
-            </Avatar>
-            <div className="ml-2">
-              <div className="flex gap-2 items-start">
-                <H3 className="!text-base cursor-pointer max-w-[200px] overflow-hidden text-ellipsis">
-                  {`${post.owner.lastName} ${post.owner.firstName}`}
-                </H3>
-                <Button
-                  size={"sm"}
-                  variant={"secondary"}
-                  className="text-xs h-auto px-2 py-1"
-                  onClick={() => followUser(post.create_by)}
-                >
-                  Theo dõi
-                </Button>
-              </div>
-              {/* <span className="text-sm font-medium text-main-yellow">
-                {post.owner.roles}
-              </span> */}
+        <div className="flex justify-between flex-col lg:flex-row">
+          <div className="flex justify-between lg:justify-start items-center gap-3">
+            <div className="flex gap-2 items-center">
+              <Avatar>
+                <AvatarImage src={post.owner.avatar} />
+                <AvatarFallback>
+                  {post.owner.firstName.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <H3 className="!text-base cursor-pointer max-w-[200px] overflow-hidden text-ellipsis">
+                {`${post.owner.lastName} ${post.owner.firstName}`}
+              </H3>
             </div>
+            <Button
+              size={"sm"}
+              variant={"secondary"}
+              className="text-xs h-auto px-2 py-1"
+              onClick={() => followUser(post.create_by)}
+            >
+              Theo dõi
+            </Button>
           </div>
           <div className="justify-self-end text-end">
             <p className="text-slate-600 text-sm ">

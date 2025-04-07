@@ -10,8 +10,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import PageNotFound from "@/app/not-founed"
 import ProfileTab from "@/components/auth/profile-tab"
+import PageNotFound from "@/app/not-founed"
 
 const ProfilePage = () => {
   const { id } = useParams()
@@ -35,11 +35,11 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="container mb-20 xl:w-[1200px]">
+    <div>
       <div className="from-main-blue-t8 from-30% to-main-yellow-t6 bg-gradient-to-br h-[180px] w-full rounded-lg mx-auto"></div>
 
-      <div className="flex gap-2 mt-2 relative">
-        <div className="sticky top-0 w-1/3 border rounded-md   gap-2 py-3 px-6 bg-slate-50">
+      <div className="flex flex-col md:flex-row gap-2 mt-2 relative">
+        <div className="md:sticky top-0 w-full md:w-1/2 lg:w-1/3 border rounded-md   gap-2 py-3 px-6 bg-slate-50">
           {/* AVATAR */}
           <div className=" mt-5 flex flex-col">
             <div className="-mt-[100px] flex items-center flex-col hover  ">
@@ -189,7 +189,10 @@ const ProfilePage = () => {
                   <div className="flex gap-3 items-center">
                     <Label className="w-32">Ngày sinh</Label>{" "}
                     <Input
-                      value={formatDate(detailUser?.profile?.dob || "")}
+                      value={
+                        detailUser?.profile?.dob &&
+                        formatDate(detailUser?.profile?.dob || "")
+                      }
                       placeholder="dd-mm-yyyy"
                       readOnly={!editting.profile}
                     />
