@@ -16,7 +16,7 @@ import StatUserTable from "@/app/(admin)/admin/(loged-in)/users/stats/stat-user-
 const StatUser = () => {
   const [filter, setFilter] = useState({
     startDate: "2024-01-01",
-    endDate: "2024-12-31",
+    endDate: "2025-12-31",
     period: "MONTH",
   })
   const { data } = useGetUserStatQuery({
@@ -61,11 +61,12 @@ const StatUser = () => {
             <SelectBox
               options={[
                 { label: "Tháng", value: "MONTH" },
-                { label: "Năm", value: "MONTH" },
                 { label: "Quý", value: "QUARTER" },
+                { label: "Năm", value: "YEAR" },
               ]}
               onSelectChange={(value) => {
                 setFilter({ ...filter, period: value })
+                
               }}
             ></SelectBox>
           </div>

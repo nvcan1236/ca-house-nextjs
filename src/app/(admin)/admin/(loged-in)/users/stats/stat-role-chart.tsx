@@ -1,7 +1,7 @@
 import { FC } from "react"
-import { ByRole } from "@/utils/types"
 import { Label, Pie, PieChart } from "recharts"
 
+import { ByRole } from "@/types/auth"
 import {
   ChartConfig,
   ChartContainer,

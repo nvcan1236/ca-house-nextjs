@@ -60,8 +60,8 @@ const StatMotel = () => {
             <SelectBox
               options={[
                 { label: "Tháng", value: "MONTH" },
-                { label: "Năm", value: "MONTH" },
                 { label: "Quý", value: "QUARTER" },
+                { label: "Năm", value: "YEAR" },
               ]}
               onSelectChange={(value) => {
                 setFilter({ ...filter, period: value })
