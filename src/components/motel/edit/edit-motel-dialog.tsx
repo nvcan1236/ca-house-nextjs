@@ -36,10 +36,10 @@ const EditMotelDialog: React.FC<{
 }> = ({ children, motel, forPage = "user" }) => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const { setId, setCurrentStep } = useCreateMotelStore()
+  const { setId, setCurrentStep, setDetailMotel } = useCreateMotelStore()
+  const { user } = useAuthStore()
   const { data } = useGetMotel(motel.id, true)
   const [editedMotel, setEditedMotel] = useState<Partial<IMotelDetail>>()
-  const { user } = useAuthStore()
   const { mutate: approveMotel } = useApproveMotel()
 
   const handleInputChange = (
@@ -142,31 +142,13 @@ const EditMotelDialog: React.FC<{
           {editedMotel?.ownerId === user?.username && (
             <Button
               onClick={() => {
-                if (editedMotel && editedMotel.id) setId(editedMotel.id)
-
-                let curr
-                switch (tabValue) {
-                  case tabs[0].value:
-                    curr = 1
-                    break
-                  case tabs[1].value:
-                    curr = 2
-                    break
-                  case tabs[2].value:
-                    curr = 3
-                    break
-                  case tabs[3].value:
-                    curr = 5
-                    break
-                  case tabs[4].value:
-                    curr = 6
-                    break
+                if (editedMotel && editedMotel.id) {
+                  setId(editedMotel.id)
+                  setDetailMotel(editedMotel)
                 }
 
-                if (curr) {
-                  setCurrentStep(curr)
-                  router.push("/motels/register")
-                }
+                setCurrentStep(1)
+                router.push("/motels/register")
               }}
             >
               Tiếp tục chỉnh sửa
@@ -191,7 +173,6 @@ const EditMotelDialog: React.FC<{
               }`}
             </Button>
           )}
-          {/* <Button>Lưu thay đổi</Button> */}
         </div>
       </DialogContent>
     </Dialog>

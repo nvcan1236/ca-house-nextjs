@@ -10,12 +10,12 @@ import { z } from "zod"
 
 import { RegularCreate } from "@/types/motel"
 import { motelTypes } from "@/lib/predefined-data"
+import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
 import DatePicker from "../../common/date-picker"
-import { Button } from "../../ui/button"
 import {
   Form,
   FormControl,
@@ -27,6 +27,7 @@ import {
 } from "../../ui/form"
 import { Input } from "../../ui/input"
 import { Textarea } from "../../ui/textarea"
+import CreateProgress from "./create-progress"
 
 const formFields: {
   label?: string
@@ -63,7 +64,7 @@ const formFields: {
   },
 ]
 const RegularInfo = () => {
-  const { nextStep, prevStep, setId } = useCreateMotelStore()
+  const { nextStep, setId, detailMotel } = useCreateMotelStore()
   const { mutateAsync: createRegular } = useCreateRegularMotel()
 
   const loginValidationSchema = z.object({
@@ -90,11 +91,11 @@ const RegularInfo = () => {
     resolver: zodResolver(loginValidationSchema),
     reValidateMode: "onChange",
     defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      type: "",
-      area: 0,
+      name: detailMotel?.name || "",
+      description: detailMotel?.description || "",
+      price: detailMotel?.price || 0,
+      type: detailMotel?.type || "",
+      area: detailMotel?.area || 0,
       availableDate: new Date().toISOString(),
     },
   })
@@ -153,10 +154,13 @@ const RegularInfo = () => {
                                 />
                                 <Label htmlFor={type.label}>
                                   <div
-                                    className={`size-full rounded-lg border-2 p-4 text-center ${
-                                      form.getValues("type") === type.value &&
-                                      "border-main-blue-s3 "
-                                    }`}
+                                    className={cn(
+                                      "size-full rounded-lg border-2 p-4 text-center",
+                                      {
+                                        "border-main-blue-s3 ":
+                                          form.getValues("type") === type.value,
+                                      }
+                                    )}
                                   >
                                     <div className="w-fit mx-auto py-1">
                                       {type.icon}
@@ -193,14 +197,7 @@ const RegularInfo = () => {
                   )
                 )}
 
-                <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-                  <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-                    Quay lại
-                  </Button>
-                  <Button disabled={!form.formState.isValid} size={"lg"}>
-                    Tiếp tục
-                  </Button>
-                </div>
+                <CreateProgress disableNext={!form.formState.isValid} />
               </form>
             </Form>
           </div>

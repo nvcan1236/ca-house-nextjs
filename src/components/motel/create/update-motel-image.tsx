@@ -4,16 +4,19 @@ import { useState } from "react"
 import Image from "next/image"
 import { useUploadImages } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
-import { UploadIcon } from "lucide-react"
+import { LoaderCircleIcon, UploadIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
+import CreateProgress from "./create-progress"
+
 const UploadMotelImage = () => {
-  const { id, prevStep, nextStep } = useCreateMotelStore()
-  const { mutateAsync: uploadImage, isPending } = useUploadImages()
+  const { id, nextStep, detailMotel } = useCreateMotelStore()
+  const { mutateAsync: uploadImage, isPending: loadingUpload } =
+    useUploadImages()
   const [files, setFiles] = useState<FileList | null>()
   const handleUploadImage = async () => {
     if (!files || files.length < 5) {
@@ -32,9 +35,21 @@ const UploadMotelImage = () => {
     <div className="">
       <div className="flex flex-col gap-10">
         <div className="lg:w-[800px] w-full mx-auto ">
-          <DecorativeHeading className="!text-2xl text-main-blue-s3">
-            Thêm hình ảnh cho căn trọ
-          </DecorativeHeading>
+          <div className="flex justify-between items-center">
+            <DecorativeHeading className="!text-2xl text-main-blue-s3">
+              Thêm hình ảnh cho căn trọ{" "}
+            </DecorativeHeading>
+            <Button variant={"secondary"} type="button" asChild>
+              <label htmlFor="motel-image-input">
+                {loadingUpload ? (
+                  <LoaderCircleIcon className="animate-spin mr-2" />
+                ) : (
+                  <UploadIcon size={20} className="mr-2" />
+                )}
+                Chọn tối thiểu 5 ảnh
+              </label>
+            </Button>
+          </div>
 
           <label
             htmlFor="motel-image-input"
@@ -52,6 +67,20 @@ const UploadMotelImage = () => {
                     />
                   </div>
                 ))}
+
+              {!files &&
+                detailMotel?.images &&
+                detailMotel?.images?.length > 0 &&
+                detailMotel?.images.map((image) => (
+                  <div key={image.id} className="">
+                    <Image
+                      src={image.url}
+                      alt="selected motel images"
+                      width={300}
+                      height={200}
+                    />
+                  </div>
+                ))}
             </div>
           </label>
           <Input
@@ -59,23 +88,15 @@ const UploadMotelImage = () => {
             type="file"
             className="invisible size-0"
             onChange={(e) => setFiles(e.target.files)}
+            accept="image/*"
             multiple
           ></Input>
         </div>
 
-        <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-          <Button variant={"outline"} type="button" asChild>
-            <label htmlFor="motel-image-input" className="block">
-              <UploadIcon></UploadIcon> Chọn ảnh
-            </label>
-          </Button>
-          <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-            Quay lại
-          </Button>
-          <Button size={"lg"} onClick={handleUploadImage} disabled={isPending}>
-            {isPending ? "Đang tải lên" : "Tiếp tục"}
-          </Button>
-        </div>
+        <CreateProgress
+          disableNext={!files || files?.length < 5}
+          onNextClick={handleUploadImage}
+        />
       </div>
     </div>
   )

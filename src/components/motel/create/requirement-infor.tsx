@@ -9,23 +9,25 @@ import { toast } from "sonner"
 
 import { Job, Requirement } from "@/types/motel"
 import { definedJobs } from "@/lib/predefined-data"
-import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
+import CreateProgress from "./create-progress"
+
 const RequirementInfo = () => {
   const router = useRouter()
-  const { id, prevStep } = useCreateMotelStore()
-  const [requirement, setRequirement] = useState<Requirement>({
+  const { id, detailMotel } = useCreateMotelStore()
+  const initReq = detailMotel?.requirement || {
     deposit: 0,
     contractAmount: 0,
     allowPet: false,
     jobs: [],
     other: null,
-  })
+  }
+  const [requirement, setRequirement] = useState<Requirement>(initReq)
   const handleChange = (
     type: keyof Requirement,
     value: number | string | boolean | Job
@@ -125,14 +127,10 @@ const RequirementInfo = () => {
         </div>
       </div>
 
-      <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-        <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-          Quay lại
-        </Button>
-        <Button size={"lg"} onClick={handleCreateRequirement}>
-          Hoàn thành
-        </Button>
-      </div>
+      <CreateProgress
+        disableNext={!requirement.contractAmount || !requirement.deposit}
+        onNextClick={handleCreateRequirement}
+      />
     </div>
   )
 }

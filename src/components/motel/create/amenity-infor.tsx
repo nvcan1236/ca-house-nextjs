@@ -10,19 +10,13 @@ import { facilities, furnitures, services } from "@/lib/predefined-data"
 import DecorativeHeading from "@/components/common/decorative-heading"
 
 import H3 from "../../common/h3"
-import { Button } from "../../ui/button"
 import AmenityItem from "./amenity-item"
+import CreateProgress from "./create-progress"
 
 type GroupAmenity = {
   services: string[]
   furnitures: string[]
   facilities: string[]
-}
-
-const initGrAmenity = {
-  services: [],
-  furnitures: [],
-  facilities: [],
 }
 
 const getStringData = (grAmenity: GroupAmenity): Amenity[] => {
@@ -40,8 +34,14 @@ const getStringData = (grAmenity: GroupAmenity): Amenity[] => {
 const AmenityInfo = () => {
   const { mutateAsync: createAmenity } = useCreateAmenity()
   const { id } = useCreateMotelStore()
+  const { nextStep, detailMotel } = useCreateMotelStore()
+
+  const initGrAmenity = {
+    services: detailMotel?.amenities?.filter(a => a.type === "SERVICE").map(a => a.name) || [],
+    furnitures: detailMotel?.amenities?.filter(a => a.type === "FURNITURE").map(a => a.name) || [],
+    facilities: detailMotel?.amenities?.filter(a => a.type === "FACILITY").map(a => a.name) || [],
+  }
   const [data, setData] = useState<GroupAmenity>(initGrAmenity)
-  const { nextStep, prevStep } = useCreateMotelStore()
 
   const updateData = (type: keyof GroupAmenity, value: string) => {
     const newData = { ...data }
@@ -119,14 +119,14 @@ const AmenityInfo = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-                <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-                  Quay lại
-                </Button>
-                <Button size={"lg"} onClick={handleFetchAmenity}>
-                  Tiếp tục
-                </Button>
-              </div>
+              <CreateProgress
+                disableNext={
+                  data.services.length === 0 &&
+                  data.furnitures.length === 0 &&
+                  data.facilities.length === 0
+                }
+                onNextClick={handleFetchAmenity}
+              />
             </div>
           </div>
         </div>

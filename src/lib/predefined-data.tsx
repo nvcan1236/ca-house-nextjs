@@ -18,6 +18,9 @@ import {
   HeaterIcon,
   HospitalIcon,
   HouseIcon,
+  ImagesIcon,
+  MapPinHouseIcon,
+  MessageCircleWarningIcon,
   RefrigeratorIcon,
   School2Icon,
   SchoolIcon,
@@ -27,6 +30,7 @@ import {
   SquareSplitVertical,
   StoreIcon,
   ThumbsUpIcon,
+  WalletIcon,
   WashingMachineIcon,
   WifiIcon,
 } from "lucide-react"
@@ -283,40 +287,39 @@ export const postType: {
 
 export const steps: Step[] = [
   {
-    component: "",
-    href: "/register-motel/regular",
-    nextStepHref: "/register-motel/location",
+    component: "Bỏ qua",
+    icon: "",
+    label: "",
   },
-
   {
     component: <RegularInfo />,
-    href: "/register-motel/regular",
-    nextStepHref: "/register-motel/location",
+    icon: <HouseIcon />,
+    label: "Thông tin căn hộ",
   },
   {
     component: <LocationInfo />,
-    href: "/register-motel/regular",
-    nextStepHref: "/register-motel/amenity",
+    icon: <MapPinHouseIcon />,
+    label: "Thông tin địa chỉ",
   },
   {
     component: <AmenityInfo />,
-    href: "/register-motel/amenity",
-    nextStepHref: "/register-motel/images",
+    icon: <ArmchairIcon />,
+    label: "Tiện nghi",
   },
   {
     component: <UploadMotelImage />,
-    href: "/register-motel/images",
-    nextStepHref: "/register-motel/prices",
+    icon: <ImagesIcon />,
+    label: "Hình ảnh",
   },
   {
     component: <PriceInfo />,
-    href: "/register-motel/prices",
-    nextStepHref: "/register-motel/requirements",
+    icon: <WalletIcon />,
+    label: "Giá cả",
   },
   {
     component: <RequirementInfo />,
-    href: "/register-motel/reuirements",
-    nextStepHref: null,
+    icon: <MessageCircleWarningIcon />,
+    label: "Yêu cầu",
   },
 ]
 

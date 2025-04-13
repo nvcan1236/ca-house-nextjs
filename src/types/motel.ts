@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 import { User } from "./auth"
 import { Image } from "./common"
 
@@ -37,8 +38,8 @@ export type Requirement = {
 
 export interface Step {
   component: React.ReactNode
-  href: string
-  nextStepHref: string | null
+  icon: ReactNode,
+  label: string 
 }
 
 export type Job = "STUDENT" | "WORKER" | "OFFICER" | "FREELANCER" | "OTHER"
@@ -111,7 +112,7 @@ export interface IMotelDetail extends IMotel {
   owner: User
   amenities: Amenity[]
   requirement: Requirement
-  prices: Omit<Price, "units">[]
+  prices: Price[]
   images: Image[]
   location: Location
 }

@@ -29,6 +29,8 @@ import {
 import DecorativeHeading from "@/components/common/decorative-heading"
 import BaseMap from "@/components/map/base-map"
 
+import CreateProgress from "./create-progress"
+
 const LocationInfo = () => {
   const provinces = getProvinces()
   const [districtList, setDistrictList] = useState<District[]>([])
@@ -36,15 +38,15 @@ const LocationInfo = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [locationList, setLocationList] = useState<any[]>()
   const { mutate: createLocation } = useCreateLocationMotel()
-  const { id, nextStep, prevStep } = useCreateMotelStore()
+  const { id, nextStep, detailMotel } = useCreateMotelStore()
   const [location, setLocation] = useState<Location>({
-    city: "",
-    district: "",
-    ward: "",
-    street: "",
-    other: "",
-    longitude: null,
-    latitude: null,
+    city: detailMotel?.location?.city || "",
+    district: detailMotel?.location?.district || "",
+    ward: detailMotel?.location?.ward || "",
+    street: detailMotel?.location?.street || "",
+    other: detailMotel?.location?.other || "",
+    longitude: detailMotel?.location?.longitude || null,
+    latitude: detailMotel?.location?.latitude || null,
   })
   const [current, setCurrent] = useState({
     latitude: 0,
@@ -105,6 +107,15 @@ const LocationInfo = () => {
     })
   }
 
+  useEffect(() => {
+    if (location.city) {
+      setDistrictList(getDistricts(location.city))
+    }
+    if (location.district) {
+      setWardList(getWards(location.city, location.district))
+    }
+  }, [location.city, location.district]);
+
   return (
     <div className="">
       <div className="flex flex-col gap-10">
@@ -118,7 +129,7 @@ const LocationInfo = () => {
               <div>
                 <Label htmlFor="city">Tỉnh, thành phồ</Label>
                 <Select
-                  defaultValue={""}
+                  defaultValue={location.city}
                   onValueChange={(value) => {
                     setLocation({ ...location, city: value })
                     setDistrictList(getDistricts(value))
@@ -138,9 +149,9 @@ const LocationInfo = () => {
               </div>
 
               <div>
-                <Label htmlFor="city">Quận huyện</Label>
+                <Label htmlFor="district">Quận huyện</Label>
                 <Select
-                  defaultValue={""}
+                  defaultValue={location.district}
                   onValueChange={(value) => {
                     setLocation({ ...location, district: value })
                     setWardList(getWards(location.city, value))
@@ -160,9 +171,9 @@ const LocationInfo = () => {
               </div>
 
               <div>
-                <Label htmlFor="citya">Xã, Phường</Label>
+                <Label htmlFor="ward">Xã, Phường</Label>
                 <Select
-                  defaultValue={""}
+                  defaultValue={location.ward}
                   onValueChange={(value) => {
                     setLocation({ ...location, ward: value })
                   }}
@@ -252,18 +263,12 @@ const LocationInfo = () => {
           </div>
         </div>
 
-        <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t z-20">
-          <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-            Quay lại
-          </Button>
-          <Button
-            size={"lg"}
-            onClick={handleCreateLocation}
-            disabled={location.longitude === null || location.latitude === null}
-          >
-            Tiếp tục
-          </Button>
-        </div>
+        <CreateProgress
+          disableNext={
+            location.longitude === null || location.latitude === null
+          }
+          onNextClick={handleCreateLocation}
+        />
       </div>
     </div>
   )

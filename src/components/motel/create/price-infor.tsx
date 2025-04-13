@@ -22,8 +22,13 @@ import {
 import DecorativeHeading from "@/components/common/decorative-heading"
 import H3 from "@/components/common/h3"
 
+import CreateProgress from "./create-progress"
+
 const PriceInfo = () => {
-  const [prices, setPrices] = useState<Price[] | []>(predefinedPrices)
+  const { id, nextStep, detailMotel } = useCreateMotelStore()
+  const [prices, setPrices] = useState<Price[] | []>(
+    detailMotel?.prices || predefinedPrices
+  )
   const [otherPrice, setOtherPrice] = useState<Price>({
     name: "",
     value: 0,
@@ -31,7 +36,6 @@ const PriceInfo = () => {
     units: ["month"],
     type: "ORTHER",
   })
-  const { id, nextStep, prevStep } = useCreateMotelStore()
   const updatePriceData = (type: PriceType, value: number) => {
     const nextPrice = [...prices]
     const index = nextPrice.findIndex((price) => price.type === type)
@@ -74,17 +78,16 @@ const PriceInfo = () => {
   return (
     <div className="">
       <div className="flex gap-10 items-stretch pb-20">
-        <div className="flex-1 h-[500px] md:block hidden ">
+        <div className="w-1/2 h-[500px] md:block hidden relative">
           {/* <Skeleton className="size-full"></Skeleton> */}
           <Image
             src="/house-banner-1.jpg"
             alt=""
-            width={400}
-            height={600}
-            className="size-full"
+            fill
+            className="size-full object-cover"
           />
         </div>
-        <div className=" flex flex-col flex-1">
+        <div className="w-1/2 flex-1 flex flex-col">
           <DecorativeHeading className="!text-2xl mb-5 text-main-blue-s3 mt-10">
             Các loại giá cả
           </DecorativeHeading>
@@ -113,11 +116,15 @@ const PriceInfo = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {price.units.map((u) => (
-                      <SelectItem key={u} value={u}>
-                        {u}
-                      </SelectItem>
-                    ))}
+                    {price.units &&
+                      price.units.map((u) => (
+                        <SelectItem key={u} value={u}>
+                          {u}
+                        </SelectItem>
+                      ))}
+                    {price.unit && (
+                      <SelectItem value={price.unit}>{price.unit}</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
                 {price.type === "ORTHER" && (
@@ -187,18 +194,11 @@ const PriceInfo = () => {
           </div>
         </div>
       </div>
-      <div className=" flex justify-end gap-2 fixed bottom-0 left-0 right-0 bg-background px-10 py-4 border-t ">
-        <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
-          Quay lại
-        </Button>
-        <Button
-          size={"lg"}
-          onClick={handleCreatePrices}
-          disabled={!prices.every((price) => price.value !== null)}
-        >
-          Tiếp tục
-        </Button>
-      </div>
+
+      <CreateProgress
+        disableNext={!prices.every((price) => price.value !== null)}
+        onNextClick={handleCreatePrices}
+      />
     </div>
   )
 }

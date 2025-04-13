@@ -1,16 +1,11 @@
 import { create } from "zustand"
 
-import { Price } from "@/types/motel"
+import { IMotelDetail, Price } from "@/types/motel"
 
 export type CreateMotelState = {
   id: string | null
   currentStep: number
-  regular: object
-  location: Location | object
-  images: object
-  amenities: object
-  requirements: object
-  prices: Price[] | []
+  detailMotel: Partial<IMotelDetail> | null
 }
 
 export type CreateMotelActions = {
@@ -18,6 +13,7 @@ export type CreateMotelActions = {
   setCurrentStep: (step: number) => void
   nextStep: () => void
   prevStep: () => void
+  setDetailMotel: (detail: Partial<IMotelDetail>) => void
 }
 
 export type CreateMotelStore = CreateMotelState & CreateMotelActions
@@ -25,12 +21,7 @@ export type CreateMotelStore = CreateMotelState & CreateMotelActions
 const defaultInitState: CreateMotelState = {
   id: null,
   currentStep: 0,
-  regular: {},
-  location: {},
-  images: {},
-  amenities: {},
-  requirements: {},
-  prices: [],
+  detailMotel: null,
 }
 
 export const useCreateMotelStore = create<CreateMotelStore>((set) => ({
@@ -39,4 +30,5 @@ export const useCreateMotelStore = create<CreateMotelStore>((set) => ({
   prevStep: () => set((state) => ({ currentStep: state.currentStep - 1 })),
   setCurrentStep: (step) => set(() => ({ currentStep: step })),
   setId: (id) => set(() => ({ id })),
+  setDetailMotel: (detail) => set(() => ({ detailMotel: detail })),
 }))
