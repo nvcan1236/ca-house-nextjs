@@ -1,7 +1,18 @@
+import { ReactNode } from "react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { useAuthStore } from "@/stores/auth-store"
-import { AlertCircle, HousePlusIcon, MenuIcon } from "lucide-react"
+import {
+  AlertCircle,
+  BookmarkCheckIcon,
+  CalendarClockIcon,
+  HouseIcon,
+  HousePlusIcon,
+  LogOutIcon,
+  MenuIcon,
+  NotepadTextIcon,
+  UserIcon,
+} from "lucide-react"
 import { toast } from "sonner"
 
 import CreatePasswordForm from "../auth/create-password-form"
@@ -22,7 +33,6 @@ import { Separator } from "../ui/separator"
 
 const UserMenuPopover = () => {
   const { user } = useAuthStore()
-  
 
   const handleCreateMotel = () => {
     if (!user || !user.id) {
@@ -31,17 +41,37 @@ const UserMenuPopover = () => {
     }
     redirect("/register-motel")
   }
-  
+
   if (!user) return
 
-  const menuItems: { href: string; label: string }[] = [
-    { href: `/profile/${user.username}`, label: "Hồ sơ cá nhân" },
-    { href: "/posts/mine", label: "Quản lý bài viết" },
-    { href: "/appointment", label: "Lịch hẹn" },
-    { href: "/motels/saved", label: "Xem phòng đã lưu" },
-    { href: "/appointment", label: "Xem phòng đã đặt" },
+  const menuItems: { href: string; label: string; icon?: ReactNode }[] = [
+    {
+      href: `/profile/${user.username}`,
+      label: "Hồ sơ cá nhân",
+      icon: <UserIcon size={20} />,
+    },
+    {
+      href: "/appointment",
+      label: "Lịch hẹn",
+      icon: <CalendarClockIcon size={20} />,
+    },
+    {
+      href: "/motels/saved",
+      label: "Xem phòng đã lưu",
+      icon: <BookmarkCheckIcon size={20} />,
+    },
+    {
+      href: "/appointment",
+      label: "Xem phòng đã đặt",
+      icon: <HousePlusIcon size={20} />,
+    },
+    {
+      href: "/posts/mine",
+      label: "Quản lý bài viết",
+      icon: <NotepadTextIcon size={20} />,
+    },
   ]
-  
+
   return (
     <div className="flex gap-2 items-center">
       <Popover>
@@ -108,15 +138,15 @@ const UserMenuPopover = () => {
                 key={item.label}
                 className="py-1 px-2 hover:bg-slate-100 transition-all"
               >
-                <Link href={item.href} className="block">
-                  {item.label}
+                <Link href={item.href} className="flex items-center gap-2 px-2">
+                  {item.icon} {item.label}
                 </Link>
               </li>
             ))}
             {user.roles.includes("OWNER") && (
               <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link href={"/motels/mine"} className="block">
-                  Quản lý trọ
+                <Link href={"/motels/mine"} className="flex items-center gap-2 px-2">
+                  <HouseIcon size={20} /> Quản lý trọ
                 </Link>
               </li>
             )}
@@ -125,8 +155,8 @@ const UserMenuPopover = () => {
             </li>
             <li className="py-1 px-2 hover:bg-slate-100 transition-all t-destructive">
               <LogoutDialog>
-                <div className="w-full text-left text-destructive">
-                  Đăng xuất
+                <div className="w-full text-left text-destructive flex items-center gap-2 cursor-pointer px-2">
+                  <LogOutIcon className="size-4" /> Đăng xuất
                 </div>
               </LogoutDialog>
             </li>

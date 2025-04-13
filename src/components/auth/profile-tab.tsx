@@ -62,14 +62,15 @@ const ProfileTab = ({ userId }: { userId: string }) => {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="grid grid-cols-1 gap-4">
-              {posts?.result.map((post) => (
+              {posts?.result?.map((post) => (
                 <PostCard key={post.id} data={post} />
               ))}
-              {posts?.result.length === 0 && (
-                <div className="text-center items-center h-full">
-                  <p className="text-gray-500">Không có bài đăng</p>
-                </div>
-              )}
+              {!posts?.result ||
+                (posts?.result.length === 0 && (
+                  <div className="text-center items-center h-full">
+                    <p className="text-gray-500">Không có bài đăng</p>
+                  </div>
+                ))}
             </div>
           </CardContent>
         </Card>
