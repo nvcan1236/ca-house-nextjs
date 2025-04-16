@@ -6,8 +6,10 @@ import useFilterStore from "@/stores/filter-store"
 import { IMotel } from "@/types/motel"
 import MotelSkeleton from "@/components/motel/motel-skeleton"
 
+import DecorativeHeading from "../common/decorative-heading"
 import Pagination from "../common/pagination"
 import MotelCard from "./motel-card"
+import NearMotelList from "./near-motel-list"
 
 const MotelsList = () => {
   const pageParam = useSearchParams()
@@ -16,20 +18,21 @@ const MotelsList = () => {
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>()
-  const [isFetching, setIsFetching] = useState(false)
 
-  const { refetch: getMotels } = useGetMotels({ page, filter })
+  const { refetch: getMotels, isLoading } = useGetMotels({ page, filter })
+
   useEffect(() => {
     const fetchMotels = async () => {
-      const { data, isFetching } = await getMotels()
+      const { data } = await getMotels()
+
       setData(data)
-      setIsFetching(isFetching)
     }
     fetchMotels()
   }, [filter.applied, page])
+
   const motelList: IMotel[] = data?.result.data || []
 
-  if (isFetching)
+  if (isLoading || !motelList)
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {Array(12)
@@ -42,15 +45,20 @@ const MotelsList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {motelList?.map((motel) => (
-          <MotelCard
-            motel={motel}
-            key={motel.id}
-            onClick={() => router.push(`/motels/${motel.id}`)}
-          />
-        ))}
+      <NearMotelList />
+      <div className="mt-8">
+        <DecorativeHeading>Tất cả</DecorativeHeading>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {motelList?.map((motel) => (
+            <MotelCard
+              motel={motel}
+              key={motel.id}
+              onClick={() => router.push(`/motels/${motel.id}`)}
+            />
+          ))}
+        </div>
       </div>
+
       <Pagination
         current={data?.result.currentPage || 1}
         max={data?.result.totalPage || 1}

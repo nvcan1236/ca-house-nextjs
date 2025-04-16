@@ -13,7 +13,7 @@ const MotelTypeBadge = ({
 }: BadgeProps & { type: MotelType; size?: Size }) => {
   const typeTransfer: { [key in MotelType]: string } = {
     APARTMENT: "Căn hộ, chung cư",
-    DORMITORY: "Ký trúc xá",
+    DORMITORY: "Ký túc xá",
     SINGLE_ROOM: "Phòng trọ đơn",
     WHOLE_HOUSE: "Nhà nguyên căn",
   }

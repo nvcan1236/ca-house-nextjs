@@ -37,7 +37,9 @@ const MotelCard = ({
           {motel.district}, {motel.city}
         </p>
         <div className="flex gap-2 items-center justify-between mt-3">
-          <span>Diện tích: {motel?.area}m2</span>
+          <span>
+            Diện tích: {motel?.area}m<sup>2</sup>
+          </span>
           <span className="font-semibold text-main-blue text-lg">
             {Number(motel?.price).toLocaleString()}/
             <span className="text-xs">tháng</span>
