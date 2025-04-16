@@ -97,6 +97,7 @@ export interface IMotel {
   district: string
   city: string
   approved: boolean
+  saved: boolean
 }
 
 export type AmenityType = "FACILITY" | "FURNITURE" | "SERVICE"

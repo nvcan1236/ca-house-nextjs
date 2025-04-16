@@ -13,12 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
+import { useQueryClient } from "@tanstack/react-query"
 
 const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const [date, setDate] = useState(new Date())
   const { mutateAsync: bookApointment, isPending: loadingBookAppointment } =
     useBookAppointment()
   const { user, openModal } = useAuthStore()
+  const queryClient = useQueryClient()
   const { mutateAsync: saveMotel } = useSaveMotel()
   const handleBookAppointment = () => {
     if (detailMotel?.id) {
@@ -36,8 +39,16 @@ const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
       openModal()
       return
     }
-    await saveMotel(detailMotel.id)
-    toast.success("Lưu trọ thành công!")
+    const { result: savedResult } = await saveMotel(detailMotel.id)
+    queryClient.invalidateQueries({
+      queryKey: ["motel", detailMotel.id]
+    })
+    if(savedResult.isSaved) {
+      toast.success("Lưu trọ thành công!")
+    }
+    else {
+      toast.success("Bỏ lưu trọ thành công!")
+    }
   }
 
   return (
@@ -68,8 +79,14 @@ const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
         </PopoverContent>
       </Popover>
 
-      <Button variant={"secondary"} className="p-4" onClick={handleSaveMotel}>
-        <BookmarkIcon size={16} className="mr-2" /> Lưu trọ
+      <Button variant={"secondary"} className="p-4 " onClick={handleSaveMotel}>
+        <BookmarkIcon
+          size={16}
+          className={cn("mr-2", {
+            "fill-main-yellow text-main-yellow": detailMotel.saved,
+          })}
+        />
+        {detailMotel.saved ? "Đã lưu" : "Lưu trọ"}
       </Button>
     </div>
   )

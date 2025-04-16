@@ -145,9 +145,8 @@ export const useGetSavedMotel = () => {
 export const useSaveMotel = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ["saveMotel"],
     mutationFn: async (motelId: string) => {
-      const response = await authAxios.post<ApiResponse<null>>(
+      const response = await authAxios.post<ApiResponse<{ isSaved: boolean }>>(
         `motel/save/${motelId}`
       )
       queryClient.invalidateQueries({
