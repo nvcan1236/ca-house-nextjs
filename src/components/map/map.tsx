@@ -1,13 +1,21 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
-import BaseMap from "./base-map";
-import { Marker, ViewState } from "react-map-gl";
-import { useGetNearestMotels } from "@/services/motelApi";
-import MotelMarker from "../motel/motel-marker";
-const Map = ({ children }: { children?: ReactNode }) => {
+import { ReactNode, useEffect, useMemo, useState } from "react"
+import { useGetNearestMotels } from "@/services/motelApi"
+import { Marker, ViewState } from "react-map-gl"
+
+import MotelMarker from "../motel/motel-marker"
+import BaseMap from "./base-map"
+
+const Map = ({
+  children,
+}: {
+  children?: ReactNode
+  currentLon?:number
+  currentLat?:number
+}) => {
   const [current, setCurrent] = useState({
     latitude: 0,
     longitude: 0,
-  });
+  })
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -16,30 +24,30 @@ const Map = ({ children }: { children?: ReactNode }) => {
           ...current,
           longitude,
           latitude,
-        });
+        })
       }
-    );
-  }, []);
+    )
+  }, [])
 
   const [filter, setFilter] = useState({
     longitude: current.longitude,
     latitude: current.latitude,
     radius: 5000,
-  });
+  })
 
   const updateFilter = (viewState: ViewState) => {
-    let radius = 5000;
+    let radius = 5000
     if (viewState.zoom < 11) {
-      radius = 10000;
+      radius = 10000
     }
     if (viewState.zoom < 10) {
-      radius = 30000;
+      radius = 30000
     }
     if (viewState.zoom < 9) {
-      radius = 40000;
+      radius = 40000
     }
     if (viewState.zoom < 8) {
-      radius = 80000;
+      radius = 80000
     }
 
     setFilter((prev) => ({
@@ -47,16 +55,16 @@ const Map = ({ children }: { children?: ReactNode }) => {
       longitude: viewState.longitude,
       latitude: viewState.latitude,
       radius: radius,
-    }));
-  };
+    }))
+  }
 
   const { data } = useGetNearestMotels({
     lon: filter.longitude,
     lat: filter.latitude,
     radius: filter.radius,
-  });
+  })
 
-  const motels = data?.result;
+  const motels = data?.result
 
   const motelMarkers = useMemo(
     () =>
@@ -72,30 +80,13 @@ const Map = ({ children }: { children?: ReactNode }) => {
         </Marker>
       )),
     [JSON.stringify(motels)]
-  );
-
-  // const motels = useMemo(
-  //   () => (
-  //     <>
-  //       <Marker longitude={106.71} latitude={10.699}>
-  //         <MotelMarker></MotelMarker>
-  //       </Marker>
-  //       <Marker longitude={106.72} latitude={10.7}>
-  //         <MotelMarker></MotelMarker>
-  //       </Marker>
-  //       <Marker longitude={106.73} latitude={10.68}>
-  //         <MotelMarker></MotelMarker>
-  //       </Marker>
-  //     </>
-  //   ),
-  //   [JSON.stringify(current)]
-  // );
+  )
 
   return (
-    <BaseMap onMoveEnd={({ viewState }) => updateFilter(viewState)}>
+    <BaseMap onMoveEnd={({ viewState }) => updateFilter(viewState)} >
       {motelMarkers}
     </BaseMap>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map

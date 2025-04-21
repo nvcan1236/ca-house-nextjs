@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { useChatRooms, useGetMessages } from "@/services/chatService"
 import webSocketService from "@/services/webSocketService"
 import { useAuthStore } from "@/stores/auth-store"
@@ -24,6 +25,7 @@ import Rooms from "./rooms"
 const ChatSheet = () => {
   const { chatOpen, toggleChat, currentRoom, setCurrentRoom } = useChatStore()
   const { refetch: refetchRooms } = useChatRooms()
+  const pathName = usePathname()
   const { user } = useAuthStore()
   const { refetch: refetchMessages, data } = useGetMessages(
     currentRoom?.id || ""
@@ -59,6 +61,8 @@ const ChatSheet = () => {
 
     return () => webSocketService.disconnect()
   }, [currentRoom, user])
+
+  if (pathName === "/motels/register") return
 
   return (
     <div>

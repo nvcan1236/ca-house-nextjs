@@ -1,43 +1,37 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useGetPosts } from "@/services/postApi"
 import { usePostFilterStore } from "@/stores/post-filter-store"
-
-import { IPost } from "@/types/post"
 
 import PostCard from "./post-card"
 import PostSketeton from "./post-skeleton"
 
 const PostList = () => {
-  const [offset, setOffset] = useState(0)
-  const [postList, setPostList] = useState<IPost[]>([])
-  const [hasMore, setHasMore] = useState(false)
-  const { data: postData, isFetching } = useGetPosts(offset)
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
+    useGetPosts()
 
+  const posts = data?.pages.flatMap((page) => page.result) || []
   const { filter: filterPost } = usePostFilterStore()
 
-  useEffect(() => {
-    if (postData) {
-      setPostList((prevPosts) => [...prevPosts, ...postData.result])
-      setHasMore(postData.result.length == 10)
-    }
-  }, [isFetching])
-
+  // Xử lý infinite scroll
   useEffect(() => {
     const handleScroll = () => {
+      const scrollPosition = window.innerHeight + window.scrollY
+      const scrollThreshold = document.documentElement.scrollHeight - 400
+
       if (
-        window.innerHeight + window.scrollY >=
-          document.documentElement.scrollHeight - 50 &&
-        !isFetching &&
-        hasMore
+        scrollPosition >= scrollThreshold &&
+        hasNextPage &&
+        !isFetchingNextPage
       ) {
-        setOffset((prevPage) => prevPage + 10)
+        fetchNextPage()
       }
     }
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [isFetching, hasMore])
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  if (!postData?.result && isFetching)
+  if (isFetching && !isFetchingNextPage)
     return (
       <div className="flex gap-4 flex-col">
         <PostSketeton />
@@ -47,7 +41,7 @@ const PostList = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {postList
+      {posts
         ?.filter((p) => filterPost.includes(p.type))
         ?.map((post) => <PostCard key={post.id} data={post} />)}
     </div>

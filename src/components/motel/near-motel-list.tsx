@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { getAddressFromCoord } from "@/services/map-service"
 import { useGetNearestMotels } from "@/services/motelApi"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon, MapPinIcon } from "lucide-react"
 
 import DecorativeHeading from "../common/decorative-heading"
 import H3 from "../common/h3"
@@ -24,6 +25,7 @@ const NearMotelList = () => {
     latitude: 0,
     longitude: 0,
   })
+  const [place, setPlace] = useState("")
   const { data: nearMotels, isLoading: isLoadingNear } = useGetNearestMotels({
     lat: currentLocation.latitude,
     lon: currentLocation.longitude,
@@ -32,11 +34,16 @@ const NearMotelList = () => {
 
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         setCurrentLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         })
+        const data = await getAddressFromCoord(
+          position.coords.longitude,
+          position.coords.latitude
+        )
+        setPlace(data.data.features[0].place_name)
       },
       (error) => {
         console.error("Error getting location:", error)
@@ -48,7 +55,15 @@ const NearMotelList = () => {
 
   return (
     <div className="">
-      <DecorativeHeading>Đề xuất trọ gần bạn</DecorativeHeading>
+      <div className="flex justify-between items-baseline">
+        <DecorativeHeading>Đề xuất trọ gần bạn</DecorativeHeading>
+        <div className="px-4 py-1 bg-background border border-main-blue rounded-full flex items-center gap-2">
+          <MapPinIcon size={16} className="text-main-yellow" />
+          <p className="text-sm max-w-[240px] line-clamp-1 overflow-ellipsis">
+            {place}
+          </p>
+        </div>
+      </div>
       {isLoadingNear ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {Array(4)
@@ -67,7 +82,7 @@ const NearMotelList = () => {
           setApi={setApi}
           opts={{
             loop: true,
-          }} 
+          }}
         >
           <CarouselContent>
             {nearMotels?.result.slice(0, 4).map((motel) => (

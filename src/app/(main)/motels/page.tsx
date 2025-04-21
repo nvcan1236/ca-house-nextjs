@@ -4,9 +4,9 @@ import { useState } from "react"
 import { LayoutGridIcon, MapIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import Pagination from "@/components/common/pagination"
 import Map from "@/components/map/map"
 import MotelsList from "@/components/motel/motel-list"
+import NearMotelList from "@/components/motel/near-motel-list"
 
 const MotelsPage = () => {
   const [showMap, setShowMap] = useState<boolean>(false)
@@ -20,9 +20,9 @@ const MotelsPage = () => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="mt-8">
+          <NearMotelList />
           <MotelsList />
-          
         </div>
       )}
       <Button

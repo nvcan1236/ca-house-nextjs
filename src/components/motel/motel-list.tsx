@@ -9,7 +9,6 @@ import MotelSkeleton from "@/components/motel/motel-skeleton"
 import DecorativeHeading from "../common/decorative-heading"
 import Pagination from "../common/pagination"
 import MotelCard from "./motel-card"
-import NearMotelList from "./near-motel-list"
 
 const MotelsList = () => {
   const pageParam = useSearchParams()
@@ -45,8 +44,7 @@ const MotelsList = () => {
 
   return (
     <>
-      <NearMotelList />
-      <div className="mt-8">
+      <div>
         <DecorativeHeading>Tất cả</DecorativeHeading>
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {motelList?.map((motel) => (

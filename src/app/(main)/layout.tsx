@@ -1,4 +1,3 @@
-// import Chat from "@/components/common/Chat";
 import React, { PropsWithChildren } from "react"
 import {
   CircleCheckIcon,
@@ -9,10 +8,10 @@ import {
 } from "lucide-react"
 
 import { Toaster } from "@/components/ui/sonner"
-import ChatSheet from "@/components/chat/chat-sheet"
 import Container from "@/components/layout/container"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
+import ChatSheet from "@/components/chat/chat-sheet"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -39,9 +38,8 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           error: <CircleXIcon size={20} />,
         }}
       />
-      {/* <Chat /> */}
-      <ChatSheet />
       <Footer></Footer>
+      <ChatSheet />
     </div>
   )
 }

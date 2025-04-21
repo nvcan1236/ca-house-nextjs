@@ -1,10 +1,14 @@
 import React from "react"
 import { MapPinIcon, MapPinnedIcon } from "lucide-react"
+import { Marker } from "react-map-gl"
 
 import { IMotelDetail, Location } from "@/types/motel"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import MapForDetail from "@/components/map/map-for-detail"
 
+import MotelMarker from "../motel-marker"
 import MotelTypeBadge from "../motel-type.badge"
 
 const formatAddressMotel = (location: Location) => {
@@ -33,10 +37,44 @@ const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
             <MapPinnedIcon className="inline-block mr-3" />{" "}
             {formatAddressMotel(detailMotel.location)}
           </span>
-          <Button variant={"outline"} className="flex -gap-2">
-            <MapPinIcon size={20} />{" "}
-            <span className="hidden lg:inline">Xem trên bản đồ</span>
-          </Button>
+
+          <Dialog modal>
+            <DialogTrigger asChild>
+              <Button
+                variant={"outline"}
+                className="flex -gap-2"
+                disabled={
+                  !detailMotel?.location?.latitude ||
+                  !detailMotel?.location?.longitude
+                }
+              >
+                <MapPinIcon size={20} />{" "}
+                <span className="hidden lg:inline">Xem trên bản đồ</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-[1000px] flex justify-center items-center">
+              <div className="relative w-[980px] h-[600px]">
+                <MapForDetail
+                  currentLat={detailMotel?.location?.latitude || undefined}
+                  currentLon={detailMotel?.location?.longitude || undefined}
+                >
+                  {detailMotel?.location?.latitude &&
+                    detailMotel?.location?.longitude && (
+                      <Marker
+                        longitude={detailMotel.location.longitude}
+                        latitude={detailMotel.location.latitude}
+                      >
+                        <MotelMarker
+                          motel={{
+                            ...detailMotel,
+                          }}
+                        />
+                      </Marker>
+                    )}
+                </MapForDetail>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div className="py-6 px-2 rounded-xl border border-main-yellow-t6 flex bg-background mt-4 shadow">

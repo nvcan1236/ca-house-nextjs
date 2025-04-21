@@ -3,6 +3,7 @@
 import React, { ChangeEvent, useState } from "react"
 import { useCreatePost, useUploadImage } from "@/services/postApi"
 import { useAuthStore } from "@/stores/auth-store"
+import { useQueryClient } from "@tanstack/react-query"
 import { HouseIcon, ImageIcon } from "lucide-react"
 import { toast } from "sonner"
 
@@ -36,7 +37,7 @@ const PostCreate = () => {
   const { mutate: uploadImages } = useUploadImage()
   const { user } = useAuthStore()
   const [open, setOpen] = useState(false)
-
+  const queryClient = useQueryClient()
   const [postCreateData, setPostCreateData] = useState<IPostCreate>(postInit)
   const handleChangePost = (
     type: keyof IPostCreate,
@@ -50,7 +51,6 @@ const PostCreate = () => {
   }
 
   const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files)
     setImages(event.target.files)
   }
 
@@ -63,6 +63,8 @@ const PostCreate = () => {
       const postId = data.result.id
       if (images && images.length > 0 && postId)
         uploadImages({ postId, images })
+
+      queryClient.invalidateQueries({ queryKey: ["posts"] })
     })
 
     setPostCreateData(postInit)

@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { geoMapEndpoint } from "@/configs/mapbox-config"
-import axios from "@/services/axios"
+import { getCoordinate } from "@/services/map-service"
 import { useCreateLocationMotel } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { MapPinIcon } from "lucide-react"
@@ -58,16 +57,14 @@ const LocationInfo = () => {
     zoom: 15,
   })
 
-  const getCoordinate = async () => {
-    axios
-      .get(
-        geoMapEndpoint(
-          `${location?.street},${location?.ward},${location?.district},${location?.city}`
-        )
-      )
-      .then((data) => {
-        setLocationList(data.data)
-      })
+  const handleGetCoordinate = async () => {
+    const coord = await getCoordinate({
+      city: location.city,
+      district: location.district,
+      street: location.street,
+      ward: location.ward,
+    })
+    setLocationList(coord.data)
   }
 
   useEffect(() => {
@@ -114,7 +111,7 @@ const LocationInfo = () => {
     if (location.district) {
       setWardList(getWards(location.city, location.district))
     }
-  }, [location.city, location.district]);
+  }, [location.city, location.district])
 
   return (
     <div className="">
@@ -215,7 +212,10 @@ const LocationInfo = () => {
               </div>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button type="button" onClick={getCoordinate}>
+                  <Button
+                    type="button"
+                    onClick={handleGetCoordinate}
+                  >
                     Xem trên Map
                   </Button>
                 </PopoverTrigger>

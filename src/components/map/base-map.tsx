@@ -9,6 +9,8 @@ import ReactMapGL, {
   ViewStateChangeEvent,
 } from "react-map-gl"
 
+const MAP_TOKEN = envConfig.NEXT_PUBLIC_MAP_TOKEN
+
 const BaseMap = ({
   children,
   onMoveEnd,
@@ -17,47 +19,52 @@ const BaseMap = ({
   onMoveEnd?: (e: ViewStateChangeEvent) => void
   viewState?: Partial<ViewState>
 }) => {
-  const MAP_TOKEN = envConfig.NEXT_PUBLIC_MAP_TOKEN
   const [current, setCurrent] = useState({
     latitude: 0,
     longitude: 0,
   })
 
   const [viewStateState, setViewStateState] = useState({
-    longitude: current.longitude,
-    latitude: current.latitude,
+    longitude: viewState?.longitude || current.longitude,
+    latitude: viewState?.latitude || current.latitude,
     zoom: 15,
   })
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { longitude, latitude } }) => {
-        setViewStateState({
-          ...viewStateState,
-          longitude,
-          latitude,
-        })
-        setCurrent({
-          ...current,
-          longitude,
-          latitude,
-        })
-      }
-    )
+    if (!viewState?.longitude || !viewState.latitude) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { longitude, latitude } }) => {
+          setViewStateState({
+            ...viewStateState,
+            longitude,
+            latitude,
+          })
+          setCurrent({
+            ...current,
+            longitude,
+            latitude,
+          })
+        }
+      )
+    }
   }, [])
 
-  useEffect(() => {
-    if (viewState) setViewStateState({ ...viewStateState, ...viewState })
-  }, [viewState])
+  const handleMoveEnd = (e: ViewStateChangeEvent) => {
+    onMoveEnd?.(e)
+  }
 
   return (
     <div className="w-full h-full relative">
       <ReactMapGL
         mapStyle={"mapbox://styles/nvcan1236/cm05einzd00hf01qs8oa59aji"}
+        initialViewState={{
+          latitude: viewState?.latitude,
+          longitude: viewState?.longitude,
+          zoom: 10,
+        }}
         mapboxAccessToken={MAP_TOKEN}
         onMove={(evt) => setViewStateState(evt.viewState)}
-        onDblClick={console.log}
-        onMoveEnd={onMoveEnd}
+        onMoveEnd={handleMoveEnd}
         {...viewStateState}
       >
         <GeolocateControl position="top-left" />
@@ -65,10 +72,6 @@ const BaseMap = ({
         <NavigationControl position="top-left" />
         <ScaleControl />
         {children}
-        {/* <Marker
-          longitude={current.longitude}
-          latitude={current.latitude}
-        ></Marker> */}
       </ReactMapGL>
     </div>
   )

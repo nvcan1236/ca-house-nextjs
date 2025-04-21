@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query"
 
 import { ApiResponse } from "@/types/common"
 import {
@@ -20,13 +25,19 @@ const fetcher = async (url: string, options?: RequestInit) => {
 }
 
 // React Query Hooks
-export const useGetPosts = (offset: number) =>
-  useQuery<ApiResponse<IPost[]>>({
-    queryKey: ["posts", offset],
-    queryFn: () =>
-      fetcher(`/post/?${new URLSearchParams({ offset: offset.toString() })}`),
+export const useGetPosts = () =>
+  useInfiniteQuery<ApiResponse<IPost[]>>({
+    queryKey: ["posts"],
+    queryFn: ({ pageParam }) =>
+      fetcher(
+        `/post/?${new URLSearchParams({ offset: String(pageParam) })}`
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.result.length < 10) return undefined
+      return lastPage.result.length
+    },
+    initialPageParam: 0,
   })
-
 export const useGetPostsByUser = (offset: number, username: string) =>
   useQuery<ApiResponse<IPost[]>>({
     queryKey: ["posts", username, offset],
