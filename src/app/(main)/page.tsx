@@ -1,11 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { setToken } from "@/services/localStorageService"
 import { useOutbound } from "@/services/userApi"
 
-export default function Home() {
+function Home() {
   const params = useSearchParams()
   const router = useRouter()
   const code = params.get("code")
@@ -30,4 +30,12 @@ export default function Home() {
       </div>
     )
   return redirect("/motels")
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div>Verifing...</div>}>
+      <Home />
+    </Suspense>
+  )
 }

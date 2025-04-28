@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { LayoutGridIcon, MapIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,9 @@ const MotelsPage = () => {
       ) : (
         <div className="mt-8">
           <NearMotelList />
-          <MotelsList />
+          <Suspense fallback={<div>Loading motels...</div>}>
+            <MotelsList />
+          </Suspense>
         </div>
       )}
       <Button
