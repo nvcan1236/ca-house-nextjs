@@ -28,12 +28,13 @@ const MotelMarker = ({ motel }: { motel: IMotel }) => {
     name: "Trọ của Cảnh",
     price: 2000000,
     status: "AVAILABLE",
-    type: "Phòng đơn",
+    type: "SINGLE_ROOM",
     city: "Ho Chi Minh",
     district: "Nha Be",
     latitude: 0,
     longitude: 0,
     approved: true,
+    saved: false
   }
   return (
     <div>

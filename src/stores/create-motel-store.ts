@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import { IMotelDetail, Price } from "@/types/motel"
+import { IMotelDetail } from "@/types/motel"
 
 export type CreateMotelState = {
   id: string | null

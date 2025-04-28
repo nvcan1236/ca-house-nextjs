@@ -1,4 +1,3 @@
-import { IMotel } from "@/utils/interfaces"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { IMotel } from "@/types/motel"
 
 export const columns: ColumnDef<IMotel>[] = [
   {

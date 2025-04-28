@@ -19,6 +19,7 @@ const MapInCreate = () => {
           images: [],
           district: "Nhà Bè",
           approved: true,
+          saved: false
         }}
       ></MotelMarker>
     </BaseMap>

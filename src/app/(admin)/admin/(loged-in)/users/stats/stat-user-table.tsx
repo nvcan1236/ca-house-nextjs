@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { UserStat } from "@/utils/types"
 
 import {
   Table,
@@ -11,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { UserStat } from "@/types/auth"
 
 const StatUserTable: FC<{ data?: UserStat }> = ({ data }) => {
   return (

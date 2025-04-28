@@ -1,13 +1,13 @@
 "use client"
 
-import { useGetPosts } from "@/services/postApi"
+import { useGetPostsPage } from "@/services/postApi"
 
 import H3 from "@/components/common/h3"
-import { columns } from "@/components/post/post-column"
 import { DataTable } from "@/components/post/edit/table-data"
+import { columns } from "@/components/post/post-column"
 
 const ManagePosts = () => {
-  const { data } = useGetPosts(0)
+  const { data } = useGetPostsPage(0)
 
   return (
     <div className="">

@@ -29,15 +29,21 @@ export const useGetPosts = () =>
   useInfiniteQuery<ApiResponse<IPost[]>>({
     queryKey: ["posts"],
     queryFn: ({ pageParam }) =>
-      fetcher(
-        `/post/?${new URLSearchParams({ offset: String(pageParam) })}`
-      ),
+      fetcher(`/post/?${new URLSearchParams({ offset: String(pageParam) })}`),
     getNextPageParam: (lastPage) => {
       if (lastPage.result.length < 10) return undefined
       return lastPage.result.length
     },
     initialPageParam: 0,
   })
+
+export const useGetPostsPage = (offet: number) =>
+  useQuery<ApiResponse<IPost[]>>({
+    queryKey: ["posts, page"],
+    queryFn: () =>
+      fetcher(`/post/?${new URLSearchParams({ offset: String(offet) })}`),
+  })
+
 export const useGetPostsByUser = (offset: number, username: string) =>
   useQuery<ApiResponse<IPost[]>>({
     queryKey: ["posts", username, offset],

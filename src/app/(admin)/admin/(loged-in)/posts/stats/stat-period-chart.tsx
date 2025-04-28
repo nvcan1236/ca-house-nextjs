@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { ByPostPeriod } from "@/utils/types"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -10,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { ByPostPeriod } from "@/types/post"
 
 const StatPeriodChart: FC<{ data: ByPostPeriod[] }> = ({ data }) => {
   const chartConfig = {

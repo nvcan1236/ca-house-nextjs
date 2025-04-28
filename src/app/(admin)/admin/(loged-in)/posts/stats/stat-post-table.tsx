@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { PostStat } from "@/utils/types"
 
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -12,8 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { PostStat } from "@/types/post"
 
-const StatPostTable: FC<{ data: PostStat }> = ({ data }) => {
+const StatPostTable: FC<{ data?: PostStat }> = ({ data }) => {
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 flex-wrap">
@@ -30,7 +30,7 @@ const StatPostTable: FC<{ data: PostStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byPeriod.map((d) => (
+                {data?.byPeriod.map((d) => (
                   <TableRow key={d.period}>
                     <TableCell className="font-medium">{d.period}</TableCell>
                     <TableCell className="text-right">{d.count}</TableCell>
@@ -64,7 +64,7 @@ const StatPostTable: FC<{ data: PostStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byType.map((d) => (
+                {data?.byType.map((d) => (
                   <TableRow key={d.type}>
                     <TableCell className="font-medium">{d.type}</TableCell>
                     <TableCell className="text-right">{d.count}</TableCell>

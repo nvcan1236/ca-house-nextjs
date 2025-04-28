@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/stores/auth-store"
 import { Client } from "@stomp/stompjs"
 
 import { ChatMessage } from "@/types/chat"

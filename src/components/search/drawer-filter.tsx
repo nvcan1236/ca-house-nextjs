@@ -1,33 +1,10 @@
 import React, { useState } from "react";
 import {
   Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
 import { Button } from "../ui/button";
-import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react";
-import H3 from "../common/h3";
-import {
-  facilities,
-  furnitures,
-  motelTypes,
-  services,
-} from "@/lib/predefined-data";
-import {
-  applyFilter,
-  refreshFilter,
-  updateAmenity,
-  updateMotelType,
-  updatePrice,
-} from "@/stores/slices/filterSlice";
-import PriceRangeSlider from "./price-range-slider";
-import { Checkbox } from "../ui/checkbox";
-import { Label } from "../ui/label";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
+import { SlidersHorizontalIcon } from "lucide-react";
 
 const DrawerFilter = () => {
   // const filter = useAppSelector((state) => state.filter);

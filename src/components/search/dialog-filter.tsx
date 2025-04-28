@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react"
-import { useGetMotelStat } from "@/services/motelApi"
 import useFilterStore from "@/stores/filter-store"
 import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react"
 
@@ -84,7 +83,7 @@ const DialogFilter = () => {
                     step={500000}
                     currentMin={filter.minPrice}
                     currentMax={filter.maxPrice}
-                    // onChange={handleChangePrice}
+                    onChange={handleChangePrice}
                   ></PriceRangeSlider>
                 </div>
               </div>

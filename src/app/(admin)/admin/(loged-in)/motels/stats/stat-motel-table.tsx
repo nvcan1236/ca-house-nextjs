@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { MotelStat } from "@/utils/types"
 
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -12,8 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { MotelStat } from "@/types/motel"
 
-const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
+const StatMotelTable: FC<{ data?: MotelStat }> = ({ data }) => {
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 flex-wrap">
@@ -30,7 +30,7 @@ const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byPeriod.map((d) => (
+                {data?.byPeriod.map((d) => (
                   <TableRow key={d.period}>
                     <TableCell className="font-medium">{d.period}</TableCell>
                     <TableCell className="text-right">{d.count}</TableCell>
@@ -64,7 +64,7 @@ const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byType.map((d) => (
+                {data?.byType.map((d) => (
                   <TableRow key={d.type}>
                     <TableCell className="font-medium">{d.type}</TableCell>
                     <TableCell className="text-right">{d.count}</TableCell>
@@ -98,7 +98,7 @@ const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byPrice.map((d) => (
+                {data?.byPrice.map((d) => (
                   <TableRow key={d.range}>
                     <TableCell className="font-medium">
                       {`${d.range * 2000000} - ${(d.range + 1) * 2000000}`}
@@ -134,7 +134,7 @@ const StatMotelTable: FC<{ data: MotelStat }> = ({ data }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.byArea.map((d) => (
+                {data?.byArea.map((d) => (
                   <TableRow key={d.range}>
                     <TableCell className="font-medium">
                       {`${d.range * 5}m2 - ${(d.range + 1) * 5}m2`}
