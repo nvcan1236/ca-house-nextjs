@@ -10,9 +10,11 @@ import Container from "@/components/layout/container"
 const CreateProgress = ({
   disableNext,
   onNextClick,
+  nextText,
 }: {
   disableNext: boolean
   onNextClick?: () => void
+  nextText?: string
 }) => {
   const { prevStep, setCurrentStep, currentStep, id } = useCreateMotelStore()
   return (
@@ -23,7 +25,10 @@ const CreateProgress = ({
           {steps.map((step, index) => {
             if (index === 0) return null
             return (
-              <div key={index} className="size-10 rounded-full bg-background relative z-10">
+              <div
+                key={index}
+                className="size-10 rounded-full bg-background relative z-10"
+              >
                 <CustomTooltip label={step.label}>
                   <Button
                     variant={"ghost"}
@@ -50,12 +55,8 @@ const CreateProgress = ({
           <Button size={"lg"} variant={"secondary"} onClick={prevStep}>
             Quay lại
           </Button>
-          <Button
-            disabled={disableNext || !id}
-            size={"lg"}
-            onClick={onNextClick}
-          >
-            Tiếp tục
+          <Button disabled={disableNext} size={"lg"} onClick={onNextClick}>
+            {nextText || "Tiếp tục"}
           </Button>
         </div>
       </Container>

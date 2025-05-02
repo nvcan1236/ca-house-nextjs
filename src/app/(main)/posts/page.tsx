@@ -1,13 +1,20 @@
 "use client"
 
-import { useMediaQuery } from "@custom-react-hooks/use-media-query"
+import { FilterIcon, PlusIcon } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import PostCreate from "@/components/post/post-create"
 import PostFilter from "@/components/post/post-filter"
 import PostList from "@/components/post/post-list"
 
 const PostListPage = () => {
-  const isDesktop = useMediaQuery("(min-width: 1024px)")
+  // const isDesktop = useMediaQuery("(min-width: 1024px)")
   return (
     <div className="flex mt-3 items-start justify-center gap-3">
       <div className="lg:w-1/4 lg-w-1/4 sticky top-[100px] hidden md:block">
@@ -15,14 +22,34 @@ const PostListPage = () => {
       </div>
 
       <div className="flex-1">
-        <div className="lg:hidden mb-4">
-          {!isDesktop ? <PostCreate /> : null}
+        <div className="lg:hidden mb-4 flex justify-end gap-2">
+          <Popover>
+            <PopoverTrigger>
+              <Button size={"sm"} variant={"secondary"}>
+                <FilterIcon size={16} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0 bg-transparent border-none">
+              <PostFilter />
+            </PopoverContent>
+          </Popover>
+          <Dialog>
+            <DialogTrigger>
+              <Button size={"sm"} variant={"secondary"}>
+                <PlusIcon className="mr-2" size={16} />
+                Tạo bài viết
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <PostCreate />
+            </DialogContent>
+          </Dialog>
         </div>
         <PostList />
       </div>
 
       <div className="lg:w-1/4 sticky top-[100px] hidden lg:block">
-        {isDesktop ? <PostCreate /> : null}
+        <PostCreate />
       </div>
     </div>
   )

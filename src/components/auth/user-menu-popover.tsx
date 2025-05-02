@@ -51,19 +51,14 @@ const UserMenuPopover = () => {
       icon: <UserIcon size={20} />,
     },
     {
-      href: "/appointment",
-      label: "Lịch hẹn",
-      icon: <CalendarClockIcon size={20} />,
-    },
-    {
       href: "/motels/saved",
       label: "Xem phòng đã lưu",
       icon: <BookmarkCheckIcon size={20} />,
     },
     {
-      href: "/appointment",
-      label: "Xem phòng đã đặt",
-      icon: <HousePlusIcon size={20} />,
+      href: "/activities",
+      label: "Hoạt động",
+      icon: <CalendarClockIcon size={20} />,
     },
     {
       href: "/posts/mine",
@@ -145,7 +140,10 @@ const UserMenuPopover = () => {
             ))}
             {user.roles.includes("OWNER") && (
               <li className="py-1 px-2 hover:bg-slate-100 transition-all">
-                <Link href={"/motels/mine"} className="flex items-center gap-2 px-2">
+                <Link
+                  href={"/motels/mine"}
+                  className="flex items-center gap-2 px-2"
+                >
                   <HouseIcon size={20} /> Quản lý trọ
                 </Link>
               </li>

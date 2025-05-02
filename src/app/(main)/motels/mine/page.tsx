@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/table"
 import ProtectedRoute from "@/components/auth/protected-route"
 import { CreateMotelButton } from "@/components/common/create-motel-button"
+import DecorativeHeading from "@/components/common/decorative-heading"
 import H3 from "@/components/common/h3"
 import EditMotelDialog from "@/components/motel/edit/edit-motel-dialog"
 import MotelCard from "@/components/motel/motel-card"
@@ -43,10 +44,10 @@ const MyMotelsPage = () => {
     <ProtectedRoute>
       <section>
         <div className="flex justify-between items-center">
-          <H3>Danh sách phòng của bạn</H3>
+          <DecorativeHeading>Phòng của bạn</DecorativeHeading>
           <CreateMotelButton />
         </div>
-        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 mt-6 gap-4">
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
           {motels?.length === 0 && (
             <p className="py-6 ml-10 text-slate-600 ">
               (Bạn chưa tạo phòng trọ nào)

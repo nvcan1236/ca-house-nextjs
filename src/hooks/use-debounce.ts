@@ -8,5 +8,5 @@ export const useDebouce = (
   useEffect(() => {
     const timer = setTimeout(cb, timeout)
     return () => clearTimeout(timer)
-  }, [cb, timeout])
+  }, [cb, timeout, ...deps])
 }

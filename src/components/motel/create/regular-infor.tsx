@@ -197,7 +197,10 @@ const RegularInfo = () => {
                   )
                 )}
 
-                <CreateProgress disableNext={!form.formState.isValid} />
+                <CreateProgress
+                  disableNext={!form.formState.isValid}
+                  onNextClick={() => form.handleSubmit(onSubmit)}
+                />
               </form>
             </Form>
           </div>

@@ -5,30 +5,26 @@ export type FilterState = {
   minPrice: number
   maxPrice: number
   amenities: string[]
-  applied: boolean
+  applied: number
 }
 
 type FilterStore = FilterState & {
   updatePrice: (min: number, max: number) => void
   updateAmenity: (amenity: string) => void
   updateMotelType: (type: string) => void
-  applyFilter: (applied: boolean) => void
+  applyFilter: () => void
   refreshFilter: () => void
 }
 
-const initialState: Omit<
-  FilterStore,
-  | "updatePrice"
-  | "updateAmenity"
-  | "updateMotelType"
-  | "applyFilter"
-  | "refreshFilter"
-> = {
-  roomType: "SINGLE_ROOM",
-  minPrice: 500000,
-  maxPrice: 10000000,
+export const MIN_PRICE = 500000
+export const MAX_PRICE = 10000000
+
+const initialState: FilterState = {
+  roomType: "",
+  minPrice: MIN_PRICE,
+  maxPrice: MAX_PRICE,
   amenities: [],
-  applied: false,
+  applied: 0,
 }
 
 const useFilterStore = create<FilterStore>((set) => ({
@@ -55,13 +51,19 @@ const useFilterStore = create<FilterStore>((set) => ({
       roomType: type,
     })),
 
-  applyFilter: (applied) =>
+  applyFilter: () =>
     set((state) => ({
       ...state,
-      applied,
+      applied: state.applied + 1,
     })),
 
-  refreshFilter: () => set(() => ({ ...initialState })),
+  refreshFilter: () =>
+    set((state) => ({
+      ...state,
+      ...initialState,
+      minPrice: MIN_PRICE,
+      maxPrice: MAX_PRICE,
+    })),
 }))
 
 export default useFilterStore

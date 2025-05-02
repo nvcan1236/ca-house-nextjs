@@ -20,7 +20,7 @@ export const useGetMotels = ({
   isAdmin?: boolean
 }) => {
   return useQuery({
-    queryKey: ["motels", page, size, filter, isAdmin],
+    queryKey: ["motels", page, size, filter.applied, isAdmin],
     queryFn: async () => {
       const params = new URLSearchParams()
       const filterParam = new URLSearchParams()
@@ -68,6 +68,18 @@ export const useGetMotel = (id: string, isAdmin?: boolean) => {
     queryFn: async () => {
       const response = await axios.get<ApiResponse<IMotelDetail>>(
         `/motel/${id}`
+      )
+      return response.data
+    },
+  })
+}
+
+export const useSearchMotel = (keyword: string) => {
+  return useQuery({
+    queryKey: ["motels", "search", keyword],
+    queryFn: async () => {
+      const response = await axios.get<ApiResponse<IMotelDetail[]>>(
+        `/motel/search?keyword=${keyword}`
       )
       return response.data
     },

@@ -5,9 +5,9 @@ import { BookmarkIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import ProtectedRoute from "@/components/auth/protected-route"
-import H3 from "@/components/common/h3"
 import Container from "@/components/layout/container"
 import MotelCard from "@/components/motel/motel-card"
+import DecorativeHeading from "@/components/common/decorative-heading"
 
 const SavedMotelPage = () => {
   const { data } = useGetSavedMotel()
@@ -16,7 +16,7 @@ const SavedMotelPage = () => {
   return (
     <ProtectedRoute>
       <Container className="min-h-[500px]">
-        <H3>Danh sách phòng đã lưu</H3>
+        <DecorativeHeading>Danh sách phòng đã lưu</DecorativeHeading>
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 mt-6 gap-4">
           {motels?.map((motel) => (
             <div key={motel.id} className="relative">

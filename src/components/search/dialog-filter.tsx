@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react"
-import useFilterStore from "@/stores/filter-store"
+import React, { useState } from "react"
+import useFilterStore, { MAX_PRICE, MIN_PRICE } from "@/stores/filter-store"
 import { RotateCcwIcon, SlidersHorizontalIcon } from "lucide-react"
 
 import {
@@ -26,22 +26,21 @@ import PriceRangeSlider from "./price-range-slider"
 const DialogFilter = () => {
   const [open, setOpen] = useState<boolean>(false)
   const filter = useFilterStore()
-  const handleChangePrice = useCallback(
-    (min: number, max: number) => filter.updatePrice(min, max),
-    [filter]
-  )
-  // const { data } = useGetMotelStat("2025-01-01", "2025-01-31")
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={"icon"} variant={"ghost"}>
+        <Button
+          size={"icon"}
+          variant={!!filter.applied ? "secondary" : "ghost"}
+        >
           <SlidersHorizontalIcon size={20} />
         </Button>
       </DialogTrigger>
       <DialogContent className="p-10 min-w-[800px] ">
         <DialogHeader className="flex flex-row justify-between items-center">
           <DialogTitle>Tìm kiếm nhanh hơn với bộ lọc</DialogTitle>
-          {filter.applied && (
+          {!!filter.applied && (
             <Button
               variant={"secondary"}
               onClick={() => filter.refreshFilter()}
@@ -78,13 +77,15 @@ const DialogFilter = () => {
                 </div> */}
                 <div className="max-w-full mx-auto mt-2 px-4">
                   <PriceRangeSlider
-                    min={500000}
-                    max={10000000}
+                    min={MIN_PRICE}
+                    max={MAX_PRICE}
                     step={500000}
                     currentMin={filter.minPrice}
                     currentMax={filter.maxPrice}
-                    onChange={handleChangePrice}
-                  ></PriceRangeSlider>
+                    onChange={(min, max) => {
+                      filter.updatePrice(min, max)
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -152,7 +153,7 @@ const DialogFilter = () => {
               <Button
                 className="block ml-auto mt-6 px-10"
                 onClick={() => {
-                  filter.applyFilter(true)
+                  filter.applyFilter()
                   setOpen(false)
                 }}
               >

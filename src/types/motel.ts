@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+
 import { User } from "./auth"
 import { Image } from "./common"
 
@@ -38,8 +39,8 @@ export type Requirement = {
 
 export interface Step {
   component: React.ReactNode
-  icon: ReactNode,
-  label: string 
+  icon: ReactNode
+  label: string
 }
 
 export type Job = "STUDENT" | "WORKER" | "OFFICER" | "FREELANCER" | "OTHER"
@@ -130,6 +131,7 @@ export type Review = {
 }
 
 export type AppointmentStatus = "PENDING" | "ACCEPT" | "DENY"
+export type DepositStatus = "PAYMENT_SUCCESS" | "PENDING" | "PAYMENT_FAIL"
 
 export type Appointment = {
   id: string
@@ -137,6 +139,7 @@ export type Appointment = {
   createdAt: string
   status: AppointmentStatus
   date: string
+  motel: IMotel
 }
 
 export type MotelByPeriod = {

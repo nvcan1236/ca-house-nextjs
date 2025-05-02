@@ -184,13 +184,15 @@ export const usePayDeposit = () =>
     mutationFn: async ({
       motelId,
       amount,
+      duarion,
     }: {
       motelId: string
       amount: number
+      duarion: number
     }): Promise<ApiResponse<ReservationCreationResponse>> => {
       return (
         await authAxios.get(
-          `/motel/reserve/${motelId}/payment/vn-pay?amount=${amount}`
+          `/motel/reserve/${motelId}/payment/vn-pay?amount=${amount}&duration=${duarion}`
         )
       ).data
     },

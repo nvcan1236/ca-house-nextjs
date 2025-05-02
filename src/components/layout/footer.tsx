@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer className=" bg-main-blue-s5 text-white py-4 ">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-6 font-thin">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 py-6 font-thin text-sm items-end">
           <div className="flex items-center flex-col">
             <Image
               src="/logo.png"
@@ -34,6 +34,15 @@ const Footer = () => {
             </ul>
           </div>
 
+          <div className="">
+            <ul>
+              <li>Create and mânge motel</li>
+              <li>Approve motel</li>
+              <li>Chat realtime </li>
+              <li>Login, register</li>
+            </ul>
+          </div>
+
           <div>
             <Label className="text-main-yellow-t6 text-lg mb-2">
               Technologies
@@ -45,7 +54,16 @@ const Footer = () => {
               <li>Java, SpringBoot</li>
             </ul>
           </div>
+          <div>
+            <ul>
+              <li>Websocket</li>
+              <li>FastAPI</li>
+              <li>Amazon S3, Brevo</li>
+              <li>Docker</li>
+            </ul>
+          </div>
         </div>
+
         <Separator className=" bg-main-blue-s2" />
         <div className="opacity-50 text-sm font-thin pt-4 text-center">
           <div>

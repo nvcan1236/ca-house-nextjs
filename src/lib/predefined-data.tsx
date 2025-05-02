@@ -35,7 +35,13 @@ import {
   WifiIcon,
 } from "lucide-react"
 
-import { AppointmentStatus, Job, Price, Step } from "@/types/motel"
+import {
+  AppointmentStatus,
+  DepositStatus,
+  Job,
+  Price,
+  Step,
+} from "@/types/motel"
 import { PostType, ReactionType } from "@/types/post"
 import AmenityInfo from "@/components/motel/create/amenity-infor"
 import LocationInfo from "@/components/motel/create/location-infor"
@@ -329,6 +335,14 @@ export const appointmentStatus: {
   PENDING: "Đang chờ",
   ACCEPT: "Chấp nhận",
   DENY: "Từ chối",
+}
+
+export const depositStatus: {
+  [key in DepositStatus]: string
+} = {
+  PENDING: "Đang chờ",
+  PAYMENT_SUCCESS: "Thành công",
+  PAYMENT_FAIL: "Thất bại",
 }
 
 export const translations: { [key: PropertyKey]: string } = {

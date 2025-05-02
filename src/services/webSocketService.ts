@@ -4,7 +4,7 @@ import { ChatMessage } from "@/types/chat"
 
 import { getToken } from "./localStorageService"
 
-const SOCKET_URL = "ws://localhost:8086/chat/ws"
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL
 
 class WebSocketService {
   private client: Client | null = null

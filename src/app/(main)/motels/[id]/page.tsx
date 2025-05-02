@@ -22,7 +22,7 @@ const DetailMotelPage = () => {
   const detailMotel: IMotelDetail = data?.result
 
   return (
-    <div className="md:mt-10">
+    <div >
       <DetailMotelImages detailMotel={detailMotel} />
       <div className="flex gap-8 pt-10">
         <div className="flex-1 flex flex-col gap-6 ">

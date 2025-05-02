@@ -94,8 +94,9 @@ const UploadMotelImage = () => {
         </div>
 
         <CreateProgress
-          disableNext={!files || files?.length < 5}
+          disableNext={!files || files?.length < 5 || loadingUpload}
           onNextClick={handleUploadImage}
+          nextText={files && files?.length >= 5 ? "Upload ảnh" : ""}
         />
       </div>
     </div>

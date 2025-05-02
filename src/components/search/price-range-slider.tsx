@@ -29,9 +29,15 @@ const PriceRangeSlider: React.FC<TwoHandleSliderProps> = ({
     const value = Math.round((percent * (max - min) + min) / step) * step
 
     if (isLeft) {
-      if (value < rightValue && value >= min) setLeftValue(value)
+      if (value < rightValue && value >= min) {
+        setLeftValue(value)
+        onChange?.(value, rightValue)
+      }
     } else {
-      if (value > leftValue && value <= max) setRightValue(value)
+      if (value > leftValue && value <= max) {
+        setRightValue(value)
+        onChange?.(leftValue, value)
+      }
     }
   }
 
@@ -39,10 +45,6 @@ const PriceRangeSlider: React.FC<TwoHandleSliderProps> = ({
     setLeftValue(currentMin)
     setRightValue(currentMax)
   }, [currentMax, currentMin])
-
-  useEffect(() => {
-    onChange?.(leftValue, rightValue)
-  }, [onChange])
 
   const leftPercent = ((leftValue - min) / (max - min)) * 100
   const rightPercent = ((rightValue - min) / (max - min)) * 100
@@ -63,8 +65,10 @@ const PriceRangeSlider: React.FC<TwoHandleSliderProps> = ({
           className="absolute top-0 w-6 h-6 bg-white border-2 border-main-blue-s3 rounded-full shadow cursor-pointer transform -translate-x-1/2 focus:outline-none"
           style={{ left: `${leftPercent}%` }}
           onMouseDown={() => {
-            const moveHandler = (event: MouseEvent) =>
+            const moveHandler = (event: MouseEvent) => {
               handleMove(event as unknown as React.MouseEvent, true)
+            }
+
             document.addEventListener("mousemove", moveHandler)
             document.addEventListener(
               "mouseup",
@@ -79,8 +83,9 @@ const PriceRangeSlider: React.FC<TwoHandleSliderProps> = ({
           className="absolute top-0 w-6 h-6 bg-white border-2 border-main-blue-s3 rounded-full shadow cursor-pointer transform -translate-x-1/2 focus:outline-none"
           style={{ left: `${rightPercent}%` }}
           onMouseDown={() => {
-            const moveHandler = (event: MouseEvent) =>
-              handleMove(event as unknown as React.MouseEvent, true)
+            const moveHandler = (event: MouseEvent) => {
+              handleMove(event as unknown as React.MouseEvent, false)
+            }
             document.addEventListener("mousemove", moveHandler)
             document.addEventListener(
               "mouseup",

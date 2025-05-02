@@ -1,40 +1,59 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { useGetPostsByUser } from "@/services/postApi"
 import { useAuthStore } from "@/stores/auth-store"
-import { PlusIcon } from "lucide-react"
+import { EditIcon, PlusIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import H3 from "@/components/common/h3"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import DecorativeHeading from "@/components/common/decorative-heading"
 import EditPostDialog from "@/components/post/edit/edit-post-dialog"
 import PostCard from "@/components/post/post-card"
+import PostCreate from "@/components/post/post-create"
 
 const MyPosts = () => {
   const { user } = useAuthStore()
   const { data } = useGetPostsByUser(0, user?.username || "")
   const posts = data?.result
-  const router = useRouter()
   return (
     <div className="mx-auto">
       <div className="flex justify-between items-center">
-        <H3>Danh sách bài viết</H3>
-        <Button variant={"outline"} onClick={() => router.push("/posts")}>
-          <PlusIcon size={20} className="mr-2" /> Đăng bài viết
-        </Button>
+        <DecorativeHeading>Bài viết của bạn</DecorativeHeading>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant={"outline"}>
+              <PlusIcon size={20} className="mr-2" /> Đăng bài viết
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Đăng bài viết</DialogTitle>
+            </DialogHeader>
+            <PostCreate />
+          </DialogContent>
+        </Dialog>
       </div>
       {posts?.length == 0 && (
         <p className="text-muted-foreground text-center py-20">
           ( Chưa đăng bài viết nào )
         </p>
       )}
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-6 min-h-screen place-content-start">
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-6">
         {posts?.map((post) => (
-          <EditPostDialog post={post} key={post.id}>
-            <div>
-              <PostCard data={post} />
-            </div>
-          </EditPostDialog>
+          <div key={post.id} className="break-inside-avoid">
+            <EditPostDialog post={post}>
+              <Button size={"sm"} variant={"outline"}>
+                <EditIcon size={16} className="mr-2" /> Chỉnh sửa
+              </Button>
+            </EditPostDialog>
+            <PostCard data={post} />
+          </div>
         ))}
       </div>
     </div>

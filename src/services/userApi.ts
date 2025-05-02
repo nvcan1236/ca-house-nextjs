@@ -1,4 +1,4 @@
-import axios, { authAxios, formDataAxios } from "@/services/axios"
+import api, { authAxios, formDataAxios, noAuthAxios } from "@/services/axios"
 import { getToken, removeToken, setToken } from "@/services/localStorageService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -25,7 +25,7 @@ export const useOutbound = () => {
   >({
     mutationKey: ["outbound"],
     mutationFn: async (code: string) => {
-      const { data } = await axios.post(
+      const { data } = await api.post(
         `/identity/auth/outbound/authentication?code=${encodeURIComponent(code)}`
       )
       return data
@@ -44,15 +44,26 @@ export const useGetAllUserQuery = () =>
   })
 
 // 📌 Lấy thông tin người dùng hiện tại
-export const useGetCurrentUserQuery = (enabled?: boolean) =>
-  useQuery<ApiResponse<User>>({
+export const useGetCurrentUserQuery = (enabled?: boolean) => {
+  return useQuery<ApiResponse<User>, AxiosError>({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const { data } = await authAxios.get("/identity/users/my-infor")
+      const { data } = await api.get("/identity/users/my-infor")
       return data
     },
     enabled,
   })
+}
+
+export const useRefreshToken = () => {
+  const token = getToken()
+  return useMutation< ApiResponse<{ token: string }>> ({
+    mutationFn: async () => {
+      const response = await noAuthAxios.post("/identity/auth/refresh", { token })
+      return response.data
+    }
+  })
+}
 
 // 📌 Lấy thông tin người dùng theo ID
 export const useGetUserByIdQuery = (userId: string) =>
@@ -73,7 +84,7 @@ export const useLoginMutation = () => {
     LoginForm
   >({
     mutationFn: async (data) => {
-      const response = await axios.post("/identity/auth/token", data)
+      const response = await api.post("/identity/auth/token", data)
       return response.data
     },
     onSuccess: (data) => {
@@ -98,7 +109,7 @@ export const useLogoutMutation = () => {
   const token = getToken()
   return useMutation<ApiResponse<null>, AxiosError>({
     mutationFn: async () => {
-      const { data } = await axios.post("/identity/auth/logout", { token })
+      const { data } = await api.post("/identity/auth/logout", { token })
       return data
     },
     onSuccess: () => {
@@ -142,7 +153,7 @@ export const useCheckUsername = () =>
   useMutation<ApiResponse<boolean>, Error, string>({
     mutationKey: ["checkUsername"],
     mutationFn: async (username: string) => {
-      const response = await axios.post(`identity/users/check/${username}`)
+      const response = await api.post(`identity/users/check/${username}`)
       return response.data
     },
   })

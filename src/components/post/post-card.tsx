@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useReact } from "@/services/postApi"
 import { useFollow } from "@/services/userApi"
 import { useAuthStore } from "@/stores/auth-store"
-import { HouseIcon, MessageSquareTextIcon } from "lucide-react"
+import { HouseIcon, MessageSquareTextIcon, UserPlusIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { IPost } from "@/types/post"
@@ -53,31 +53,35 @@ const PostCard = ({ data }: { data: IPost }) => {
     follow(userId)
   }
 
+  useEffect(() => {
+    setPost(data)
+  }, [data])
+
   return (
     <div className="bg-background border rounded-xl p-6 pb-4">
       <div className="flex flex-col gap-3">
-        <div className="flex justify-between flex-col lg:flex-row">
-          <div className="flex justify-between lg:justify-start items-center gap-3">
-            <div className="flex gap-2 items-center">
-              <Avatar>
-                <AvatarImage src={post.owner.avatar} />
-                <AvatarFallback>
-                  {post.owner.firstName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <H3 className="!text-base cursor-pointer max-w-[200px] overflow-hidden text-ellipsis">
-                {`${post.owner.lastName} ${post.owner.firstName}`}
-              </H3>
-            </div>
-            <Button
-              size={"sm"}
-              variant={"secondary"}
-              className="text-xs h-auto px-2 py-1"
-              onClick={() => followUser(post.create_by)}
-            >
-              Theo dõi
-            </Button>
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-center">
+            <Avatar>
+              <AvatarImage src={post.owner.avatar} />
+              <AvatarFallback>
+                {post.owner.firstName.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <H3 className="!text-base cursor-pointer max-w-[200px] overflow-hidden text-ellipsis">
+              {`${post.owner.lastName} ${post.owner.firstName}`}
+              <Button
+                size={"sm"}
+                variant={"outline"}
+                className="text-xs h-auto px-2 py-1 ml-2 inline-flex items-center gap-1"
+                onClick={() => followUser(post.create_by)}
+              >
+                <UserPlusIcon size={16} />
+                <span className="hidden sm:inline">Theo dõi</span>
+              </Button>
+            </H3>
           </div>
+
           <div className="justify-self-end text-end">
             <p className="text-slate-600 text-sm ">
               Đăng vào {formatDate(post.create_at)}
@@ -95,7 +99,7 @@ const PostCard = ({ data }: { data: IPost }) => {
             </div>
           )}
         </div>
-        <div className="pt-3 border-t flex flex-1 text-sm">
+        <div className="pt-3 border-t flex flex-1 text-sm text-gray-500">
           <div className="flex gap-2 items-center flex-1">
             <HoverCard>
               <HoverCardTrigger
@@ -138,12 +142,14 @@ const PostCard = ({ data }: { data: IPost }) => {
               {post.comment_count} Bình luận
             </CommentDialog>
           </div>
-          <Button variant={"outline"} size={"sm"} className="">
-            <Link href={`/motels/123`} className="flex justify-center gap-3">
-              <span className="hidden sm:inline">Xem phòng</span>
-              <HouseIcon size={20}></HouseIcon>
-            </Link>
-          </Button>
+          {post.type !== "FIND_ROOM" && (
+            <Button variant={"outline"} size={"sm"} className="">
+              <Link href={`/motels/123`} className="flex justify-center gap-3">
+                <span className="hidden sm:inline">Xem phòng</span>
+                <HouseIcon size={20}></HouseIcon>
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </div>

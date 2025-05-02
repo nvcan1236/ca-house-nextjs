@@ -24,7 +24,7 @@ import UsernameStatus from "./username-unique-status"
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  const { closeModal, switchAuthType } = useAuthStore()
+  const { switchAuthType } = useAuthStore()
   const loginValidationSchema = z
     .object({
       username: z.string().min(4),
@@ -56,9 +56,10 @@ const RegisterForm = () => {
     axios
       .post(caHouseEndpoint.register, JSON.stringify(data))
       .then((data) => {
-        form.reset()
-        closeModal()
-        console.log(data.data.result)
+        if (data.status === 200) {
+          form.reset()
+          switchAuthType()
+        }
       })
       .catch((error) => toast.error(error.response.data.message))
   }
@@ -107,7 +108,7 @@ const RegisterForm = () => {
                 <FormControl>
                   <>
                     <Input placeholder="Enter your username" {...field} />
-                    <UsernameStatus  username={form.watch("username")} />
+                    <UsernameStatus username={form.watch("username")} />
                   </>
                 </FormControl>
                 <FormMessage />

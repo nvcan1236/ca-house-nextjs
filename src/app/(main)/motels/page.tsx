@@ -20,7 +20,7 @@ const MotelsPage = () => {
           </div>
         </div>
       ) : (
-        <div className="mt-8">
+        <div className="space-y-4">
           <NearMotelList />
           <Suspense fallback={<div>Loading motels...</div>}>
             <MotelsList />

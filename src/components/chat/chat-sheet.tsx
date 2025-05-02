@@ -11,6 +11,7 @@ import { MessageCircleIcon } from "lucide-react"
 import { ChatMessage, TEMP_CHAT_ID } from "@/types/chat"
 import { cn } from "@/lib/utils"
 
+import LoginButton from "../common/login-button"
 import { Input } from "../ui/input"
 import {
   Sheet,
@@ -60,14 +61,14 @@ const ChatSheet = () => {
     )
 
     return () => webSocketService.disconnect()
-  }, [currentRoom, user])
+  }, [currentRoom?.id, user?.username])
 
   if (pathName === "/motels/register") return
 
   return (
     <div>
       <Sheet open={chatOpen} onOpenChange={toggleChat}>
-        <SheetTrigger>
+        <SheetTrigger asChild>
           <div className="bg-main-yellow text-white rounded-lg px-4 py-2 fixed bottom-4 right-10 flex gap-2 items-center z-20">
             <MessageCircleIcon /> <span className="hidden sm:inline">Chat</span>
           </div>
@@ -79,7 +80,10 @@ const ChatSheet = () => {
           </SheetHeader>
 
           {!user ? (
-            <div className="text-center py-10 ">Đăng nhập để nhắn tin</div>
+            <div className="text-center">
+              <div className="py-10 ">Đăng nhập để nhắn tin</div>
+              <LoginButton />
+            </div>
           ) : (
             <div className="flex gap-2 pt-6 h-full">
               <div className="flex-1 transition-all overflow-hidden">

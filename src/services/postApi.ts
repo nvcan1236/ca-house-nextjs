@@ -16,20 +16,18 @@ import {
 } from "@/types/post"
 import { reactions } from "@/lib/predefined-data"
 
-import { formDataAxios } from "./axios"
-import fetchWithAuth from "./baseQueryReauth"
-
-// API Helper
-const fetcher = async (url: string, options?: RequestInit) => {
-  return fetchWithAuth(url, options)
-}
+import api, { formDataAxios } from "./axios"
 
 // React Query Hooks
 export const useGetPosts = () =>
   useInfiniteQuery<ApiResponse<IPost[]>>({
     queryKey: ["posts"],
-    queryFn: ({ pageParam }) =>
-      fetcher(`/post/?${new URLSearchParams({ offset: String(pageParam) })}`),
+    queryFn: async ({ pageParam }) => {
+      const res = await api.get(
+        `/post/?${new URLSearchParams({ offset: String(pageParam) })}`
+      )
+      return res.data
+    },
     getNextPageParam: (lastPage) => {
       if (lastPage.result.length < 10) return undefined
       return lastPage.result.length
@@ -40,23 +38,32 @@ export const useGetPosts = () =>
 export const useGetPostsPage = (offet: number) =>
   useQuery<ApiResponse<IPost[]>>({
     queryKey: ["posts, page"],
-    queryFn: () =>
-      fetcher(`/post/?${new URLSearchParams({ offset: String(offet) })}`),
+    queryFn: async () => {
+      const res = await api.get(
+        `/post/?${new URLSearchParams({ offset: String(offet) })}`
+      )
+      return res.data
+    },
   })
 
 export const useGetPostsByUser = (offset: number, username: string) =>
   useQuery<ApiResponse<IPost[]>>({
-    queryKey: ["posts", username, offset],
-    queryFn: () =>
-      fetcher(
+    queryKey: ["posts", "user", username, offset],
+    queryFn: async () => {
+      const res = await api.get(
         `/post/user/${username}?${new URLSearchParams({ offset: offset.toString() })}`
-      ),
+      )
+      return res.data
+    },
   })
 
 export const useGetPost = (id: string) =>
   useQuery<ApiResponse<IPost>>({
     queryKey: ["post", id],
-    queryFn: () => fetcher(`/post/${id}`),
+    queryFn: async () => {
+      const res = await api.get(`/post/${id}`)
+      return res.data
+    },
   })
 
 export const useReact = () => {
@@ -66,11 +73,12 @@ export const useReact = () => {
     unknown,
     { postId: string; type: keyof typeof reactions | null }
   >({
-    mutationFn: ({ postId, type }) =>
-      fetcher(
-        `/post/${postId}/react?${new URLSearchParams(type ? { type } : {})}`,
-        { method: "POST" }
-      ),
+    mutationFn: async ({ postId, type }) => {
+      const res = await api.post(
+        `/post/${postId}/react?${new URLSearchParams(type ? { type } : {})}`
+      )
+      return res.data
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
   })
 }
@@ -78,8 +86,10 @@ export const useReact = () => {
 export const useCreatePost = () => {
   const queryClient = useQueryClient()
   return useMutation<ApiResponse<IPost>, unknown, IPostCreate>({
-    mutationFn: (data) =>
-      fetcher(`/post/`, { method: "POST", body: JSON.stringify(data) }),
+    mutationFn: async (data) => {
+      const res = await api.post(`/post/`, data)
+      return res.data
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
   })
 }
@@ -91,12 +101,12 @@ export const useUpdatePost = () => {
     unknown,
     { postId: string; content: string }
   >({
-    mutationFn: ({ postId, content }) =>
-      fetcher(`/post/${postId}`, {
-        method: "PATCH",
-        body: JSON.stringify({ content }),
-      }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["posts"] }),
+    mutationFn: async ({ postId, content }) => {
+      const res = await api.patch(`/post/${postId}`, { content })
+      return res.data
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["posts"], exact: false }),
   })
 }
 
@@ -119,7 +129,10 @@ export const useUploadImage = () => {
 export const useGetComments = (postId: string, enabled?: boolean) =>
   useQuery<ApiResponse<IComment[]>>({
     queryKey: ["comments", postId],
-    queryFn: () => fetcher(`/post/${postId}/comment`),
+    queryFn: async () => {
+      const res = await api.get(`/post/${postId}/comment`)
+      return res.data
+    },
     enabled,
   })
 
@@ -130,11 +143,10 @@ export const usePostComment = () => {
     unknown,
     { postId: string; comment: ICommentCreate }
   >({
-    mutationFn: ({ postId, comment }) =>
-      fetcher(`/post/${postId}/comment`, {
-        method: "POST",
-        body: JSON.stringify(comment),
-      }),
+    mutationFn: async ({ postId, comment }) => {
+      const res = await api.post(`/post/${postId}/comment`, comment)
+      return res.data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments"] })
       queryClient.invalidateQueries({ queryKey: ["posts"] })
@@ -144,12 +156,17 @@ export const usePostComment = () => {
 
 export const useGetSuggestPostContent = () =>
   useMutation<ApiResponse<string>, unknown, SuggestContent>({
-    mutationFn: (data) =>
-      fetcher("/post/suggest/", { method: "POST", body: JSON.stringify(data) }),
+    mutationFn: async (data) => {
+      const res = await api.post("/post/suggest/", data)
+      return res.data
+    },
   })
 
 export const useGetPostStat = () =>
   useQuery<ApiResponse<PostStat>>({
     queryKey: ["postStat"],
-    queryFn: () => fetcher(`/post/stat/`),
+    queryFn: async () => {
+      const res = await api.get(`/post/stat/`)
+      return res.data
+    },
   })

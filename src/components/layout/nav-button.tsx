@@ -20,6 +20,7 @@ const NavButtons = () => {
           className={cn("md:w-[120px]  w-20 md:h-10  h-8 ", {
             "text-gray-500": role === "post",
           })}
+          size={"sm"}
           variant={role === "motel" ? "default" : "ghost"}
         >
           Trọ
@@ -30,6 +31,7 @@ const NavButtons = () => {
           className={cn("md:w-[120px] w-20 md:h-10  h-8", {
             "text-gray-500": role === "motel",
           })}
+          size={"sm"}
           variant={role === "post" ? "default" : "ghost"}
         >
           Bài đăng

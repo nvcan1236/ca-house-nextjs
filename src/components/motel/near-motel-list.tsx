@@ -7,7 +7,6 @@ import { useGetNearestMotels } from "@/services/motelApi"
 import { ChevronLeftIcon, ChevronRightIcon, MapPinIcon } from "lucide-react"
 
 import DecorativeHeading from "../common/decorative-heading"
-import H3 from "../common/h3"
 import { Button } from "../ui/button"
 import {
   Carousel,
@@ -53,11 +52,13 @@ const NearMotelList = () => {
 
   if (!currentLocation.latitude || !currentLocation.longitude) return null
 
+  if (nearMotels?.result.length === 0) return null
+
   return (
-    <div className="">
+    <div>
       <div className="flex justify-between items-baseline">
         <DecorativeHeading>Đề xuất trọ gần bạn</DecorativeHeading>
-        <div className="px-4 py-1 bg-background border border-main-blue rounded-full flex items-center gap-2">
+        <div className="flex-1 px-4 py-1 bg-background border border-main-blue rounded-full flex items-center gap-2">
           <MapPinIcon size={16} className="text-main-yellow" />
           <p className="text-sm max-w-[240px] line-clamp-1 overflow-ellipsis">
             {place}
@@ -72,10 +73,6 @@ const NearMotelList = () => {
               <MotelSkeleton key={index} />
             ))}
         </div>
-      ) : nearMotels?.result.length === 0 ? (
-        <H3 className="text-center mt-4 text-sm text-muted-foreground">
-          Không tìm thấy trọ gần bạn
-        </H3>
       ) : (
         <Carousel
           className="mt-4"

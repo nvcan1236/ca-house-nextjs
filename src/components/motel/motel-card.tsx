@@ -33,7 +33,7 @@ const MotelCard = ({
           </H3>
           <MotelTypeBadge type={motel.type} size="sm"></MotelTypeBadge>
         </div>
-        <p className="!text-sm ">
+        <p className="!text-sm line-clamp-1">
           {motel.district}, {motel.city}
         </p>
         <div className="flex gap-2 items-center justify-between mt-3">

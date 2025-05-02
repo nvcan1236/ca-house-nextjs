@@ -1,5 +1,8 @@
-import { ChatMessage } from "@/types/chat"
 import Image from "next/image"
+
+import { ChatMessage } from "@/types/chat"
+
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
 
 type MessageProps = {
   msg: ChatMessage
@@ -15,12 +18,24 @@ const Message = ({ msg, mine }: MessageProps) => {
             mine ? "ml-auto  rounded-br-none " : "rounded-bl-none"
           }`}
         >
-          <Image
-            src={msg.mediaUrl || ""}
-            alt="Chat image"
-            width={160}
-            height={240}
-          />
+          <Dialog>
+            <DialogTrigger>
+              <Image
+                src={msg.mediaUrl || ""}
+                alt="Chat image"
+                width={160}
+                height={240}
+              />
+            </DialogTrigger>
+            <DialogContent className="lg:max-w-[1000px]">
+              <Image
+                src={msg.mediaUrl || ""}
+                alt="Chat image"
+                width={1000}
+                height={600}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
         {/* <span className="text-[10px] text-slate-600 text-right">
           {formatCreatedAt(msg.createdAt)}

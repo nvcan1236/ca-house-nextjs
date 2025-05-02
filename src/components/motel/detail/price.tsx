@@ -1,36 +1,14 @@
 import React from "react"
-import { useRouter } from "next/navigation"
-import { usePayDeposit } from "@/services/motelUtilApi"
-import { useAuthStore } from "@/stores/auth-store"
 
 import { IMotelDetail } from "@/types/motel"
 
 import DecorativeHeading from "../../common/decorative-heading"
 import Item from "../../common/item"
-import { Button } from "../../ui/button"
 import { Label } from "../../ui/label"
 import { Separator } from "../../ui/separator"
+import DepositDialog from "./deposit-dialog"
 
 const DetailMotelPrice = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
-  const { mutateAsync: payDeposit } = usePayDeposit()
-  const router = useRouter()
-  const { user, openModal } = useAuthStore()
-
-  const handleFetchReservation = async () => {
-    if (!user) {
-      openModal()
-      return
-    }
-
-    if (detailMotel?.id) {
-      const { result } = await payDeposit({
-        motelId: detailMotel.id,
-        amount: Math.floor(detailMotel.price / 30),
-      })
-      console.log("🚀 ~ handleFetchReservation ~ data:", result)
-      if (result.paymentUrl) router.push(result.paymentUrl)
-    }
-  }
   return (
     <div className="border border-main-yellow-t6 p-4 rounded-xl bg-background sticky top-[120px] shadow">
       <DecorativeHeading>Giá cả</DecorativeHeading>
@@ -62,9 +40,7 @@ const DetailMotelPrice = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
         Sau khi đặt cọc phòng sẽ bị ẩn với các người khác. Tiền đặt cọc mỗi ngày
         sẽ bằng giá thuê chia 30.
       </p>
-      <Button className="mt-4 w-full" onClick={handleFetchReservation}>
-        Đặt cọc
-      </Button>
+      <DepositDialog detailMotel={detailMotel} />
     </div>
   )
 }

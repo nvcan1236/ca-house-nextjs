@@ -27,6 +27,18 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
   const [content, setContent] = useState(editPost?.content)
   const { mutate: updatePost } = useUpdatePost()
 
+  const handleSave = () => {
+    if (editPost)
+      updatePost(
+        { postId: editPost.id, content: content || "" },
+        {
+          onSuccess: () => {
+            setOpen(false)
+          },
+        }
+      )
+  }
+
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -89,14 +101,7 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
           </div>
         </div>
         <div className="flex justify-end mt-3">
-          <Button
-            onClick={() => {
-              if (editPost)
-                updatePost({ postId: editPost.id, content: content || "" })
-            }}
-          >
-            Cập nhật bài viết
-          </Button>
+          <Button onClick={handleSave}>Cập nhật bài viết</Button>
         </div>
       </DialogContent>
     </Dialog>

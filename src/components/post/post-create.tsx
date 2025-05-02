@@ -146,7 +146,12 @@ const PostCreate = () => {
               </div>
             </DialogContent>
           </Dialog>
-          <Button size={"icon"} variant={"ghost"}>
+
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            disabled={postCreateData.type === "FIND_ROOM"}
+          >
             <HouseIcon></HouseIcon>
           </Button>
 
