@@ -122,9 +122,9 @@ const PriceInfo = () => {
                           {u}
                         </SelectItem>
                       ))}
-                    {price.unit && (
+                    {/* {price.unit && (
                       <SelectItem value={price.unit}>{price.unit}</SelectItem>
-                    )}
+                    )} */}
                   </SelectContent>
                 </Select>
                 {price.type === "ORTHER" && (

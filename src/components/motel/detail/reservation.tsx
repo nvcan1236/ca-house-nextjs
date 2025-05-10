@@ -2,10 +2,17 @@ import React, { useState } from "react"
 import { useSaveMotel } from "@/services/motelApi"
 import { useBookAppointment } from "@/services/motelUtilApi"
 import { useAuthStore } from "@/stores/auth-store"
-import { BookmarkIcon, CalendarIcon, Loader2 } from "lucide-react"
+import { useQueryClient } from "@tanstack/react-query"
+import {
+  BookmarkIcon,
+  CalendarIcon,
+  FilePlus2Icon,
+  Loader2,
+} from "lucide-react"
 import { toast } from "sonner"
 
 import { IMotelDetail } from "@/types/motel"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -13,8 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
-import { useQueryClient } from "@tanstack/react-query"
+import PostCreateDialog from "@/components/post/post-create-dialog"
 
 const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const [date, setDate] = useState(new Date())
@@ -35,24 +41,22 @@ const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   }
   const handleSaveMotel = async () => {
     if (!user) {
-      toast.error("Vui lòng đăng nhập trước")
       openModal()
       return
     }
     const { result: savedResult } = await saveMotel(detailMotel.id)
     queryClient.invalidateQueries({
-      queryKey: ["motel", detailMotel.id]
+      queryKey: ["motel", detailMotel.id],
     })
-    if(savedResult.isSaved) {
+    if (savedResult.isSaved) {
       toast.success("Lưu trọ thành công!")
-    }
-    else {
+    } else {
       toast.success("Bỏ lưu trọ thành công!")
     }
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <Popover>
         <PopoverTrigger asChild>
           <Button className="p-4 ">
@@ -79,7 +83,13 @@ const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
         </PopoverContent>
       </Popover>
 
-      <Button variant={"secondary"} className="p-4 " onClick={handleSaveMotel}>
+      <Button
+        variant={"secondary"}
+        className={cn("p-4 bg-background", {
+          "bg-main-yellow-t6 border-main-yellow": detailMotel.saved,
+        })}
+        onClick={handleSaveMotel}
+      >
         <BookmarkIcon
           size={16}
           className={cn("mr-2", {
@@ -88,6 +98,12 @@ const DetailMotelAction = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
         />
         {detailMotel.saved ? "Đã lưu" : "Lưu trọ"}
       </Button>
+
+      <PostCreateDialog>
+        <Button variant={"secondary"} className={cn("p-4 bg-background")}>
+          <FilePlus2Icon size={16} className="mr-2" /> Tạo bài viết
+        </Button>
+      </PostCreateDialog>
     </div>
   )
 }

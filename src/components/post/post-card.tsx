@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "../ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import CommentDialog from "./comment-dialog"
+import { useRouter } from "next/navigation"
 
 const PostCard = ({ data }: { data: IPost }) => {
   const [currentReact, setCurrentReact] = useState<
@@ -28,6 +29,7 @@ const PostCard = ({ data }: { data: IPost }) => {
   const { mutate: follow } = useFollow()
   const [post, setPost] = useState(data)
   const { user } = useAuthStore()
+  const router = useRouter()
 
   const react = (postId: string, type: keyof typeof reactions | null) => {
     if (!user) {
@@ -60,19 +62,21 @@ const PostCard = ({ data }: { data: IPost }) => {
   return (
     <div className="bg-background border rounded-xl p-6 pb-4">
       <div className="flex flex-col gap-3">
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
+        <div className="flex justify-between flex-wrap">
+          <div className="flex gap-2 items-center flex-1">
             <Avatar>
               <AvatarImage src={post.owner.avatar} />
               <AvatarFallback>
                 {post.owner.firstName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <H3 className="!text-base cursor-pointer max-w-[200px] overflow-hidden text-ellipsis">
-              {`${post.owner.lastName} ${post.owner.firstName}`}
+            <H3 className="!text-base cursor-pointer overflow-hidden text-ellipsis flex-1">
+              <span
+                onClick={() => router.push(`/profile/${post.owner.id}`)}
+              >{`${post.owner.lastName} ${post.owner.firstName}`}</span>
               <Button
                 size={"sm"}
-                variant={"outline"}
+                variant={"secondary"}
                 className="text-xs h-auto px-2 py-1 ml-2 inline-flex items-center gap-1"
                 onClick={() => followUser(post.create_by)}
               >
@@ -142,9 +146,12 @@ const PostCard = ({ data }: { data: IPost }) => {
               {post.comment_count} Bình luận
             </CommentDialog>
           </div>
-          {post.type !== "FIND_ROOM" && (
-            <Button variant={"outline"} size={"sm"} className="">
-              <Link href={`/motels/123`} className="flex justify-center gap-3">
+          {!!post.motel_id && (
+            <Button variant={"secondary"} size={"sm"} className="">
+              <Link
+                href={`/motels/${post.motel_id}`}
+                className="flex justify-center gap-3"
+              >
                 <span className="hidden sm:inline">Xem phòng</span>
                 <HouseIcon size={20}></HouseIcon>
               </Link>

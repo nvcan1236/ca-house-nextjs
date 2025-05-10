@@ -6,6 +6,7 @@ import { IMotel, IMotelDetail, MotelStat, Review } from "@/types/motel"
 
 import api, { authAxios } from "./axios"
 import axios from "./axios"
+import { toast } from "sonner"
 
 /** Fetch danh sách motels */
 export const useGetMotels = ({
@@ -82,6 +83,20 @@ export const useSearchMotel = (keyword: string) => {
         `/motel/search?keyword=${keyword}`
       )
       return response.data
+    },
+  })
+}
+
+export const useDeleteMotel = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (motelId: string) => {
+      const res = await axios.delete(`/motel/${motelId}`)
+      return res.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["motelsByUser"] })
+      toast.success("Xoá trọ thành công!")
     },
   })
 }

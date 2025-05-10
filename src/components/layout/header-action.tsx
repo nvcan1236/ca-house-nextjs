@@ -9,7 +9,7 @@ const HeaderAction = () => {
   const { user } = useAuthStore()
   return (
     <>
-      <div className="hidden md:flex gap-2 justify-end flex-wrap">
+      <div className="hidden md:flex items-center gap-2 justify-end flex-wrap">
         <CreateMotelButton />
         <div className="flex gap-3 item-center">
           <div className="hidden md:block">

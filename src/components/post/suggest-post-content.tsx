@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { getToken } from "@/services/localStorageService"
 import { useGetSuggestPostContent } from "@/services/postApi"
 import { PenToolIcon } from "lucide-react"
-import { toast } from "sonner"
 
 import { PostType, SuggestContent } from "@/types/post"
 import { cn } from "@/lib/utils"
@@ -11,6 +10,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { useAuthStore } from "@/stores/auth-store"
 
 const SuggestPostContent = ({
   postType,
@@ -20,6 +20,7 @@ const SuggestPostContent = ({
   onSubmit: (content: string) => void
 }) => {
   const [open, setOpen] = useState(false)
+  const {openModal} = useAuthStore()
   const [suggestQuery, setSuggestQuery] = useState<SuggestContent>({
     amenity: "",
     area: 0,
@@ -42,7 +43,7 @@ const SuggestPostContent = ({
   const handleClickCreate = async () => {
     const token = getToken()
     if (!token) {
-      toast.error("Vui lòng đăng nhập!!")
+      openModal()
       return
     }
     await getSuggestContent(suggestQuery).then((data) => {

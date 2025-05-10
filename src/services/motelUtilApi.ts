@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { ApiResponse } from "@/types/common"
+import { ApiResponse, PageResult } from "@/types/common"
 import {
   Amenity,
   Appointment,
@@ -11,6 +11,7 @@ import {
   RegularCreate,
   Requirement,
   ReservationCreationResponse,
+  ReservationResponse,
   ReviewRequest,
 } from "@/types/motel"
 
@@ -21,6 +22,24 @@ export const useCreateRegularMotel = () => {
     mutationFn: async (data: RegularCreate) => {
       const response = await authAxios.post<ApiResponse<IMotel>>(
         `/motel/`,
+        data
+      )
+      return response.data
+    },
+  })
+}
+
+export const useUpdateRegularMotel = () => {
+  return useMutation({
+    mutationFn: async ({
+      motelId,
+      data,
+    }: {
+      motelId: string
+      data: RegularCreate
+    }) => {
+      const response = await authAxios.put<ApiResponse<IMotel>>(
+        `/motel/${motelId}`,
         data
       )
       return response.data
@@ -80,7 +99,21 @@ export const useGetReservationsByUser = (page: number) => {
   return useQuery({
     queryKey: ["reservations", page],
     queryFn: async () => {
-      const response = await authAxios.get(`/motel/reserve/user?page=${page}`)
+      const response = await authAxios.get<
+        ApiResponse<PageResult<ReservationResponse>>
+      >(`/motel/reserve/user?page=${page}`)
+      return response.data
+    },
+  })
+}
+
+export const useGetReservationsByOwner = (page: number) => {
+  return useQuery({
+    queryKey: ["reservations", page],
+    queryFn: async () => {
+      const response = await authAxios.get<
+        ApiResponse<PageResult<ReservationResponse>>
+      >(`/motel/reserve/owner?page=${page}`)
       return response.data
     },
   })

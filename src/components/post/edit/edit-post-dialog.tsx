@@ -15,7 +15,15 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import MotelSelect from "@/components/common/motel-select"
 
 const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
   children,
@@ -40,7 +48,7 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
   }
 
   return (
-    <Dialog modal open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} modal={false} >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="lg:min-w-[800px]">
         <DialogHeader>
@@ -92,12 +100,32 @@ const EditPostDialog: React.FC<{ children: ReactNode; post: IPost }> = ({
             <Label htmlFor="type" className="text-right">
               Loài bài đăng
             </Label>
-            <Input
-              id="type"
-              name="type"
-              value={editPost?.type}
-              className="col-span-3"
-            />
+            <Select name="type" value={editPost?.type}>
+              <SelectTrigger className="w-full col-span-3">
+                <SelectValue placeholder="Loài bài đăng" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem key={"REVIEW"} value={"REVIEW"}>
+                  Đánh giá
+                </SelectItem>
+                <SelectItem key={"PASS_ROOM"} value={"PASS_ROOM"}>
+                  Nhượng phòng
+                </SelectItem>
+                <SelectItem key={"FIND_ROOM"} value={"FIND_ROOM"}>
+                  Tìm phòng trọ
+                </SelectItem>
+                <SelectItem key={"FIND_ROOMMATE"} value={"FIND_ROOMMATE"}>
+                  Tìm người ở chung
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="motel_id" className="text-right">
+              Nhà trọ
+            </Label>
+            <MotelSelect value={editPost?.motel_id} />
           </div>
         </div>
         <div className="flex justify-end mt-3">

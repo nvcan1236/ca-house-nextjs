@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { useRouter } from "next/navigation"
+import { resetToken } from "@/services/axios"
 import { useLogoutMutation } from "@/services/userApi"
-import { useAuthStore } from "@/stores/auth-store"
 
 import {
   AlertDialog,
@@ -18,7 +18,6 @@ import { Button } from "../ui/button"
 
 export function LogoutDialog({ children }: { children: ReactNode }) {
   const { mutate: logout } = useLogoutMutation()
-  const { setUserInfor } = useAuthStore()
   const router = useRouter()
 
   return (
@@ -34,13 +33,14 @@ export function LogoutDialog({ children }: { children: ReactNode }) {
 
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction className="bg-none p-0">
+          <AlertDialogAction className="bg-none p-0" asChild>
             <Button
               variant={"destructive"}
+              className="px-4"
               onClick={() => {
-                logout()
-                setUserInfor(undefined)
                 router.push("/")
+                logout()
+                resetToken()
               }}
             >
               Đăng xuất

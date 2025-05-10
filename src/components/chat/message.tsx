@@ -1,7 +1,9 @@
 import Image from "next/image"
 
 import { ChatMessage } from "@/types/chat"
+import { cn, formatDateTime } from "@/lib/utils"
 
+import CustomTooltip from "../common/tooltip"
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
 
 type MessageProps = {
@@ -20,12 +22,14 @@ const Message = ({ msg, mine }: MessageProps) => {
         >
           <Dialog>
             <DialogTrigger>
-              <Image
-                src={msg.mediaUrl || ""}
-                alt="Chat image"
-                width={160}
-                height={240}
-              />
+              <CustomTooltip label={formatDateTime(msg.createdAt || "")}>
+                <Image
+                  src={msg.mediaUrl || ""}
+                  alt="Chat image"
+                  width={160}
+                  height={240}
+                />
+              </CustomTooltip>
             </DialogTrigger>
             <DialogContent className="lg:max-w-[1000px]">
               <Image
@@ -33,30 +37,27 @@ const Message = ({ msg, mine }: MessageProps) => {
                 alt="Chat image"
                 width={1000}
                 height={600}
+                className="object-cover h-[600px]"
               />
             </DialogContent>
           </Dialog>
         </div>
-        {/* <span className="text-[10px] text-slate-600 text-right">
-          {formatCreatedAt(msg.createdAt)}
-        </span> */}
       </>
     )
 
   return (
-    <div>
-      <div
-        className={` mt-1  py-2 px-3 rounded-xl shadow-md w-fit text-sm max-w-[200px] ${
-          mine
-            ? "ml-auto bg-main-blue text-white rounded-br-none border-slate-400 border "
-            : "text-main-blue border border-main-blue  bg-main-blue-t9 rounded-bl-none"
-        }`}
-      >
-        {msg.content}
-      </div>
-      {/* <p className="text-[10px] text-slate-600 text-right">
-        {formatCreatedAt(msg.createdAt)}
-      </p> */}
+    <div className={cn("max-w-[200px] w-fit ", { "ml-auto ": mine })}>
+      <CustomTooltip label={formatDateTime(msg.createdAt || "")}>
+        <div
+          className={` mt-1 py-2 px-3 rounded-xl shadow-sm text-sm ${
+            mine
+              ? "rounded-br-none bg-background text-main-blue-s2 text-right"
+              : "rounded-bl-none bg-main-blue-t9 text-main-blue-s2 border border-main-blue-s2   "
+          }`}
+        >
+          {msg.content}
+        </div>
+      </CustomTooltip>
     </div>
   )
 }

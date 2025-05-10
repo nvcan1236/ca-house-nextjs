@@ -24,7 +24,7 @@ const Deposit = () => {
   const { data } = useGetReservationsByUser(1)
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const depostits: any[] = data?.result.data
+  const depostits = data?.result.data
 
   return (
     <Table className="bg-background ">
@@ -47,7 +47,7 @@ const Deposit = () => {
               <TableCell className="text-right">
                 {Number(dep.amount).toLocaleString()}
               </TableCell>
-              <TableCell>{dep.motel.name}</TableCell>
+              <TableCell>{dep.motel?.name}</TableCell>
               <TableCell
                 className={`
                     ${dep.status == "PAYMENT_SUCCESS" && "text-green-700"}
@@ -63,7 +63,7 @@ const Deposit = () => {
                     size={"icon"}
                     variant={"outline"}
                     onClick={() => {
-                      router.push(`/motels/${dep.motel.id}`)
+                      router.push(`/motels/${dep.motel?.id}`)
                     }}
                   >
                     <HouseIcon size={16} />

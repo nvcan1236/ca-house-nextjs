@@ -36,10 +36,10 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <div className="from-main-blue-t8 from-30% to-main-yellow-t6 bg-gradient-to-br h-[180px] w-full rounded-lg mx-auto"></div>
+      <div className="from-main-blue-t9 from-30% to-main-yellow-t6 shadow bg-gradient-to-br h-[80px] md:h-[180px] w-full rounded-lg mx-auto"></div>
 
       <div className="flex flex-col md:flex-row gap-2 mt-2 relative">
-        <div className="md:sticky top-0 w-full md:w-1/2 lg:w-1/3 border rounded-md   gap-2 py-3 px-6 bg-slate-50">
+        <div className="md:sticky top-0 w-full md:w-1/2 lg:w-1/3 border rounded-md  gap-2 py-3 px-6 bg-slate-50">
           {/* AVATAR */}
           <div className=" mt-5 flex flex-col">
             <div className="-mt-[100px] flex items-center flex-col hover  ">
@@ -243,6 +243,10 @@ const ProfilePage = () => {
                 </div>
               </div>
             </form>
+
+            <Button variant={"destructive"} className="mt-4">
+              Xoá tài khoản
+            </Button>
           </div>
         </div>
 

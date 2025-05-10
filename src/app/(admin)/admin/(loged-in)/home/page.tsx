@@ -25,40 +25,40 @@ const AdminPage = () => {
             cách xem thông tin và điều khiển các chức năng quản lý của bạn.
           </p>
 
-          <H3 className="mt-10">Thông tin mới theo tuần</H3>
+          <H3 className="mt-10">Thông tin tổng quan</H3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-3">
             <Card className="border-main-yellow bg-main-yellow-t9">
               <CardHeader>
                 <span className="text-main-blue-s3 font-medium text-xl">
                   User
                 </span>
-                <CardDescription>Số người dùng mới tuần này</CardDescription>
+                <CardDescription>Số người dùng </CardDescription>
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">
-                  10
+                  21
                 </span>
               </CardContent>
             </Card>
             <Card className="border-main-yellow bg-main-yellow-t9">
               <CardHeader>
                 <span className="text-main-blue-s3 font-medium text-xl">
-                  User
+                  Motel
                 </span>
-                <CardDescription>Số người dùng mới tuần này</CardDescription>
+                <CardDescription>Số nhà trọ</CardDescription>
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">
-                  10
+                  25
                 </span>
               </CardContent>
             </Card>
             <Card className="border-main-yellow bg-main-yellow-t9">
               <CardHeader>
                 <span className="text-main-blue-s3 font-medium text-xl">
-                  User
+                  Post
                 </span>
-                <CardDescription>Số người dùng mới tuần này</CardDescription>
+                <CardDescription>Số bài đăng</CardDescription>
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">

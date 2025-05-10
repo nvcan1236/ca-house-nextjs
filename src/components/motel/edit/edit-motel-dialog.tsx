@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"
 import { useApproveMotel, useGetMotel } from "@/services/motelApi"
 import { useAuthStore } from "@/stores/auth-store"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
+import { EditIcon } from "lucide-react"
 
 import { IMotel, IMotelDetail } from "@/types/motel"
 import { cn } from "@/lib/utils"
@@ -17,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { Button } from "../../ui/button"
+import DeleteMotelDialog from "../delete-motel-dialog"
 import Amenity from "./amenity"
 import General from "./general"
 import EditLocation from "./location"
@@ -48,7 +50,6 @@ const EditMotelDialog: React.FC<{
     const { name, value } = e.target
     if (name && value) setEditedMotel((prev) => ({ ...prev, [name]: value }))
   }
-
   const tabs: TabData[] = [
     {
       value: "general",
@@ -140,19 +141,29 @@ const EditMotelDialog: React.FC<{
 
         <div className="flex justify-end mt-3 gap-4">
           {editedMotel?.ownerId === user?.username && (
-            <Button
-              onClick={() => {
-                if (editedMotel && editedMotel.id) {
-                  setId(editedMotel.id)
-                  setDetailMotel(editedMotel)
-                }
+            <>
+              {editedMotel?.id && (
+                <DeleteMotelDialog
+                  motelId={editedMotel?.id}
+                  onDelete={() => {
+                    setOpen(false)
+                  }}
+                />
+              )}
+              <Button
+                onClick={() => {
+                  if (editedMotel && editedMotel.id) {
+                    setId(editedMotel.id)
+                    setDetailMotel(editedMotel)
+                  }
 
-                setCurrentStep(1)
-                router.push("/motels/register")
-              }}
-            >
-              Tiếp tục chỉnh sửa
-            </Button>
+                  setCurrentStep(1)
+                  router.push("/motels/register")
+                }}
+              >
+                <EditIcon size={16} className="mr-2" /> Chỉnh sửa
+              </Button>
+            </>
           )}
           {forPage === "admin" && (
             <Button

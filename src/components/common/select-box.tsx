@@ -20,7 +20,7 @@ const SelectBox = ({
 }) => {
   return (
     <Select onValueChange={(value) => onSelectChange(value)}>
-      <SelectTrigger className="w-full mb-2 ">
+      <SelectTrigger className="w-full ">
         <SelectValue defaultValue={options[0].value} placeholder={options[0].label} />
       </SelectTrigger>
       <SelectContent>

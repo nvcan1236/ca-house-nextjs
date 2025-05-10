@@ -19,16 +19,16 @@ const ProfileTab = ({ userId }: { userId: string }) => {
   const { data: posts } = useGetPostsByUser(0, userId)
   return (
     <Tabs defaultValue="motel">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 border ">
         <TabsTrigger
           value="motel"
-          className="data-[state=active]:bg-main-blue-t8"
+          className="data-[state=active]:bg-main-blue data-[state=active]:text-white"
         >
           Trọ
         </TabsTrigger>
         <TabsTrigger
           value="post"
-          className="data-[state=active]:bg-main-blue-t8"
+          className="data-[state=active]:bg-main-blue data-[state=active]:text-white"
         >
           Bài đăng
         </TabsTrigger>

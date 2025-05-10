@@ -2,14 +2,14 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { User } from "@/types/auth"
+import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -65,11 +65,30 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "roles",
     header: "Role",
+    cell: ({ row }) => {
+      const roles = row.original.roles
+      return (
+        <div className="text-main-blue-s3 font-semibold space-x-2">
+          {roles.map((role) => (
+            <Badge
+              key={role}
+              variant="outline"
+              className={cn("text-center", {
+                "text-red-500 bg-red-500/10 px-2 py-1": role === "ADMIN",
+                "text-yellow-500 bg-yellow-500/10 px-2 py-1": role === "USER",
+                "text-green-500 bg-green-500/10 px-2 py-1": role === "OWNER",
+              })}
+            >
+              {role}
+            </Badge>
+          ))}
+        </div>
+      )
+    },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original
+    cell: () => {
 
       return (
         <DropdownMenu>
@@ -81,14 +100,6 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

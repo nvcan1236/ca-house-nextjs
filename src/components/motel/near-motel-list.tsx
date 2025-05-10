@@ -7,6 +7,7 @@ import { useGetNearestMotels } from "@/services/motelApi"
 import { ChevronLeftIcon, ChevronRightIcon, MapPinIcon } from "lucide-react"
 
 import DecorativeHeading from "../common/decorative-heading"
+import CustomTooltip from "../common/tooltip"
 import { Button } from "../ui/button"
 import {
   Carousel,
@@ -57,12 +58,14 @@ const NearMotelList = () => {
   return (
     <div>
       <div className="flex justify-between items-baseline">
-        <DecorativeHeading>Đề xuất trọ gần bạn</DecorativeHeading>
-        <div className="flex-1 px-4 py-1 bg-background border border-main-blue rounded-full flex items-center gap-2">
+        <DecorativeHeading>Trọ gần bạn</DecorativeHeading>
+        <div className=" px-4 py-1 bg-background border border-main-blue rounded-full flex items-center">
           <MapPinIcon size={16} className="text-main-yellow" />
-          <p className="text-sm max-w-[240px] line-clamp-1 overflow-ellipsis">
-            {place}
-          </p>
+          <CustomTooltip label={place}>
+            <p className="text-sm max-w-[160px] sm:max-w-[200px] md:max-w-[320px] line-clamp-1 overflow-ellipsis">
+              {place}
+            </p>
+          </CustomTooltip>
         </div>
       </div>
       {isLoadingNear ? (

@@ -1,18 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
-import { useChatRooms, useGetMessages } from "@/services/chatService"
-import webSocketService from "@/services/webSocketService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useChatStore } from "@/stores/chat-store"
 import { MessageCircleIcon } from "lucide-react"
 
-import { ChatMessage, TEMP_CHAT_ID } from "@/types/chat"
 import { cn } from "@/lib/utils"
 
 import LoginButton from "../common/login-button"
-import { Input } from "../ui/input"
 import {
   Sheet,
   SheetContent,
@@ -22,59 +17,30 @@ import {
 } from "../ui/sheet"
 import CurrentRoom from "./current-room"
 import Rooms from "./rooms"
+import SelectUser from "./select-user"
 
 const ChatSheet = () => {
-  const { chatOpen, toggleChat, currentRoom, setCurrentRoom } = useChatStore()
-  const { refetch: refetchRooms } = useChatRooms()
+  const { chatOpen, toggleChat, currentRoom } = useChatStore()
   const pathName = usePathname()
   const { user } = useAuthStore()
-  const { refetch: refetchMessages, data } = useGetMessages(
-    currentRoom?.id || ""
-  )
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-
-  useEffect(() => {
-    const changeRoom = async () => {
-      const { data } = await refetchMessages()
-      setMessages(data?.result || [])
-    }
-
-    changeRoom()
-
-    if (data?.result) setMessages(data.result)
-    if (!currentRoom || !user?.username) return
-
-    webSocketService.connect(
-      currentRoom.id,
-      user?.username,
-      (newMessage) => {
-        setMessages((prevMessages) => [...prevMessages, newMessage])
-        if (currentRoom.id === TEMP_CHAT_ID)
-          setCurrentRoom({
-            ...currentRoom,
-            id: newMessage.roomId,
-          })
-      },
-      () => {
-        refetchRooms()
-      }
-    )
-
-    return () => webSocketService.disconnect()
-  }, [currentRoom?.id, user?.username])
 
   if (pathName === "/motels/register") return
 
   return (
     <div>
-      <Sheet open={chatOpen} onOpenChange={toggleChat}>
+      <Sheet open={chatOpen} onOpenChange={toggleChat} modal={false}>
         <SheetTrigger asChild>
           <div className="bg-main-yellow text-white rounded-lg px-4 py-2 fixed bottom-4 right-10 flex gap-2 items-center z-20">
             <MessageCircleIcon /> <span className="hidden sm:inline">Chat</span>
           </div>
         </SheetTrigger>
 
-        <SheetContent className="min-w-full md:min-w-[800px]">
+        <SheetContent
+          className={cn({
+            "min-w-full md:min-w-[800px]": currentRoom,
+            "min-w-full md:min-w-[400px]": !currentRoom,
+          })}
+        >
           <SheetHeader>
             <SheetTitle>Tin nhắn</SheetTitle>
           </SheetHeader>
@@ -87,7 +53,7 @@ const ChatSheet = () => {
           ) : (
             <div className="flex gap-2 pt-6 h-full">
               <div className="flex-1 transition-all overflow-hidden">
-                <Input placeholder="Tìm kiếm..."></Input>
+                <SelectUser />
                 <Rooms />
               </div>
               <div
@@ -96,7 +62,7 @@ const ChatSheet = () => {
                   "w-0": !currentRoom,
                 })}
               >
-                <CurrentRoom messages={messages} />
+                <CurrentRoom />
               </div>
             </div>
           )}

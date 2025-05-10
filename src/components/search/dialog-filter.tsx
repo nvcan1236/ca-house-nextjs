@@ -43,7 +43,10 @@ const DialogFilter = () => {
           {!!filter.applied && (
             <Button
               variant={"secondary"}
-              onClick={() => filter.refreshFilter()}
+              onClick={() => {
+                filter.refreshFilter()
+                setOpen(false)
+              }}
             >
               <RotateCcwIcon size={20} className="mr-2" /> Làm mới
             </Button>

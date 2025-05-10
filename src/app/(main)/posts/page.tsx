@@ -3,13 +3,13 @@
 import { FilterIcon, PlusIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import PostCreate from "@/components/post/post-create"
+import PostCreateDialog from "@/components/post/post-create-dialog"
 import PostFilter from "@/components/post/post-filter"
 import PostList from "@/components/post/post-list"
 
@@ -33,17 +33,13 @@ const PostListPage = () => {
               <PostFilter />
             </PopoverContent>
           </Popover>
-          <Dialog>
-            <DialogTrigger>
-              <Button size={"sm"} variant={"secondary"}>
-                <PlusIcon className="mr-2" size={16} />
-                Tạo bài viết
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <PostCreate />
-            </DialogContent>
-          </Dialog>
+
+          <PostCreateDialog>
+            <Button size={"sm"} variant={"secondary"}>
+              <PlusIcon className="mr-2" size={16} />
+              Tạo bài viết
+            </Button>
+          </PostCreateDialog>
         </div>
         <PostList />
       </div>

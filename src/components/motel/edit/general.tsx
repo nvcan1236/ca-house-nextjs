@@ -4,6 +4,7 @@ import { IMotelDetail } from "@/types/motel"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import ImageSlider from "@/components/common/image-slider"
 
@@ -60,13 +61,18 @@ const General = ({
         <Label htmlFor="type" className="text-right">
           Type
         </Label>
-        <Input
-          id="type"
-          name="type"
+        <Select
           value={editedMotel?.type}
-          onChange={handleInputChange}
-          className="col-span-3"
-        />
+          onValueChange={(value) =>
+            handleInputChange({
+              target: { name: "type", value },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Loại nhà trọ" />
+          </SelectTrigger>
+        </Select>
       </div>
       <div className="grid grid-cols-4 items-start gap-4">
         <Label htmlFor="description" className="text-right">

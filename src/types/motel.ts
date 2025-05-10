@@ -69,6 +69,8 @@ export type ReservationResponse = {
   status: "PENDING" | "PAYMENT_SUCCESS" | "PAYMENT_FAIL"
   amount: number
   motelId: string
+  motel?: IMotel
+  duration: number
 }
 
 export type MotelType =
@@ -82,6 +84,7 @@ export type MotelStatus =
   | "BANNED"
   | "NOT_APPROVED"
   | "RESERVED"
+  | "DELETED"
 
 export interface IMotel {
   id: string

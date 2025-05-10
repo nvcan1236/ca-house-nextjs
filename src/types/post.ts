@@ -15,6 +15,7 @@ export interface IPost {
   liked: ReactionType;
   create_at: string;
   owner: User;
+  motel_id: string;
 }
 
 export interface IComment {
@@ -34,6 +35,7 @@ export interface ICommentCreate {
 export interface IPostCreate {
   content: string;
   type: PostType;
+  motel_id: string;
 }
 
 export type Reaction = {

@@ -17,7 +17,7 @@ const NavButtons = () => {
     >
       <Link href={"/motels"}>
         <Button
-          className={cn("md:w-[120px]  w-20 md:h-10  h-8 ", {
+          className={cn("md:w-[120px]  w-20  ", {
             "text-gray-500": role === "post",
           })}
           size={"sm"}
@@ -28,7 +28,7 @@ const NavButtons = () => {
       </Link>
       <Link href={"/posts"}>
         <Button
-          className={cn("md:w-[120px] w-20 md:h-10  h-8", {
+          className={cn("md:w-[120px] w-20 ", {
             "text-gray-500": role === "motel",
           })}
           size={"sm"}

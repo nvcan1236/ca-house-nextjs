@@ -15,6 +15,13 @@ const api = axios.create({
     : { "Content-Type": "application/json" },
 })
 
+// Add function to reset token in axios instance
+export const resetToken = () => {
+  api.defaults.headers.common["Authorization"] = ""
+  authAxios.defaults.headers.common["Authorization"] = ""
+  formDataAxios.defaults.headers.common["Authorization"] = ""
+}
+
 let isRefreshing = false
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failedQueue: any[] = []
@@ -24,7 +31,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       removeToken()
-      // window.location.href = "/" // điều hướng về login
+      resetToken()
+      // window.location.href = "/motels" // điều hướng về login
     }
     return Promise.reject(error)
   }

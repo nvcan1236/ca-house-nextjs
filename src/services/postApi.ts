@@ -4,6 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 import { ApiResponse } from "@/types/common"
 import {
@@ -48,7 +49,7 @@ export const useGetPostsPage = (offet: number) =>
 
 export const useGetPostsByUser = (offset: number, username: string) =>
   useQuery<ApiResponse<IPost[]>>({
-    queryKey: ["posts", "user", username, offset],
+    queryKey: ["posts", "user"],
     queryFn: async () => {
       const res = await api.get(
         `/post/user/${username}?${new URLSearchParams({ offset: offset.toString() })}`
@@ -107,6 +108,22 @@ export const useUpdatePost = () => {
     },
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["posts"], exact: false }),
+  })
+}
+
+export const useDeletePost = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (postId: string) => {
+      const res = await api.delete(`/post/${postId}`)
+      return res.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts", "user"],
+      })
+      toast.success("Xoá trọ thành công!")
+    },
   })
 }
 

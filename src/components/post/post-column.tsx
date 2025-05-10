@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table"
+import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
 import { IPost } from "@/types/post"
@@ -7,9 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -39,10 +38,27 @@ export const columns: ColumnDef<IPost>[] = [
   {
     accessorKey: "content",
     header: "Content",
+    cell: ({ row }) => {
+      const content = row.original.content
+      return <div className="max-w-[400px] line-clamp-2">{content}</div>
+    },
   },
   {
     accessorKey: "type",
     header: "Type",
+    cell: ({ row }) => {
+      const type = row.original.type
+      switch (type) {
+        case "FIND_ROOM":
+          return <div className="text-blue-500 bg-blue-500/10 px-2 py-1 rounded-md font-semibold text-center">Tìm phòng</div>
+        case "PASS_ROOM":
+          return <div className="text-green-500 bg-green-500/10 px-2 py-1 rounded-md font-semibold text-center">Pass phòng</div>
+        case "FIND_ROOMMATE":
+          return <div className="text-purple-500 bg-purple-500/10 px-2 py-1 rounded-md font-semibold text-center">Tìm bạn ở</div>
+        case "REVIEW":
+          return <div className="text-yellow-500 bg-yellow-500/10 px-2 py-1 rounded-md font-semibold text-center">Đánh giá</div>
+      }
+    },
   },
   {
     accessorKey: "comment_count",
@@ -53,18 +69,24 @@ export const columns: ColumnDef<IPost>[] = [
     header: "React count",
   },
   {
-    accessorKey: "create_by",
+    accessorKey: "owner",
     header: "Create by",
+    cell: ({ row }) => {
+      const createBy = row.original.owner.firstName + " " + row.original.owner.lastName
+      return <div className="text-main-blue-s3 font-semibold">{createBy}</div>
+    },
   },
   {
     accessorKey: "create_at",
     header: "Create at",
+    cell: ({ row }) => {
+      const createdAt = row.original.create_at
+      return <div>{dayjs(createdAt).format("DD/MM/YYYY")}</div>
+    },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original
-
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -75,14 +97,6 @@ export const columns: ColumnDef<IPost>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

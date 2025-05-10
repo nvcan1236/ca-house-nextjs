@@ -17,7 +17,7 @@ const SavedMotelPage = () => {
     <ProtectedRoute>
       <Container className="min-h-[500px]">
         <DecorativeHeading>Danh sách phòng đã lưu</DecorativeHeading>
-        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 mt-6 gap-4">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2  grid-cols-1 mt-6 gap-4">
           {motels?.map((motel) => (
             <div key={motel.id} className="relative">
               <MotelCard motel={motel} />

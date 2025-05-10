@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getCoordinate } from "@/services/map-service"
 import { useCreateLocationMotel } from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { MapPinIcon } from "lucide-react"
@@ -10,14 +9,8 @@ import { Marker } from "react-map-gl"
 import { District, Ward } from "@/types/common"
 import { Location } from "@/types/motel"
 import { getDistricts, getProvinces, getWards } from "@/lib/provinces-data"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import {
   Select,
   SelectContent,
@@ -29,13 +22,12 @@ import DecorativeHeading from "@/components/common/decorative-heading"
 import BaseMap from "@/components/map/base-map"
 
 import CreateProgress from "./create-progress"
+import LocationsPopover from "./location-list-popover"
 
 const LocationInfo = () => {
   const provinces = getProvinces()
   const [districtList, setDistrictList] = useState<District[]>([])
   const [wardList, setWardList] = useState<Ward[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [locationList, setLocationList] = useState<any[]>()
   const { mutate: createLocation } = useCreateLocationMotel()
   const { id, nextStep, detailMotel } = useCreateMotelStore()
   const [location, setLocation] = useState<Location>({
@@ -56,16 +48,6 @@ const LocationInfo = () => {
     latitude: current.latitude,
     zoom: 15,
   })
-
-  const handleGetCoordinate = async () => {
-    const coord = await getCoordinate({
-      city: location.city,
-      district: location.district,
-      street: location.street,
-      ward: location.ward,
-    })
-    setLocationList(coord.data)
-  }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -90,17 +72,18 @@ const LocationInfo = () => {
     }
   }
 
-  const handleClickLocation = (loc: { lon: number; lat: number }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onLocationClick = ({ lon, lat }: { lon: number; lat: number }) => {
     setLocation({
       ...location,
-      longitude: loc.lon,
-      latitude: loc.lat,
+      longitude: lon,
+      latitude: lat,
     })
     setViewState({
-      ...viewState,
+      // ...viewState,
       zoom: 18,
-      longitude: loc.lon,
-      latitude: loc.lat,
+      longitude: lon,
+      latitude: lat,
     })
   }
 
@@ -210,29 +193,10 @@ const LocationInfo = () => {
                   }
                 />
               </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    type="button"
-                    onClick={handleGetCoordinate}
-                  >
-                    Xem trên Map
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="lg:w-[600px]">
-                  <ul>
-                    {locationList?.map((loc) => (
-                      <li
-                        className="px-4 py-2 hover:bg-main-yellow-t9 transition-all"
-                        onClick={() => handleClickLocation(loc)}
-                        key={loc.display_name}
-                      >
-                        {loc.display_name}
-                      </li>
-                    ))}
-                  </ul>
-                </PopoverContent>
-              </Popover>
+              <LocationsPopover
+                location={location}
+                onLocationClick={onLocationClick}
+              />
             </div>
             <div className="h-[400px] rounded-xl">
               <BaseMap viewState={viewState}>

@@ -51,9 +51,18 @@ export const useGetCurrentUserQuery = (enabled?: boolean) => {
       const { data } = await api.get("/identity/users/my-infor")
       return data
     },
-    enabled,
+    enabled: !!getToken() && enabled,
   })
 }
+
+export const useSearchUser = (keyword: string) =>
+  useQuery<ApiResponse<User[]>>({
+    queryKey: ["searchUser", keyword],
+    queryFn: async () => {
+      const { data } = await api.get(`/identity/users/search?kw=${keyword}`)
+      return data
+    },
+  })
 
 export const useRefreshToken = () => {
   const token = getToken()

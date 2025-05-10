@@ -56,6 +56,11 @@ const ChatActions = () => {
           value={content}
           className="border border-main-blue"
           onChange={(e) => setContent(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage()
+            }
+          }}
         ></Input>
         <Button variant={"ghost"} size={"icon"}>
           <Label htmlFor="image-chat">

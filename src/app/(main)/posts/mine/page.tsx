@@ -16,6 +16,7 @@ import DecorativeHeading from "@/components/common/decorative-heading"
 import EditPostDialog from "@/components/post/edit/edit-post-dialog"
 import PostCard from "@/components/post/post-card"
 import PostCreate from "@/components/post/post-create"
+import DeletePostDialog from "@/components/post/delete-post-dialog"
 
 const MyPosts = () => {
   const { user } = useAuthStore()
@@ -25,13 +26,13 @@ const MyPosts = () => {
     <div className="mx-auto">
       <div className="flex justify-between items-center">
         <DecorativeHeading>Bài viết của bạn</DecorativeHeading>
-        <Dialog>
+        <Dialog modal={false}>
           <DialogTrigger asChild>
             <Button variant={"outline"}>
               <PlusIcon size={20} className="mr-2" /> Đăng bài viết
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent >
             <DialogHeader>
               <DialogTitle>Đăng bài viết</DialogTitle>
             </DialogHeader>
@@ -47,11 +48,14 @@ const MyPosts = () => {
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-6">
         {posts?.map((post) => (
           <div key={post.id} className="break-inside-avoid">
-            <EditPostDialog post={post}>
-              <Button size={"sm"} variant={"outline"}>
-                <EditIcon size={16} className="mr-2" /> Chỉnh sửa
-              </Button>
-            </EditPostDialog>
+            <div className="inline-flex gap-1 p-1">
+              <EditPostDialog post={post}>
+                <Button size={"sm"} variant={"outline"}>
+                  <EditIcon size={16} className="mr-2" /> Chỉnh sửa
+                </Button>
+              </EditPostDialog>
+              <DeletePostDialog postId={post.id}/>
+            </div>
             <PostCard data={post} />
           </div>
         ))}

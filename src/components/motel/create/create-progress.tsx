@@ -19,8 +19,8 @@ const CreateProgress = ({
   const { prevStep, setCurrentStep, currentStep, id } = useCreateMotelStore()
   return (
     <div className="  fixed bottom-0 left-0 right-0 bg-background py-4 border-t ">
-      <Container className="flex justify-between gap-2 ">
-        <div className="relative flex items-center gap-16">
+      <Container className="flex flex-col lg:flex-row items-center gap-y-4 justify-between gap-x-2 ">
+        <div className="relative flex items-center gap-6 md:gap-12">
           <div className="absolute w-full h-px bg-main-yellow z-0"></div>
           {steps.map((step, index) => {
             if (index === 0) return null

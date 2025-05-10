@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react"
 import Image from "next/image"
-import { useCreateRegularMotel } from "@/services/motelUtilApi"
+import {
+  useCreateRegularMotel,
+  useUpdateRegularMotel,
+} from "@/services/motelUtilApi"
 import { useCreateMotelStore } from "@/stores/create-motel-store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -66,6 +69,7 @@ const formFields: {
 const RegularInfo = () => {
   const { nextStep, setId, detailMotel } = useCreateMotelStore()
   const { mutateAsync: createRegular } = useCreateRegularMotel()
+  const { mutateAsync: updateRegular } = useUpdateRegularMotel()
 
   const loginValidationSchema = z.object({
     name: z.string().min(1),
@@ -102,8 +106,12 @@ const RegularInfo = () => {
 
   async function onSubmit(values: RegularCreate) {
     try {
-      const data = await createRegular(values)
-      setId(data.result.id)
+      if (detailMotel?.id) {
+        await updateRegular({ motelId: detailMotel.id, data: values })
+      } else {
+        const data = await createRegular(values)
+        setId(data.result.id)
+      }
       nextStep()
     } catch (error) {
       toast.error("Đã xãy ra lỗi. Vui lòng thử lại")

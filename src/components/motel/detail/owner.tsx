@@ -3,7 +3,7 @@ import { useChatRooms } from "@/services/chatService"
 // import { getRoomByWithUser } from "@/services/chatService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useChatStore } from "@/stores/chat-store"
-import { MailIcon, MessageCircle } from "lucide-react"
+import { MailIcon, MessageCircle, PhoneCallIcon } from "lucide-react"
 
 import { TEMP_CHAT_ID } from "@/types/chat"
 import { IMotelDetail } from "@/types/motel"
@@ -65,14 +65,30 @@ const DetailMotelOwner = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
             </div>
           </div>
 
-          <div className="text-right lg:max-w-[200px]">
+          <div className="text-right ">
             <p className="text-sm text-gray-700">
               Chủ động nhắn tin với chủ trọ để có nhiều thông tin hơn
             </p>
-            <Button className="mt-4" onClick={updateCurrentRoom}>
-              <MessageCircle size={20} className="mr-2"></MessageCircle>
-              Nhắn tin cho chủ trọ
-            </Button>
+            <div className="flex gap-2 text-sm">
+              <Link href={"tel:" + detailMotel.owner.email}>
+                <Button
+                  variant={"secondary"}
+                  className="mt-4"
+                  onClick={updateCurrentRoom}
+                >
+                  <PhoneCallIcon size={18} className="mr-2"></PhoneCallIcon>
+                  Gọi cho chủ trọ
+                </Button>
+              </Link>
+              <Button
+                variant={"secondary"}
+                className="mt-4"
+                onClick={updateCurrentRoom}
+              >
+                <MessageCircle size={18} className="mr-2"></MessageCircle>
+                Nhắn tin cho chủ trọ
+              </Button>
+            </div>
           </div>
         </div>
       </div>

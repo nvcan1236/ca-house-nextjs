@@ -1,14 +1,16 @@
 "use client"
 
+import Link from "next/link"
 import { useGetMotelByUser } from "@/services/motelApi"
 import {
   useChangeAppointmentStatus,
   useGetAppointmentsByOwner,
+  useGetReservationsByOwner,
 } from "@/services/motelUtilApi"
 import { useGetCurrentUserQuery } from "@/services/userApi"
 import { EllipsisIcon } from "lucide-react"
 
-import { appointmentStatus } from "@/lib/predefined-data"
+import { appointmentStatus, depositStatus } from "@/lib/predefined-data"
 import { cn, formatDate, formatDateTime } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -35,7 +37,9 @@ import MotelCard from "@/components/motel/motel-card"
 const MyMotelsPage = () => {
   const { data } = useGetCurrentUserQuery()
   const { data: ownerAppointment } = useGetAppointmentsByOwner()
+  const { data: ownerReservations } = useGetReservationsByOwner(1)
   const appointments = ownerAppointment?.result
+  const reservations = ownerReservations?.result?.data
   const userId = data?.result.username
   const { data: motelsData } = useGetMotelByUser(userId || "")
   const motels = motelsData?.result
@@ -88,6 +92,8 @@ const MyMotelsPage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Ngày tạo</TableHead>
+                <TableHead>Người yêu cầu</TableHead>
+                <TableHead>Trọ</TableHead>
                 <TableHead>Ngày hẹn</TableHead>
                 <TableHead>Tình trạng</TableHead>
                 <TableHead>Action</TableHead>
@@ -107,6 +113,22 @@ const MyMotelsPage = () => {
               {appointments?.map((app) => (
                 <TableRow key={app.id}>
                   <TableCell>{formatDateTime(app.createdAt)}</TableCell>
+                  <TableCell>
+                    <Link
+                      className="underline text-main-blue"
+                      href={`/profile/${app.userId}`}
+                    >
+                      {app.userId}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/motels/${app.motel.id}`}
+                      className="underline text-main-blue"
+                    >
+                      {app.motel.name}
+                    </Link>
+                  </TableCell>
                   <TableCell>{formatDate(app.date)}</TableCell>
                   <TableCell
                     className={`
@@ -170,9 +192,11 @@ const MyMotelsPage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Ngày tạo</TableHead>
-                <TableHead>Ngày hẹn</TableHead>
+                <TableHead>Người yêu cầu</TableHead>
+                <TableHead>Trọ</TableHead>
+                <TableHead>Số tiền (VND)</TableHead>
+                <TableHead>Số ngày</TableHead>
                 <TableHead>Tình trạng</TableHead>
-                <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -182,61 +206,41 @@ const MyMotelsPage = () => {
                     colSpan={4}
                     className="py-10 text-center text-slate-600 "
                   >
-                    ( Chưa có lịch đặt phòng nào )
+                    ( Chưa có yêu cầu cọc phòng nào )
                   </TableCell>
                 </TableRow>
               )}
-              {appointments?.map((app) => (
-                <TableRow key={app.id}>
-                  <TableCell>{formatDateTime(app.createdAt)}</TableCell>
-                  <TableCell>{formatDate(app.date)}</TableCell>
-                  <TableCell
-                    className={`
-                ${app.status == "ACCEPT" && "text-green-700"}
-                ${app.status == "DENY" && "text-red-600"}
-                ${app.status == "PENDING" && "text-yellow-600"} font-medium
-              `}
-                  >
-                    {appointmentStatus[app.status]}
+              {reservations?.map((res) => (
+                <TableRow key={res.id}>
+                  <TableCell>{formatDateTime(res.createdAt)}</TableCell>
+                  <TableCell>
+                    <Link
+                      className="underline text-main-blue"
+                      href={`/profile/${res.createdBy}`}
+                    >
+                      {res.createdBy}
+                    </Link>
                   </TableCell>
                   <TableCell>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant={"ghost"} size={"icon"}>
-                          <EllipsisIcon />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        side="bottom"
-                        align="start"
-                        className="w-fit p-1"
-                      >
-                        <ul className="w-[120px]">
-                          <li
-                            className="p-2 cursor-pointer text-green-700 hover:bg-main-blue-t9"
-                            onClick={() =>
-                              changeStatus({
-                                appointmentId: app.id,
-                                status: "ACCEPT",
-                              })
-                            }
-                          >
-                            Chấp nhận
-                          </li>
-                          <li
-                            className="p-2 cursor-pointer text-destructive hover:bg-main-blue-t9"
-                            onClick={() =>
-                              changeStatus({
-                                appointmentId: app.id,
-                                status: "DENY",
-                              })
-                            }
-                          >
-                            Từ chối
-                          </li>
-                        </ul>
-                      </PopoverContent>
-                    </Popover>
+                    <Link
+                      className="underline text-main-blue"
+                      href={`/motels/${res.motel?.id}`}
+                    >
+                      {res.motel?.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="right">
+                    {res.amount.toLocaleString()}
+                  </TableCell>
+                  <TableCell align="right">{res.duration}</TableCell>
+                  <TableCell
+                    className={`
+                ${res.status == "PAYMENT_SUCCESS" && "text-green-700"}
+                ${res.status == "PAYMENT_FAIL" && "text-red-600"}
+                ${res.status == "PENDING" && "text-yellow-600"} font-medium
+              `}
+                  >
+                    {depositStatus[res.status]}
                   </TableCell>
                 </TableRow>
               ))}

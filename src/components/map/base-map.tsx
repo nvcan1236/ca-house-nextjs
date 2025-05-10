@@ -47,7 +47,14 @@ const BaseMap = ({
         }
       )
     }
-  }, [])
+    else {
+      setViewStateState({
+        ...viewStateState,
+        longitude: viewState?.longitude,
+        latitude: viewState?.latitude,
+      })
+    }
+  }, [viewState?.longitude, viewState?.latitude])
 
   const handleMoveEnd = (e: ViewStateChangeEvent) => {
     onMoveEnd?.(e)

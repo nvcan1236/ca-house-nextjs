@@ -52,7 +52,8 @@ const RequirementInfo = () => {
     if (id)
       createRequirement({ motelId: id, data: requirement })
         .then(() => {
-          router.push("/motels")
+          router.push("/motels/mine")
+          toast.success("Tạo trọ thành công")
         })
         .catch((error) => {
           toast.error(error.response.data.message)
@@ -130,6 +131,7 @@ const RequirementInfo = () => {
       <CreateProgress
         disableNext={!requirement.contractAmount || !requirement.deposit}
         onNextClick={handleCreateRequirement}
+        nextText="Hoàn thành"
       />
     </div>
   )

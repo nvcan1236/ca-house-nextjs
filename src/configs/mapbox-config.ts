@@ -1,10 +1,11 @@
 import envConfig from "./env-config"
 
-const GEO_API_KEY = envConfig.NEXT_PUBLIC_GEO_API_KEY
+// const GEO_API_KEY = envConfig.NEXT_PUBLIC_GEO_API_KEY
 const MAP_TOKEN = envConfig.NEXT_PUBLIC_MAP_TOKEN
 
 export const geoMapEndpoint = (address: string) =>
-  `https://geocode.maps.co/search?q=${address}&api_key=${GEO_API_KEY}`
+  `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${MAP_TOKEN}&limit=20`
+
 export const reverseGeoMapEndpoint = (
   lon: number,
   lat: number,

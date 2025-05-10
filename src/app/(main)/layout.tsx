@@ -8,15 +8,15 @@ import {
 } from "lucide-react"
 
 import { Toaster } from "@/components/ui/sonner"
+import ChatSheet from "@/components/chat/chat-sheet"
 import Container from "@/components/layout/container"
 import Footer from "@/components/layout/footer"
 import Header from "@/components/layout/header"
-import ChatSheet from "@/components/chat/chat-sheet"
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
     <div
-      className={`bg-gradient-to-b transition-all from-main-yellow-t9 to-main-blue-t8 `}
+      className={`bg-gradient-to-b transition-all to-main-yellow-t9 from-main-blue-t8 `}
     >
       <Header />
       <Container className="pb-10">{children}</Container>

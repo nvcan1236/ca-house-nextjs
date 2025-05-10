@@ -44,7 +44,7 @@ const Header = () => {
           }`}
         >
           {/* LOGO */}
-          <Link className="xl:w-1/6 min-w-[60px]" href="/">
+          <Link className=" xl:w-1/6 min-w-[60px]" href="/">
             <Image
               src="/logo.png"
               alt="logo"
@@ -55,7 +55,7 @@ const Header = () => {
             />
           </Link>
 
-          <div className="md:px-4 flex-1 space-y-2 ">
+          <div className="md:px-4 flex-1 space-y-2 items-center">
             <div
               className={`flex items-center justify-between md:justify-center gap-3 w-full transition-all ${
                 scrollDown && hasSearch ? "scale-0 -translate-y-[100%] h-0" : ""

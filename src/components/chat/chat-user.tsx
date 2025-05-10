@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 const ChatUser = ({ name, avatar }: { name: string; avatar: string }) => {
   return (
-    <div className="flex gap-2 mb-2">
+    <div className="flex gap-2">
       <Avatar className="size-8">
         <AvatarImage src={avatar} />
         <AvatarFallback className="bg-main-blue text-white ">

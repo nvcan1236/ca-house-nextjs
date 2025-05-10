@@ -11,6 +11,7 @@ import { IPostCreate } from "@/types/post"
 
 import H3 from "../common/h3"
 import ImageSlider from "../common/image-slider"
+import MotelSelect from "../common/motel-select"
 import SelectBox from "../common/select-box"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
@@ -29,6 +30,7 @@ import SuggestPostContent from "./suggest-post-content"
 const postInit: IPostCreate = {
   content: "",
   type: "FIND_ROOM",
+  motel_id: "",
 }
 
 const PostCreate = () => {
@@ -75,7 +77,7 @@ const PostCreate = () => {
     <div className={`rounded-xl border bg-background py-4 px-6 `}>
       <H3>Tạo bài viết</H3>
       <div className="mt-4">
-        <div>
+        <div className="space-y-3">
           <Label className="text-sm text-slate-600">Bạn muốn đăng bài</Label>
           <SelectBox
             options={[
@@ -86,18 +88,27 @@ const PostCreate = () => {
             ]}
             onSelectChange={(value) => handleChangePost("type", value)}
           ></SelectBox>
-        </div>
-        <div className="relative">
-          <Textarea
-            placeholder="Nội dung bài viết..."
-            rows={10}
-            value={postCreateData.content}
-            onChange={(e) => handleChangePost("content", e.target.value)}
-          ></Textarea>
-          <SuggestPostContent
-            postType={postCreateData.type}
-            onSubmit={(content) => handleChangePost("content", content)}
-          />
+          {postCreateData.type !== "FIND_ROOM" && (
+            <div className="flex gap-2 flex-col relative">
+              <Label className="text-sm text-slate-600">Nhà trọ</Label>
+              <MotelSelect
+                onValueChange={(value) => handleChangePost("motel_id", value)}
+              />
+            </div>
+           
+          )}
+          <div className="relative">
+            <Textarea
+              placeholder="Nội dung bài viết..."
+              rows={10}
+              value={postCreateData.content}
+              onChange={(e) => handleChangePost("content", e.target.value)}
+            ></Textarea>
+            <SuggestPostContent
+              postType={postCreateData.type}
+              onSubmit={(content) => handleChangePost("content", content)}
+            />
+          </div>
         </div>
         <Input
           id="post-image-input"
@@ -159,9 +170,7 @@ const PostCreate = () => {
             size={"sm"}
             className="block ml-auto"
             onClick={handleSubmitPost}
-            disabled={Object.values(postCreateData).some(
-              (value) => !value.trim()
-            )}
+            disabled={!postCreateData.content.trim() || !postCreateData.type}
           >
             Đăng bài
           </Button>

@@ -41,7 +41,12 @@ const DepositDialog: FC<{ detailMotel: IMotelDetail }> = ({ detailMotel }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="mt-4 w-full">Đặt cọc</Button>
+        <Button
+          className="mt-4 w-full"
+          disabled={detailMotel.ownerId === user?.username}
+        >
+          Đặt cọc {detailMotel.ownerId === user?.username && "(Trọ của bạn)"}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] lg:max-w-[600px]">
         <DialogHeader>
