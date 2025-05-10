@@ -1,25 +1,21 @@
 import { ReactNode } from "react"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import { useAuthStore } from "@/stores/auth-store"
 import {
   AlertCircle,
   BookmarkCheckIcon,
   CalendarClockIcon,
   HouseIcon,
-  HousePlusIcon,
   LogOutIcon,
   MenuIcon,
   NotepadTextIcon,
   UserIcon,
 } from "lucide-react"
-import { toast } from "sonner"
 
 import CreatePasswordForm from "../auth/create-password-form"
 import { LogoutDialog } from "../common/logout-dialog"
 import { Alert, AlertDescription } from "../ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { Button } from "../ui/button"
 import {
   Dialog,
   DialogContent,
@@ -34,14 +30,6 @@ import { CreateMotelButton } from "../common/create-motel-button"
 
 const UserMenuPopover = () => {
   const { user } = useAuthStore()
-
-  const handleCreateMotel = () => {
-    if (!user || !user.id) {
-      toast.warning("Vui lòng đăng nhập trước!!")
-      return
-    }
-    redirect("/register-motel")
-  }
 
   if (!user) return
 
