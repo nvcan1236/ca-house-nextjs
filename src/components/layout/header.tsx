@@ -18,6 +18,7 @@ const Header = () => {
   const scrollDown = scrollY > 0
   const hasSearch = ["/motels"].includes(pathname)
   const hasNav = ["/motels", "/posts"].includes(pathname)
+  const hasLogo = !["/motels", "/posts"].includes(pathname)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +45,13 @@ const Header = () => {
           }`}
         >
           {/* LOGO */}
-          <Link className=" xl:w-1/6 min-w-[60px]" href="/">
+          <Link
+            className={cn("hidden md:block xl:w-1/6 min-w-[60px]", {
+              block: hasLogo,
+              hidden: !hasLogo,
+            })}
+            href="/"
+          >
             <Image
               src="/logo.png"
               alt="logo"

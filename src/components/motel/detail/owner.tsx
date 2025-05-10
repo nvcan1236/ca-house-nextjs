@@ -69,24 +69,22 @@ const DetailMotelOwner = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
             <p className="text-sm text-gray-700">
               Chủ động nhắn tin với chủ trọ để có nhiều thông tin hơn
             </p>
-            <div className="flex gap-2 text-sm">
+            <div className="flex gap-x-2 text-sm flex-wrap justify-end mt-4">
               <Link href={"tel:" + detailMotel.owner.email}>
                 <Button
                   variant={"secondary"}
-                  className="mt-4"
                   onClick={updateCurrentRoom}
                 >
                   <PhoneCallIcon size={18} className="mr-2"></PhoneCallIcon>
-                  Gọi cho chủ trọ
+                  Gọi điện
                 </Button>
               </Link>
               <Button
                 variant={"secondary"}
-                className="mt-4"
                 onClick={updateCurrentRoom}
               >
                 <MessageCircle size={18} className="mr-2"></MessageCircle>
-                Nhắn tin cho chủ trọ
+                Nhắn tin
               </Button>
             </div>
           </div>
