@@ -24,6 +24,10 @@ const PostList = () => {
   const [filteredPosts, setFilteredPosts] = useState<IPost[]>([])
 
   useEffect(() => {
+    setFilteredPosts(posts)
+  }, [isFetching])
+
+  useEffect(() => {
     if (applied > 0) {
       const filteredPosts = posts.filter((p) => filterPost.includes(p.type))
       if (sort === "newest") {
@@ -37,9 +41,14 @@ const PostList = () => {
       }
 
       if (date) {
-        filteredPosts.filter((p) => dayjs(p.create_at).isSame(dayjs(date), "day"))
+        filteredPosts.filter((p) =>
+          dayjs(p.create_at).isSame(dayjs(date), "day")
+        )
       }
       setFilteredPosts(filteredPosts)
+    }
+    else {
+      setFilteredPosts(posts)
     }
   }, [applied])
 
@@ -48,7 +57,14 @@ const PostList = () => {
       p.content.toLowerCase().includes(keyword.toLowerCase())
     )
     setFilteredPosts(filteredPosts)
+    if (!!keyword) {
+      setFilteredPosts(filteredPosts)
+    } else {
+      setFilteredPosts(posts)
+    }
   }, [keyword])
+
+  
 
   // Xử lý infinite scroll
   useEffect(() => {
@@ -77,14 +93,12 @@ const PostList = () => {
       </div>
     )
 
-  const finalPosts = filteredPosts
-
   return (
     <div className="flex flex-col gap-4">
-      {finalPosts.length === 0 && (
+      {filteredPosts.length === 0 && (
         <div className="text-center text-gray-500">Không có bài viết nào</div>
       )}
-      {finalPosts?.map((post) => <PostCard key={post.id} data={post} />)}
+      {filteredPosts?.map((post) => <PostCard key={post.id} data={post} />)}
     </div>
   )
 }

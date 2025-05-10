@@ -6,7 +6,7 @@ const H3 = ({ className, children, ...props }: ComponentProps<"h3">) => {
   return (
     <h3
       {...props}
-      className={cn("text-lg text-main-blue-s3 font-medium w-fit", className)}
+      className={cn("lg:text-lg text-main-blue-s3 font-medium w-fit", className)}
     >
       {children}
     </h3>

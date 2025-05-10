@@ -91,7 +91,7 @@ const AmenityInfo = () => {
 
               <div>
                 <H3 className="text-foreground">Nội thất trong phòng</H3>
-                <div className="grid grid-cols-4 gap-3 mt-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                   {Object.values(furnitures)?.map((furniture) => (
                     <AmenityItem
                       key={furniture.value}

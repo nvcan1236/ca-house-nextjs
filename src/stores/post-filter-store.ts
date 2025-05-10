@@ -16,6 +16,7 @@ type PostFilterActions = {
   setSort: (sort: "newest" | "oldest") => void
   setFilter: (type: keyof typeof postType) => void
   setApplied: () => void
+  resetApplied: () => void
 }
 
 type PostFilterStore = PostFilterState & PostFilterActions
@@ -40,4 +41,13 @@ export const usePostFilterStore = create<PostFilterStore>((set) => ({
       return { ...state, filter: nextFilter }
     }),
   setApplied: () => set((state) => ({ ...state, applied: state.applied + 1 })),
+  resetApplied: () =>
+    set((state) => ({
+      ...state,
+      applied: 0,
+      filter: Object.keys(postType),
+      date: new Date(),
+      keyword: "",
+      sort: "newest",
+    })),
 }))

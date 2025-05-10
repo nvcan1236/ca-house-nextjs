@@ -30,6 +30,7 @@ import {
 } from "../ui/dialog"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { Separator } from "../ui/separator"
+import { CreateMotelButton } from "../common/create-motel-button"
 
 const UserMenuPopover = () => {
   const { user } = useAuthStore()
@@ -119,14 +120,7 @@ const UserMenuPopover = () => {
             )}
 
             <li className=" hover:bg-slate-100 transition-all block lg:hidden">
-              <Button
-                variant={"secondary"}
-                className="w-full py-1 px-2 flex border-main-yellow text-main-yellow bg-main-yellow-t9 hover:bg-main-yellow-t6 transition-all hover:border-main-yellow hover:border-2"
-                onClick={handleCreateMotel}
-              >
-                <HousePlusIcon size={20} className="mr-3"></HousePlusIcon> Đăng
-                trọ
-              </Button>
+              <CreateMotelButton className="w-full" />
             </li>
             {menuItems.map((item) => (
               <li

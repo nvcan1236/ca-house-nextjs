@@ -28,6 +28,8 @@ const PostFilter = () => {
     setKeyword,
     sort,
     setSort,
+    applied,
+    resetApplied,
   } = usePostFilterStore()
   const [search, setSearch] = useState("")
   return (
@@ -93,6 +95,18 @@ const PostFilter = () => {
             </SelectContent>
           </Select>
         </div>
+        {applied > 0 && (
+          <Button
+            size={"sm"}
+            className="w-full mt-6"
+            variant={"secondary"}
+            onClick={() => {
+              resetApplied()
+            }}
+          >
+            Bỏ lọc
+          </Button>
+        )}
         <Button
           size={"sm"}
           className="w-full mt-6"

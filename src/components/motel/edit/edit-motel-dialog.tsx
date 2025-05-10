@@ -93,7 +93,7 @@ const EditMotelDialog: React.FC<{
     },
     {
       value: "requirements",
-      label: "Yêu cấu khi thuê",
+      label: "Yêu cầu",
       tabContent: (
         <Requirement
           editedMotel={editedMotel}
@@ -122,13 +122,13 @@ const EditMotelDialog: React.FC<{
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
-                value={tab.value}
-                onClick={() => setTabValue(tab.value)}
-              >
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+                  value={tab.value}
+                  onClick={() => setTabValue(tab.value)}
+                >
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
           <ScrollArea className="h-[460px] pr-4 ">
             {tabs.map((tab) => (

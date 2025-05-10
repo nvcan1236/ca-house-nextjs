@@ -5,8 +5,13 @@ import { Button } from "../ui/button"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { HousePlusIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-export const CreateMotelButton = () => {
+export const CreateMotelButton = ({
+  className,
+}: {
+  className?: string
+}) => {
   const { user, openModal } = useAuthStore()
   const router = useRouter()
   const handleCreateMotel = () => {
@@ -21,9 +26,12 @@ export const CreateMotelButton = () => {
     <Button
       variant={"secondary"}
       onClick={handleCreateMotel}
-      className="flex border-main-yellow text-main-yellow bg-background hover:bg-main-yellow-t9 transition-all hover:border-main-yellow hover:border-2 border-2"
+      className={cn(
+        "flex  border-main-yellow text-main-yellow bg-background hover:bg-main-yellow-t9 transition-all hover:border-main-yellow hover:border-2 border-2",
+        className
+      )}
     >
-      <HousePlusIcon size={20} className="mr-3"/> Đăng trọ
+      <HousePlusIcon size={20} className="mr-3" /> Đăng trọ
     </Button>
   )
 }
