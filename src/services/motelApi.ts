@@ -217,3 +217,19 @@ export const usePostReview = () => {
     },
   })
 }
+
+export const useGetAiReview = (motelId: string) => {
+  return useQuery({
+    queryKey: ["aiReview", motelId],
+    queryFn: async () => {
+      const response = await axios.get<ApiResponse<{
+        reason: string
+        status: "PENDING" | "APPROVED" | "REJECTED"
+      }>>(
+        `/motel/${motelId}/ai-review`
+      )
+      return response.data
+    },
+    enabled: !!motelId,
+  })
+}

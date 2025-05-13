@@ -18,7 +18,7 @@ const CustomTooltip = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="max-w-[300px]">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
