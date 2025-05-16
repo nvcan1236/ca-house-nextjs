@@ -81,7 +81,7 @@ export const useUploadChatImage = () => {
         data.append("images", image)
       })
       const res = await formDataAxios.post<ApiResponse<string[]>>(
-        `/api/chat/upload`,
+        `/chat/upload`,
         data
       )
       return res.data
@@ -94,7 +94,7 @@ export const useChatRooms = () => {
     queryKey: ["get-chat-rooms"],
     queryFn: async () => {
       const res = await authAxios.get<ApiResponse<RoomChat[]>>(
-        "http://localhost:8888/api/chat/room"
+        "/chat/room"
       )
       return res.data
     },

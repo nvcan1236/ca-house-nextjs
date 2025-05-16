@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react"
 import { useGetMessages } from "@/services/chatService"
+import webSocketService from "@/services/webSocketService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useChatStore } from "@/stores/chat-store"
 import { XIcon } from "lucide-react"
 
+import { ChatMessage } from "@/types/chat"
 import { getFullName } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -16,8 +19,23 @@ const CurrentRoom = () => {
   const { currentRoom, setCurrentRoom } = useChatStore()
   const { user } = useAuthStore()
   const { data } = useGetMessages(currentRoom?.id || "")
+  const [newMessages, setNewMessages] = useState<ChatMessage[]>([])
 
   const messages = data?.result || []
+
+  useEffect(() => {
+    setNewMessages([])
+    if (currentRoom?.id && user?.username) {
+      webSocketService.connect(
+        currentRoom?.id,
+        user?.username,
+        (message: ChatMessage) => {
+          setNewMessages((prev) => [...prev, message])
+        },
+        () => {}
+      )
+    }
+  }, [currentRoom?.id, user?.username])
 
   if (!user || !currentRoom) return
 
@@ -40,7 +58,7 @@ const CurrentRoom = () => {
       <Separator />
 
       <ScrollArea className="flex-1 py-2 pr-4">
-        {messages?.map((m) => (
+        {[...messages, ...newMessages]?.map((m) => (
           <Message
             key={m.id}
             msg={m}

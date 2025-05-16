@@ -8,25 +8,38 @@ const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL
 
 class WebSocketService {
   private client: Client | null = null
+  private isConnecting: boolean = false
+  private messageQueue: { roomId: string; message: ChatMessage }[] = []
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  connect(
+  async connect(
     roomId: string,
     username: string,
     onMessageReceived: (message: ChatMessage) => void,
     onRoomReceived: () => void
   ) {
+    if (this.isConnecting) return
+    this.isConnecting = true
+
     const token = getToken()
     this.client = new Client({
       brokerURL: SOCKET_URL,
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
+      reconnectDelay: 5000, // Retry every 5 seconds
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
       onConnect: () => {
+        this.isConnecting = false
+
+        // Process queued messages
+        while (this.messageQueue.length > 0) {
+          const queued = this.messageQueue.shift()
+          if (queued) this.sendMessage(queued.roomId, queued.message)
+        }
         this.client?.subscribe(`/topic/chat/${roomId}`, (message) => {
-          if (onMessageReceived) {
-            onMessageReceived(JSON.parse(message.body))
-          }
+          onMessageReceived?.(JSON.parse(message.body))
         })
 
         this.client?.subscribe(`/topic/room/${username}`, () => {
@@ -34,6 +47,8 @@ class WebSocketService {
             onRoomReceived()
           }
         })
+
+        // ...existing subscriptions...
       },
       onDisconnect: () => {
         console.log("❌ Disconnected from WebSocket")
@@ -41,6 +56,7 @@ class WebSocketService {
       onStompError: (frame) => {
         console.error("⚠ WebSocket Error:", frame)
       },
+      // ...existing code...
     })
 
     this.client.activate()
@@ -53,7 +69,19 @@ class WebSocketService {
         body: JSON.stringify(message),
       })
     } else {
-      console.warn("⚠ WebSocket is not connected")
+      this.messageQueue.push({ roomId, message })
+      console.warn("⚠ WebSocket is not connected, message queued")
+
+      // Try to reconnect
+      if (!this.isConnecting) {
+        this.connect(
+          roomId,
+          message.sender,
+          () => {
+          },
+          () => {}
+        )
+      }
     }
   }
 
