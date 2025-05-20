@@ -17,9 +17,9 @@ const api = axios.create({
 
 // Add function to reset token in axios instance
 export const resetToken = () => {
-  api.defaults.headers.common["Authorization"] = ""
-  authAxios.defaults.headers.common["Authorization"] = ""
-  formDataAxios.defaults.headers.common["Authorization"] = ""
+  delete api.defaults.headers.common["Authorization"]
+  delete authAxios.defaults.headers.common["Authorization"]
+  delete formDataAxios.defaults.headers.common["Authorization"]
 }
 
 let isRefreshing = false

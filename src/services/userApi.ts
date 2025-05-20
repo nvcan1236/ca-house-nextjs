@@ -1,4 +1,4 @@
-import api, { authAxios, formDataAxios, noAuthAxios } from "@/services/axios"
+import api, { authAxios, formDataAxios, noAuthAxios, resetToken } from "@/services/axios"
 import { getToken, removeToken, setToken } from "@/services/localStorageService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -124,6 +124,7 @@ export const useLogoutMutation = () => {
     onSuccess: () => {
       removeToken()
       setUserInfor()
+      resetToken()
     },
   })
 }
