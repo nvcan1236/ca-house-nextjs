@@ -6,6 +6,7 @@ import { LayoutGridIcon, MapIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Map from "@/components/map/map"
 import MotelsList from "@/components/motel/motel-list"
+import MotelSkeleton from "@/components/motel/motel-skeleton"
 import NearMotelList from "@/components/motel/near-motel-list"
 
 const MotelsPage = () => {
@@ -22,7 +23,7 @@ const MotelsPage = () => {
       ) : (
         <div>
           <NearMotelList />
-          <Suspense fallback={<div>Loading motels...</div>}>
+          <Suspense fallback={<MotelListFallback />}>
             <MotelsList />
           </Suspense>
         </div>
@@ -41,6 +42,18 @@ const MotelsPage = () => {
           </>
         )}
       </Button>
+    </div>
+  )
+}
+
+const MotelListFallback = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      {Array(12)
+        .fill(0)
+        .map((_, index) => (
+          <MotelSkeleton key={index} />
+        ))}
     </div>
   )
 }
