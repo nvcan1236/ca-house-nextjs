@@ -43,6 +43,11 @@ export type LoginForm = {
 
 export type CreatePasswordData = { password: string; rePassword: string };
 
+export type ChangePasswordData = {
+  oldPassword: string
+  newPassword: string
+}
+
 export type UserStat = {
   byPeriod: ByPeriod[];
   byRole: ByRole[];

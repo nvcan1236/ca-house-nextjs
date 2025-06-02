@@ -49,7 +49,7 @@ const MyMotelsPage = () => {
       <section>
         <div className="flex justify-between items-center">
           <DecorativeHeading>Phòng của bạn</DecorativeHeading>
-          <CreateMotelButton />
+          <div className="md:hidden"><CreateMotelButton /></div>
         </div>
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
           {motels?.length === 0 && (

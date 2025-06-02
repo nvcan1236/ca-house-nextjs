@@ -19,6 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import H3 from "@/components/common/h3"
 import CustomTooltip from "@/components/common/tooltip"
@@ -30,7 +31,6 @@ import General from "./general"
 import EditLocation from "./location"
 import Prices from "./prices"
 import Requirement from "./requirement"
-import { Skeleton } from "@/components/ui/skeleton"
 
 type TabData = {
   value: string
@@ -117,7 +117,8 @@ const EditMotelDialog: React.FC<{
   }, [data])
 
   const { data: aiReview, isLoading: isLoadingAiReview } = useGetAiReview(
-    editedMotel?.id || ""
+    editedMotel?.id || "",
+    forPage === "admin"
   )
 
   return (
@@ -185,19 +186,20 @@ const EditMotelDialog: React.FC<{
                 ) : (
                   <CustomTooltip label={aiReview?.result.reason || ""}>
                     <p
-                    className={cn(
-                      "text-xs text-left line-clamp-3 overflow-ellipsis",
-                      {
-                        "text-green-600": aiReview?.result.status == "APPROVED",
-                        "text-destructive":
-                          aiReview?.result.status == "REJECTED",
-                        "text-yellow-500":
-                          aiReview?.result.status == "PENDING",
-                      }
-                    )}
-                  >
-                    {aiReview?.result.reason}
-                  </p>
+                      className={cn(
+                        "text-xs text-left line-clamp-3 overflow-ellipsis",
+                        {
+                          "text-green-600":
+                            aiReview?.result.status == "APPROVED",
+                          "text-destructive":
+                            aiReview?.result.status == "REJECTED",
+                          "text-yellow-500":
+                            aiReview?.result.status == "PENDING",
+                        }
+                      )}
+                    >
+                      {aiReview?.result.reason}
+                    </p>
                   </CustomTooltip>
                 )}
               </div>

@@ -1,4 +1,9 @@
-import api, { authAxios, formDataAxios, noAuthAxios, resetToken } from "@/services/axios"
+import api, {
+  authAxios,
+  formDataAxios,
+  noAuthAxios,
+  resetToken,
+} from "@/services/axios"
 import { getToken, removeToken, setToken } from "@/services/localStorageService"
 import { useAuthStore } from "@/stores/auth-store"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -6,6 +11,7 @@ import { AxiosError } from "axios"
 import { toast } from "sonner"
 
 import {
+  ChangePasswordData,
   CreatePasswordData,
   DetailUser,
   LoginForm,
@@ -66,11 +72,13 @@ export const useSearchUser = (keyword: string) =>
 
 export const useRefreshToken = () => {
   const token = getToken()
-  return useMutation< ApiResponse<{ token: string }>> ({
+  return useMutation<ApiResponse<{ token: string }>>({
     mutationFn: async () => {
-      const response = await noAuthAxios.post("/identity/auth/refresh", { token })
+      const response = await noAuthAxios.post("/identity/auth/refresh", {
+        token,
+      })
       return response.data
-    }
+    },
   })
 }
 
@@ -146,6 +154,34 @@ export const useUpdateUserMutation = () => {
   })
 }
 
+// 📌 Cập nhật thông tin tài khoản
+export const useUpdateAccountMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation<
+    ApiResponse<string>,
+    Error,
+    {
+      id: string
+      data: {
+        lastName: string
+        firstName: string
+        email: string
+      }
+    }
+  >({
+    mutationFn: async ({ id, data }) => {
+      const response = await formDataAxios.put(
+        `/identity/users/${id}`,
+        data,
+        {}
+      )
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+    },
+  })
+}
 // 📌 Tạo mật khẩu
 export const useCreatePasswordMutation = () =>
   useMutation<ApiResponse<string>, Error, CreatePasswordData>({
@@ -158,6 +194,21 @@ export const useCreatePasswordMutation = () =>
     },
   })
 
+// 📌 Đổi mật khẩu
+export const useChangePassword = () =>
+  useMutation<
+    ApiResponse<string>,
+    AxiosError<{ code: number, message: string }>,
+    ChangePasswordData
+  >({
+    mutationFn: async (data) => {
+      const response = await authAxios.post(
+        "/identity/auth/change-password",
+        data
+      )
+      return response.data
+    },
+  })
 // check username
 export const useCheckUsername = () =>
   useMutation<ApiResponse<boolean>, Error, string>({

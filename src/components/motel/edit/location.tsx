@@ -17,7 +17,7 @@ const EditLocation = ({
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="description" className="text-right">
-          City
+          Thành phố
         </Label>
 
         <Input
@@ -30,7 +30,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="description" className="text-right">
-          District
+          Quận/Huyện
         </Label>
 
         <Input
@@ -43,7 +43,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="ward" className="text-right">
-          Ward
+          Phường/Xã
         </Label>
         <Input
           id="ward"
@@ -55,7 +55,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="street" className="text-right">
-          Street
+          Tên Đường
         </Label>
         <Input
           id="street"
@@ -67,7 +67,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="street" className="text-right">
-          Other
+          Địa chỉ khác
         </Label>
         <Input
           id="street"
@@ -79,7 +79,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="coord" className="text-right">
-          Longitude
+          Vĩ độ
         </Label>
         <Input
           id="coord"
@@ -91,7 +91,7 @@ const EditLocation = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="coord" className="text-right">
-          Latitude
+          Kinh độ
         </Label>
         <Input
           id="coord"

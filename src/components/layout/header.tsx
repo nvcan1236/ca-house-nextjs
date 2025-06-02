@@ -50,7 +50,7 @@ const Header = () => {
               block: hasLogo,
               hidden: !hasLogo,
             })}
-            href="/"
+            href="/motels"
           >
             <Image
               src="/logo.png"

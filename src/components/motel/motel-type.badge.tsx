@@ -23,7 +23,7 @@ const MotelTypeBadge = ({
     sm: "text-xs bg-main-yellow-t6 text-main-blue hover:bg-main-yellow-t6",
   }
   return (
-    <Badge className={cn(classNameSize[size], "font-semibold", props.className)}>
+    <Badge className={cn(classNameSize[size], "font-medium", props.className)}>
       {typeTransfer[props.type]?.toUpperCase()}
     </Badge>
   )

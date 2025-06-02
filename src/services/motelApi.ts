@@ -218,7 +218,7 @@ export const usePostReview = () => {
   })
 }
 
-export const useGetAiReview = (motelId: string) => {
+export const useGetAiReview = (motelId: string, enabled: boolean) => {
   return useQuery({
     queryKey: ["aiReview", motelId],
     queryFn: async () => {
@@ -228,8 +228,8 @@ export const useGetAiReview = (motelId: string) => {
       }>>(
         `/motel/${motelId}/ai-review`
       )
-      return response.data
+      return response.data 
     },
-    enabled: !!motelId,
+    enabled: !!motelId && enabled,
   })
 }

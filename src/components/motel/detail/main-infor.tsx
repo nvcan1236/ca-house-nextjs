@@ -80,7 +80,7 @@ const DetailMotelMain = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
       <div className="py-6 px-2 rounded-xl border border-main-yellow-t6 flex bg-background mt-4 shadow">
         <div className="flex-1 flex flex-col gap-4 items-center">
           <Label className="text-slate-500">Diện tích</Label>{" "}
-          <span className="font-medium text-lg">{detailMotel?.area}m2</span>
+          <span className="font-medium text-lg">{detailMotel?.area}m<sup>2</sup></span>
         </div>
         <div className="flex-1 flex flex-col gap-4 items-center">
           <Label className="text-slate-500">Loại phòng</Label>{" "}

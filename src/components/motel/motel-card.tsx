@@ -15,7 +15,7 @@ const MotelCard = ({
 }) => {
   const router = useRouter()
   return (
-    <div className="overflow-hidden border rounded-lg shadow-sm bg-background cursor-pointer">
+    <div className="overflow-hidden border rounded-lg shadow-sm bg-background cursor-pointer h-full flex flex-col">
       <ImageSlider
         images={motel.images}
         height={160}
@@ -23,10 +23,10 @@ const MotelCard = ({
           if (onClick) onClick()
         }}
       ></ImageSlider>
-      <div className="p-3 text-sm">
-        <div className="flex gap-2 items-center mb-1">
+      <div className="p-3 text-sm flex flex-col justify-between mt-auto flex-1">
+        <div className="flex gap-2 items-start mb-1">
           <H3
-            className="text-left font-medium flex-1 overflow-ellipsis line-clamp-1 text-base"
+            className="text-left font-medium flex-1 overflow-ellipsis line-clamp-2 !text-sm"
             onClick={() => router.push(`/motels/${motel.id}`)}
           >
             {motel?.name}

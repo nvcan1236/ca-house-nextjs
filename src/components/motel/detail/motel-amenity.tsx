@@ -8,7 +8,6 @@ import { Label } from "../../ui/label"
 
 const DetailMotelAmenity = ({ detailMotel }: { detailMotel: IMotelDetail }) => {
   const servicesData = detailMotel.amenities.filter((a) => a.type === "SERVICE")
-  console.log("🚀 ~ DetailMotelAmenity ~ servicesData:", servicesData)
   const furnituresData = detailMotel.amenities.filter(
     (a) => a.type === "FURNITURE"
   )

@@ -4,7 +4,7 @@ import { IMotelDetail } from "@/types/motel"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import ImageSlider from "@/components/common/image-slider"
 
@@ -21,7 +21,7 @@ const General = ({
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-start gap-4">
         <Label htmlFor="name" className="text-right">
-          Name
+          Tên
         </Label>
         <Input
           id="name"
@@ -33,7 +33,7 @@ const General = ({
       </div>
       <div className="grid grid-cols-4 items-start gap-4">
         <Label htmlFor="area" className="text-right">
-          Area
+          Diện tích (m²)
         </Label>
         <Input
           id="area"
@@ -46,7 +46,7 @@ const General = ({
       </div>
       <div className="grid grid-cols-4 items-start gap-4">
         <Label htmlFor="price" className="text-right">
-          Price
+          Giá
         </Label>
         <Input
           id="price"
@@ -59,7 +59,7 @@ const General = ({
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="type" className="text-right">
-          Type
+          Loại
         </Label>
         <Select
           value={editedMotel?.type}
@@ -72,11 +72,17 @@ const General = ({
           <SelectTrigger>
             <SelectValue placeholder="Loại nhà trọ" />
           </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="SINGLE_ROOM">Phòng đơn</SelectItem>
+            <SelectItem value="WHOLE_HOUSE">Nhà nguyên căn</SelectItem>
+            <SelectItem value="APARTMENT">Căn hộ</SelectItem>
+            <SelectItem value="DORMITORY">Ký túc xá</SelectItem>
+          </SelectContent>
         </Select>
       </div>
       <div className="grid grid-cols-4 items-start gap-4">
         <Label htmlFor="description" className="text-right">
-          Description
+          Mô tả
         </Label>
         <Textarea
           id="description"
@@ -88,7 +94,7 @@ const General = ({
       </div>
       <div className="grid grid-cols-4 items-start gap-4 ">
         <Label htmlFor="description" className="text-right">
-          Images
+          Hình ảnh trọ
         </Label>
         <div className="col-span-3">
           <ImageSlider images={editedMotel?.images || []} height={300} />

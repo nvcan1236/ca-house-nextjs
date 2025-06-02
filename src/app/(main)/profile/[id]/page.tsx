@@ -3,6 +3,7 @@
 import React, { ChangeEvent, useState } from "react"
 import { useParams } from "next/navigation"
 import { useGetUserByIdQuery, useUpdateUserMutation } from "@/services/userApi"
+import { useAuthStore } from "@/stores/auth-store"
 import { EditIcon } from "lucide-react"
 
 import { formatDate } from "@/lib/utils"
@@ -10,6 +11,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import ChangePassDialog from "@/components/auth/change-pass-dialog"
+import EditProfile from "@/components/auth/edit-profile"
 import ProfileTab from "@/components/auth/profile-tab"
 import PageNotFound from "@/app/not-founed"
 
@@ -19,6 +22,8 @@ const ProfilePage = () => {
   const [chosenImage, setChosenImage] = useState<File | null>(null)
   const { data } = useGetUserByIdQuery(id.toString())
   const { mutate: uploadAvatar } = useUpdateUserMutation()
+  const { user } = useAuthStore()
+
   if (data && data.code == 1004)
     return <PageNotFound message="Không tìm thấy hồ sơ"></PageNotFound>
 
@@ -105,71 +110,23 @@ const ProfilePage = () => {
           <div className="flex-1 flex flex-col gap-2 py-3 mt-6">
             <div className="flex justify-between items-baseline">
               <h3>Tài khoản</h3>
-              <Button
-                variant={"ghost"}
-                size={"sm"}
-                type="button"
-                className="text-main-blue"
-                onClick={() => setEditting({ ...editting, account: true })}
-              >
-                <EditIcon size={16} />
-              </Button>
+              {(user?.id == id || user?.username == id) && (
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  type="button"
+                  className="text-main-blue"
+                  onClick={() => setEditting({ ...editting, account: true })}
+                >
+                  <EditIcon size={16} />
+                </Button>
+              )}
             </div>
-            <form>
-              <div className="flex flex-col gap-y-2">
-                <div className="flex gap-3 items-center">
-                  <Label className="w-32">Id</Label>{" "}
-                  <Input value={detailUser?.id} disabled />
-                </div>
-                <div className="flex gap-3 items-center">
-                  <Label className="w-32">Username</Label>{" "}
-                  <Input value={detailUser?.username} disabled />
-                </div>
-                <div className="flex gap-3 items-center">
-                  <Label className="w-32">Họ</Label>{" "}
-                  <Input
-                    value={detailUser?.lastName}
-                    readOnly={!editting.account}
-                    name="lastName"
-                  />
-                </div>
-                <div className="flex gap-3 items-center">
-                  <Label className="w-32">Tên</Label>{" "}
-                  <Input
-                    value={detailUser?.firstName}
-                    readOnly={!editting.account}
-                    name="firstName"
-                  />
-                </div>
-                <div className="flex gap-3 items-center">
-                  <Label className="w-32">Email</Label>{" "}
-                  <Input
-                    value={detailUser?.email}
-                    readOnly={!editting.account}
-                    name="email"
-                  />
-                </div>
-                <div className="flex justify-end gap-4">
-                  {editting.account && (
-                    <>
-                      <Button
-                        type="button"
-                        size={"sm"}
-                        onClick={() =>
-                          setEditting({ ...editting, account: false })
-                        }
-                        variant={"outline"}
-                      >
-                        Huỷ
-                      </Button>
-                      <Button size={"sm"} className="px-6">
-                        Lưu
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </form>
+            <EditProfile
+              detailUser={detailUser}
+              editting={editting}
+              setEditting={setEditting}
+            />
 
             <div className="flex justify-between items-baseline mt-4">
               <h3>Thông tin khác</h3>
@@ -243,6 +200,8 @@ const ProfilePage = () => {
                 </div>
               </div>
             </form>
+
+            <ChangePassDialog />
 
             <Button variant={"destructive"} className="mt-4">
               Xoá tài khoản
