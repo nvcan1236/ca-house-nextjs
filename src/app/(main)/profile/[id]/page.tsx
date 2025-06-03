@@ -6,12 +6,13 @@ import { useGetUserByIdQuery, useUpdateUserMutation } from "@/services/userApi"
 import { useAuthStore } from "@/stores/auth-store"
 import { EditIcon } from "lucide-react"
 
-import { formatDate } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
 import ChangePassDialog from "@/components/auth/change-pass-dialog"
+import EditOtherProfile from "@/components/auth/edit-other-profile"
 import EditProfile from "@/components/auth/edit-profile"
 import ProfileTab from "@/components/auth/profile-tab"
 import PageNotFound from "@/app/not-founed"
@@ -140,66 +141,11 @@ const ProfilePage = () => {
                 <EditIcon size={16} />
               </Button>
             </div>
-            <form>
-              <div className="flex flex-col  ">
-                <div className="flex flex-col gap-y-2">
-                  <div className="flex gap-3 items-center">
-                    <Label className="w-32">Ngày sinh</Label>{" "}
-                    <Input
-                      value={
-                        detailUser?.profile?.dob &&
-                        formatDate(detailUser?.profile?.dob || "")
-                      }
-                      placeholder="dd-mm-yyyy"
-                      readOnly={!editting.profile}
-                    />
-                  </div>
-                  <div className="flex gap-3 items-center">
-                    <Label className="w-32">Điện thoại</Label>{" "}
-                    <Input
-                      value={detailUser?.profile?.phone}
-                      placeholder="xxxx-xxx-xxx"
-                      readOnly={!editting.profile}
-                    />
-                  </div>
-                  {/* <div className="flex gap-3 items-center">
-                    <Label className="w-32">Link messenger</Label>{" "}
-                    <Input
-                      value={detailUser?.profile?.messenger}
-                      placeholder="m.me/username"
-                      readOnly={!editting.profile}
-                    />
-                  </div> */}
-                  <div className="flex gap-3 items-center">
-                    <Label className="w-32">Nghề nghiệp</Label>{" "}
-                    <Input
-                      value={detailUser?.profile?.occupation}
-                      placeholder="Học sinh, sinh viên, công nhân, ..."
-                      readOnly={!editting.profile}
-                    />
-                  </div>
-                  <div className="flex justify-end gap-4">
-                    {editting.profile && (
-                      <>
-                        <Button
-                          type="button"
-                          size={"sm"}
-                          onClick={() =>
-                            setEditting({ ...editting, profile: false })
-                          }
-                          variant={"outline"}
-                        >
-                          Huỷ
-                        </Button>
-                        <Button size={"sm"} className="self-end px-6">
-                          Lưu
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </form>
+            <EditOtherProfile
+              detailUser={detailUser}
+              editting={editting}
+              setEditting={setEditting}
+            />
 
             <ChangePassDialog />
 

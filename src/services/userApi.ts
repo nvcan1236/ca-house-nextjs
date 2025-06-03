@@ -170,7 +170,7 @@ export const useUpdateAccountMutation = () => {
     }
   >({
     mutationFn: async ({ id, data }) => {
-      const response = await formDataAxios.put(
+      const response = await authAxios.put(
         `/identity/users/${id}`,
         data,
         {}
