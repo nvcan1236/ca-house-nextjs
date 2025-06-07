@@ -102,7 +102,8 @@ const PriceInfo = () => {
                   type="number"
                   placeholder="(VND)"
                   className="flex-1"
-                  value={price?.value || ""}
+                  min={0}
+                  value={price?.value ?? ""}
                   onChange={(e) =>
                     updatePriceData(price.type, Number(e.target.value))
                   }

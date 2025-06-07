@@ -118,7 +118,7 @@ const EditMotelDialog: React.FC<{
 
   const { data: aiReview, isLoading: isLoadingAiReview } = useGetAiReview(
     editedMotel?.id || "",
-    forPage === "admin"
+    forPage === "admin" && open
   )
 
   return (
@@ -152,7 +152,7 @@ const EditMotelDialog: React.FC<{
         </Tabs>
 
         <div className="flex justify-end mt-3 gap-4">
-          {editedMotel?.ownerId === user?.username && (
+          {editedMotel?.ownerId === user?.username && forPage === "user" && (
             <>
               {editedMotel?.id && (
                 <DeleteMotelDialog

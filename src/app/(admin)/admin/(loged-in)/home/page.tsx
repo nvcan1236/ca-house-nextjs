@@ -1,4 +1,8 @@
+"use client"
 import React from "react"
+import { useGetMotels } from "@/services/motelApi"
+import { useGetAllUserQuery } from "@/services/userApi"
+import useFilterStore from "@/stores/filter-store"
 
 import {
   Card,
@@ -7,8 +11,20 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import H3 from "@/components/common/h3"
+import { useGetPostsPage } from "@/services/postApi"
+import { useAuthStore } from "@/stores/auth-store"
 
 const AdminPage = () => {
+  const filter = useFilterStore()
+  const { data: motelsData } = useGetMotels({
+    page: 1,
+    size: 10,
+    filter,
+    isAdmin: true,
+  })
+  const { data: usersData } = useGetAllUserQuery()
+  const { data: postsData } = useGetPostsPage(0)
+  const {user} = useAuthStore()
   return (
     <div className="px-10">
       <div className="lg:py-32 ">
@@ -18,7 +34,7 @@ const AdminPage = () => {
         <div>
           <div>
             Xin chào,{" "}
-            <span className="font-medium text-main-blue-s3">canhnguyen</span>
+            <span className="font-medium text-main-blue-s3">{user?.username}</span>
           </div>
           <p className="w-[400px] mt-3 text-slate-600">
             Chào mừng bạn đến với hệ thống quản trị. Hãy bắt đầu làm việc bằng
@@ -36,7 +52,7 @@ const AdminPage = () => {
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">
-                  21
+                  {usersData?.result.length || 0}
                 </span>
               </CardContent>
             </Card>
@@ -49,7 +65,7 @@ const AdminPage = () => {
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">
-                  25
+                  {motelsData?.result?.totalElement || 0}
                 </span>
               </CardContent>
             </Card>
@@ -62,7 +78,7 @@ const AdminPage = () => {
               </CardHeader>
               <CardContent>
                 <span className="text-3xl font-semibold text-main-blue-s3">
-                  10
+                  {postsData?.result?.length || 0}
                 </span>
               </CardContent>
             </Card>

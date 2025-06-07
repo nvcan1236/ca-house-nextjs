@@ -104,7 +104,7 @@ export const columns: ColumnDef<IMotel>[] = [
         case "NOT_APPROVED":
           return (
             <div className="text-yellow-500 font-semibold bg-yellow-500/10 px-2 py-1 rounded-md text-center">
-              Chưa được duyệt
+              Chưa duyệt
             </div>
           )
         case "RENTING":

@@ -13,6 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import AssignAdminDialog from "./assign-admin-dialog"
+
 export const columns: ColumnDef<User>[] = [
   {
     id: "select",
@@ -88,8 +90,7 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     id: "actions",
-    cell: () => {
-
+    cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -99,7 +100,8 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Action</DropdownMenuLabel>
+            <AssignAdminDialog userId={row.original.username} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

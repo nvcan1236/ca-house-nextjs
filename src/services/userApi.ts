@@ -170,11 +170,7 @@ export const useUpdateAccountMutation = () => {
     }
   >({
     mutationFn: async ({ id, data }) => {
-      const response = await authAxios.put(
-        `/identity/users/${id}`,
-        data,
-        {}
-      )
+      const response = await authAxios.put(`/identity/users/${id}`, data, {})
       return response.data
     },
     onSuccess: () => {
@@ -198,7 +194,7 @@ export const useCreatePasswordMutation = () =>
 export const useChangePassword = () =>
   useMutation<
     ApiResponse<string>,
-    AxiosError<{ code: number, message: string }>,
+    AxiosError<{ code: number; message: string }>,
     ChangePasswordData
   >({
     mutationFn: async (data) => {
@@ -280,6 +276,28 @@ export const useSendMessageMutation = () => {
       const response = await formDataAxios.post(
         `/identity/chat/?content=${message.content}&type=${message.type}&recipient=${message.recipient}`,
         formData
+      )
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+    },
+  })
+}
+
+//  Assign admin role to user
+export const useAssignAdminRole = () => {
+  const queryClient = useQueryClient()
+  return useMutation<ApiResponse<null>, Error, string>({
+    mutationFn: async (userId) => {
+      const response = await authAxios.post(
+        `/identity/auth/assign-admin`,
+        userId,
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
       )
       return response.data
     },

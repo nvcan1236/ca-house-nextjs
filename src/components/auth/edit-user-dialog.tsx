@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Item from "@/components/common/item"
 
+import AssignAdminDialog from "./assign-admin-dialog"
+
 const EditUserDialog = ({
   children,
   user,
@@ -140,7 +142,7 @@ const EditUserDialog = ({
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="type" className="text-right">
-              Email
+              Roles 
             </Label>
             <Input
               id="type"
@@ -151,7 +153,8 @@ const EditUserDialog = ({
             />
           </div>
         </div>
-        <div className="flex justify-end mt-3">
+        <div className="flex justify-end mt-3 gap-2">
+          <AssignAdminDialog userId={detailUser?.username || ""} />
           <Button>Save Changes</Button>
         </div>
       </DialogContent>

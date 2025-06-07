@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useGetMotels } from "@/services/motelApi"
 import useFilterStore from "@/stores/filter-store"
@@ -55,6 +56,17 @@ const MotelsList = () => {
             />
           ))}
         </div>
+        {motelList.length === 0 && (
+          <div className="flex justify-center items-center w-full flex-col">
+            <Image
+              src="/no-motel.png"
+              alt="No results"
+              width={160}
+              height={160}
+            />
+            <p className="text-main-blue-s2 font-medium text-sm">Không có trọ phù với với thông tin tìm kiếm của bạn</p>
+          </div>
+        )}
       </div>
 
       <Pagination

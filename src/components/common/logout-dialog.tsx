@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { useRouter } from "next/navigation"
+// import { useRouter } from "next/navigation"
 import { resetToken } from "@/services/axios"
 import { useLogoutMutation } from "@/services/userApi"
 
@@ -18,7 +18,7 @@ import { Button } from "../ui/button"
 
 export function LogoutDialog({ children }: { children: ReactNode }) {
   const { mutate: logout } = useLogoutMutation()
-  const router = useRouter()
+  // const router = useRouter()
 
   return (
     <AlertDialog>
@@ -38,7 +38,7 @@ export function LogoutDialog({ children }: { children: ReactNode }) {
               variant={"destructive"}
               className="px-4"
               onClick={() => {
-                router.push("/")
+                // router.push("/")
                 logout()
                 resetToken()
               }}
