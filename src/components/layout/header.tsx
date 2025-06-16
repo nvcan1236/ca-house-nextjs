@@ -40,7 +40,7 @@ const Header = () => {
         <div
           className={`flex gap-4 lg:gap-8 justify-between items-center py-4 transition-all rounded-b-xl ${
             scrollDown
-              ? "bg-background border shadow-lg py-2 px-2 md:px-10"
+              ? "bg-background/80 border shadow-lg py-2 px-2 md:px-10 backdrop-blur-md"
               : ""
           }`}
         >

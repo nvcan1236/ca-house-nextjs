@@ -22,7 +22,7 @@ const DatePicker = ({ field }: { field: any }) => {
             )}
           >
             {field.value ? (
-              format(field.value, "PPP")
+              format(field.value, "dd/MM/yyyy")
             ) : (
               <span>Pick a date</span>
             )}
@@ -36,6 +36,7 @@ const DatePicker = ({ field }: { field: any }) => {
           selected={field.value}
           onSelect={field.onChange}
           initialFocus
+          captionLayout="dropdown"
         />
       </PopoverContent>
     </Popover>

@@ -63,7 +63,11 @@ const formFields: {
   {
     name: "availableDate",
     label: "Ngày phòng trống",
-    controlInput: (field) => <DatePicker field={field} />,
+    controlInput: (field) => (
+      <div>
+        <DatePicker field={field} />
+      </div>
+    ),
   },
 ]
 const RegularInfo = () => {

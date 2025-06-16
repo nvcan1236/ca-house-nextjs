@@ -23,48 +23,59 @@ const Footer = () => {
           </div>
 
           <div className="">
-            <Label className="text-main-yellow-t6 text-lg mb-2">
-              Main features
-            </Label>
+            <Label className="text-main-yellow-t6 text-lg mb-2">Dịch vụ</Label>
             <ul>
-              <li>Search with filter</li>
-              <li>Search on Map </li>
-              <li>Search through post</li>
-              <li>Management system for admin</li>
+              <li>Tìm kiếm theo bộ lọc</li>
+              <li>Tìm kiếm trên bản đồ</li>
+              <li>Tìm kiếm qua bài đăng</li>
+              <li>Hệ thống quản lý cho admin</li>
             </ul>
           </div>
 
           <div className="">
             <ul>
-              <li>Create and mânge motel</li>
-              <li>Approve motel</li>
-              <li>Chat realtime </li>
-              <li>Login, register</li>
+              <li>Tạo và quản lý motel</li>
+              <li>Phê duyệt motel</li>
+              <li>Chat realtime</li>
+              <li>Đăng nhập, đăng ký</li>
             </ul>
           </div>
 
           <div>
             <Label className="text-main-yellow-t6 text-lg mb-2">
-              Technologies
+              Liên hệ
             </Label>
             <ul>
-              <li>Next.js</li>
-              <li>ShadCnUI, TailwindCSS</li>
-              <li>Zustand, React Query</li>
-              <li>Java, SpringBoot</li>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>Tiktok</li>
+              <li>Youtube</li>
             </ul>
           </div>
           <div>
             <ul>
-              <li>Websocket</li>
-              <li>FastAPI</li>
-              <li>Amazon S3, Brevo</li>
-              <li>Docker</li>
+              <li>Email</li>
+              <li>Địa chỉ</li>
+              <li>Phone</li>
             </ul>
           </div>
         </div>
 
         <Separator className=" bg-main-blue-s2" />
+        <div className="opacity-50 text-xs font-thin pt-4 text-center max-w-[1000px] mx-auto">
+          <p>
+            CAHOUSE là nền tảng tìm kiếm motel trực tuyến giúp người dùng dễ
+            dàng tìm kiếm và lựa chọn phòng trọ phù hợp với nhu cầu của mình.
+          </p>
+          <p>
+            Thông tin nhà trọ là thông tin đã được kiểm duyệt bởi đội ngũ của
+            chúng tôi. Tuy nhiên, chúng tôi không thể đảm bảo tính chính xác và
+            đầy đủ của thông tin này nên người dùng cần tự kiểm tra và xác minh
+            thông tin trước khi quyết định thuê nhà trọ. Chúng tôi không chịu
+            trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng thông
+            tin này.
+          </p>
+        </div>
         <div className="opacity-50 text-sm font-thin pt-4 text-center">
           <div>
             The design is inspired by{" "}

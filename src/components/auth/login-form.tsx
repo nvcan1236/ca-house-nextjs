@@ -85,8 +85,6 @@ const LoginForm = () => {
           )
         } else if (error?.data?.code === 1004) {
           toast.error("Username không chính xác!!! Vui lòng thử lại.")
-        } else {
-          toast.error("Đã xảy ra lỗi, vui lòng thử lại sau.")
         }
       })
   }
