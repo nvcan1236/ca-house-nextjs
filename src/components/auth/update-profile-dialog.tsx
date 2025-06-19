@@ -118,7 +118,7 @@ const UpdateProfileDialog: FC<{
                 ></SelectBox>
               </div>
             </div>
-            <div className="grid grid-cols-4 items-start gap-4">
+            {/* <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="mess" className="text-right">
                 Link Messenger
               </Label>
@@ -129,7 +129,7 @@ const UpdateProfileDialog: FC<{
                 value={profile.messenger}
                 onChange={(e) => updateProfile("messenger", e.target.value)}
               />
-            </div>
+            </div> */}
             <div className="text-right">
               <Button onClick={handleUpdateButton}>Cập nhật</Button>
             </div>
